@@ -166,6 +166,14 @@ describe("project tiles", () => {
     });
   });
 
+  it("U27: the overlap composition blends via CSS, not a strippable inline style", () => {
+    const { container } = render(<App />);
+    const rects = container.querySelectorAll(".project .shot svg rect.mul");
+    expect(rects).toHaveLength(3);
+    rects.forEach((r) => expect(r.getAttribute("style")).toBeNull());
+    expect(css).toMatch(/rect\.mul\s*\{\s*mix-blend-mode:\s*multiply/);
+  });
+
   it("U7: outbound links carry rel=noopener noreferrer", () => {
     const { container } = render(<App />);
     container.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]').forEach((a) => {

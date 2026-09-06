@@ -262,6 +262,11 @@
   .project { display: block; text-decoration: none; }
   .project .shot { display: block; aspect-ratio: 3 / 2; background: var(--field); overflow: hidden; }
   .project .shot svg { display: block; width: 100%; height: 100%; }
+  /* Process overlap: plates multiply against each other, so cyan over magenta
+     makes navy and all three make black — which is why presses carry a K plate.
+     This lives in CSS, not an inline style: React strips inline SVG styles on
+     hydration, so the served markup blended and the hydrated page did not. */
+  .project .shot svg rect.mul { mix-blend-mode: multiply; }
   .project h3 {
     margin: .85rem 0 0;
     font-size: 1.0625rem;

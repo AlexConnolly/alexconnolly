@@ -106,8 +106,6 @@ export function Stack() {
 
 /* ── projects: small tiles, the whole tile is the link ───────────── */
 
-const mul = { mixBlendMode: "multiply" } as const;
-
 /** Placeholder art, built from the same four plates. Delete when real images land. */
 function PlateComposition({ index }: { index: number }) {
   const art = [
@@ -117,13 +115,10 @@ function PlateComposition({ index }: { index: number }) {
       <rect x="140" y="112" width="40" height="54" fill="#F5B800" />
       <rect x="188" y="68" width="40" height="98" fill="#14130F" />
     </>,
-    // multiply must sit on each rect: on the group it blends the group against
-    // the page instead of the plates against each other, and the overlaps —
-    // the entire point — come out opaque.
     <g>
-      <rect x="48" y="30" width="104" height="104" fill="#0093D5" style={mul} />
-      <rect x="108" y="58" width="104" height="104" fill="#E0006C" style={mul} />
-      <rect x="78" y="86" width="104" height="104" fill="#F5B800" style={mul} />
+      <rect className="mul" x="48" y="30" width="104" height="104" fill="#0093D5" />
+      <rect className="mul" x="108" y="58" width="104" height="104" fill="#E0006C" />
+      <rect className="mul" x="78" y="86" width="104" height="104" fill="#F5B800" />
     </g>,
     <>
       <rect x="44" y="42" width="212" height="24" fill="#0093D5" />

@@ -724,33 +724,34 @@ follows the 2007 manual because it is the document that could actually be read.
 
 ## 17. Status
 
-**Built and committed. Not yet pushed.**
+**Live at https://alexconnolly.github.io/homesite/**
 
 | Done | Detail |
 | --- | --- |
-| Project scaffolded | Vite 6 + React 18 + TypeScript, no client-side router |
-| Design ported | `src/styles.css` is the approved stylesheet, unchanged |
-| Content extracted | `src/content.ts` holds every word; `src/sections.ts` holds the plate table |
+| Repository | `AlexConnolly/homesite`, public |
+| Pages | Source: GitHub Actions. First deploy green in 38s |
+| Project | Vite 6 + React 18 + TypeScript, no client-side router |
+| Design | `src/styles.css` is the approved stylesheet, unchanged |
+| Content | `src/content.ts` holds every word; `src/sections.ts` the plate table |
 | Tests | 25 passing — design invariants, not just markup |
 | Typecheck | Clean |
-| Build | Passing. **48 KB JS gzipped** (budget 60), **3 KB CSS** (budget 8) |
-| Prerender | `dist/index.html` carries every section; the page reads with JavaScript off |
+| Build | **48 KB JS gzipped** (budget 60), **3 KB CSS** (budget 8) |
+| Prerender | `dist/index.html` carries every section; reads with JavaScript off |
 | Favicon | `public/favicon.svg`, the mark at 16px |
-| CI | `.github/workflows/deploy.yml` — typecheck, test, build, deploy to Pages |
-| Repository | `AlexConnolly/homesite`, public |
-| Pages | Source set to GitHub Actions |
-| Draft guard | `<meta name="robots" content="noindex, nofollow">` while the copy is placeholder |
+| CI | typecheck, test, build, deploy on push to `main` |
+| Draft guard | `robots: noindex, nofollow` while the copy is placeholder |
 
-**The one remaining step needs a human.** `git push` requires interactive sign-in and
-Claude cannot enter credentials. The remote is already set to
-`https://AlexConnolly@github.com/AlexConnolly/homesite.git`, so:
+### Verified in the browser, not just in CI
 
-```bash
-cd ~/homesite && git push -u origin main
-```
+The live page was walked end to end: the colour bar, the timeline with its magenta
+current-role axis, the Stack with Services deepest in yellow, the project tiles, and
+the Contact sign-off with the whole bar in miniature.
 
-That triggers the workflow, which deploys to
-**https://alexconnolly.github.io/homesite/**.
+One bug was found that way and only that way: `mix-blend-mode` sat on the `<g>`, so the
+three overlapping squares composited as a group against the page and stacked opaquely.
+The overlaps — cyan over magenta making blue, all three making near-black — never
+appeared, which is the entire point of a four-colour composition. Fixed by moving the
+blend onto each rect. **No test would have caught it; it needed an eye on the real page.**
 
 ### Then, in order
 

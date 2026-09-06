@@ -14,6 +14,7 @@ npm run dev        # local
 npm test           # 25 tests, mostly design invariants
 npm run typecheck
 npm run build      # vite build + SSR prerender into dist/
+npm run og         # re-render the social card (needs: npx playwright install chromium)
 ```
 
 ## Where things live
@@ -23,7 +24,7 @@ npm run build      # vite build + SSR prerender into dist/
 | `src/content.ts` | **Every word on the page.** Adding a role or project is an edit here and nowhere else. |
 | `src/sections.ts` | The plate table — the mark's single source of truth |
 | `src/styles.css` | Design tokens and all component styles |
-| `assets/og.html` | Social card, 1200×630. Screenshot it to `public/og.png` |
+| `assets/og.html` | Social card, 1200×630. `npm run og` renders it to `public/og.png` |
 | `assets/favicon.svg` | The mark at 16px |
 
 ## Deploying

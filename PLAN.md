@@ -19,9 +19,9 @@ reappears as a small swatch beside that section's heading, so the form itself te
 where you are. Contact, the fifth section, is marked by the whole bar in miniature.
 Nothing explains it, and nothing should.
 
-Five sections: **Overview, Work, Stack, Projects, Contact.** Work is a left-to-right
-timeline because a career runs that way. Stack shows where in a system the engineering
-actually happens, because a list of technologies communicates nothing.
+Four sections: **Overview, Work, Stack, Contact.** Work is a left-to-right timeline because
+a career runs that way. Stack shows where in a system the engineering actually happens,
+because a list of technologies communicates nothing.
 
 Navigation runs horizontally across the top, read the right way up, carrying the motif's
 proportions but not its colour.
@@ -90,13 +90,11 @@ printer's colour control strip.
 | Overview | Cyan `#0093D5` | `.62` |
 | Work | Magenta `#E0006C` | `1` |
 | Stack | Yellow `#F5B800` | `.44` |
-| Projects | Key `#14130F` | `.80` |
-| Contact | *the whole bar* | — |
+| Contact | Key `#14130F` | `.80` |
 
-**CMYK is four plates, and the page has five sections.** Rather than invent a fifth colour,
-Contact gives up its plate and is marked by the whole bar in miniature. It reads correctly:
-the bar opens the page and closes it, and the sign-off is the complete set rather than one
-more of something.
+**Four plates, four sections, one each.** A fifth section briefly existed and Contact gave
+up its plate for a miniature of the whole bar; deleting that section removed the need for
+the workaround. `U31` fails the build if the two lists ever fall out of step again.
 
 **Heights are fixed, never randomised.** The page must be pixel-identical on every load, so
 the ratios are declared constants — not `Math.random()`, not a seeded shuffle. Bars sit on a
@@ -141,20 +139,27 @@ could put on a CV."* The deepest layer takes the section's plate; the rest are i
 Bars carry `aria-hidden`; the layer name and its technologies are the readable content, and
 the caption states the encoding, so nothing depends on reading a bar length.
 
-### Projects: small tiles, click straight through
+### There is no projects or highlights section
 
-Three tiles across at 3:2, dropping to two then one. Each whole tile is a single link — image,
-title, year, one line, tech — so the target is large and the destination obvious. The title
-carries the dotted underline and goes solid when the tile is hovered or focused.
+One existed and was deleted. It showed three pieces of work with the CV's figures attached —
+events per day, money saved, customer counts — and that made it the page's sales pitch. The
+figures are unverifiable to a reader and, by Alex's own account, generous.
 
-They were full-width rows with 4:3 images and took far too much of the page for content that
-is really an invitation to click through. Smaller is better here: the page is the argument,
-the projects are the evidence you follow.
+Removing it took the tile grid, the plate compositions and the MiniBar with it, and restored
+the four-plate mapping. If public side projects ever appear, this is where they go — with
+links, and without numbers.
 
-**The placeholder compositions are placeholders.** Each is an inline SVG built from the same
-four plates — vertical bars, overlapping squares set to multiply, a stepped stack. They exist
-so the layout can be judged at real weight without pretending to be screenshots, and they are
-the first thing to delete when real images arrive.
+### Tone
+
+**This is a personal site, not a CV and not a pitch.** The copy says what the work was and
+stops there. The introduction is Alex's own words, verbatim, and carries a comment in
+`content.ts` saying not to improve them.
+
+`U30` enforces the line: no money figures, no improvement percentages, no `70M+`-style
+counts, no `2,000`-style customer numbers. Tone drifts back the moment someone copies a line
+across from a CV, so it is a test rather than a good intention.
+
+The phone number on the CV is deliberately absent; `U29` fails the build if one appears.
 
 ### Contact: ask properly
 
@@ -245,19 +250,16 @@ under `prefers-reduced-motion`. Nothing else moves.
 
 ### Must have
 
-- **F1** Five sections in fixed order: Overview, Work, Stack, Projects, Contact.
+- **F1** Four sections in fixed order: Overview, Work, Stack, Contact.
 - **F2** Overview: the mark, name, supporting line, two short paragraphs, and the lock-up.
 - **F3** Work: a left-to-right timeline, **chronological**, each role a segment flexed to its
   own duration, carrying company, title, start year, one descriptive line and technologies.
   The current role is marked on the axis. Collapses to a vertical stack below 900px.
 - **F3a** Segment widths derive from the dates in `content.ts`, never hand-tuned.
-- **F4** Projects: tiles at 3:2 — image, name, year, one descriptive line, technologies —
-  three across, two at 1000px, one at 560px. **The whole tile is one link.**
-- **F4a** Project images are real assets — screenshots or photographs — served as `.webp`
-  with an `.avif` source, explicit `width`/`height`, and `loading="lazy"` below the fold.
-  The generated plate compositions are scaffolding and must be replaced before launch.
-- **F4b** Stack: five layers, each with a name, a depth bar and its technologies, plus one
-  caption stating what bar length means. Not a skills chart — no percentages, no ratings.
+- **F4** Stack: layers, each with a name, a depth bar and its technologies, plus one caption
+  stating what bar length means. Not a skills chart — no percentages, no ratings.
+- **F4a** A social card at `public/og.png`, 1200×630, generated from `assets/og.html` by
+  `npm run og` so it cannot drift from the design.
 - **F5** Contact: email as a `mailto:` link, plus GitHub and LinkedIn.
 - **F6** A horizontal navigation showing current position, keyboard-reachable, fixed to the
   top so it is available from anywhere on the page.
@@ -453,8 +455,7 @@ homesite/
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
-   │  ├─ Stack.tsx            # layers, depth bars, one caption
-   │  ├─ ProjectTiles.tsx     # 3:2 tiles, whole tile is the link
+   │  └─ Stack.tsx            # layers, depth bars, one caption
    │  └─ Colophon.tsx
    └─ hooks/
       └─ useActiveSection.ts  # rAF-throttled; drives the signatures
@@ -550,7 +551,7 @@ Written before the code, per the usual cycle.
 | E10 | At 390px the nav wraps without covering a heading after an anchor jump |
 | E11 | The timeline is horizontal above 900px and vertical below it, losing no content |
 | E12 | Clicking anywhere on a project tile follows its link |
-| E13 | Five nav items, five sections, and scrolling reaches every one |
+| E13 | One nav item per section, and scrolling reaches every one |
 
 ### Manual
 
@@ -572,7 +573,7 @@ Written before the code, per the usual cycle.
 | --- | --- | --- |
 | **0** | `git init`, Vite + React + TS + Tailwind, tokens, fonts subset and self-hosted, CI skeleton | `npm run build` passes in Actions |
 | **1** | Tests U1–U8, A1–A4 written and failing | Red suite committed |
-| **2** | `sections.ts`, section shell, type scale, all five sections with placeholder content | Page reads correctly, unit tests green |
+| **2** | `sections.ts`, section shell, type scale, all four sections | Page reads correctly, unit tests green |
 | **3** | The rail: proportional ticks, travelling marker, keyboard, mobile hairline | E1, E2, E4 green |
 | **4** | Prerender script, `.nojekyll`, deploy workflow, rasterise `assets/og.html`, copy favicon, print styles | Live on Pages; Cmd-P produces a clean page |
 | **5** | Accessibility and Lighthouse pass; manual checks; fix what they find | Four 100s; axe clean |
@@ -594,10 +595,10 @@ Ordered by how much they hold things up.
 | Q4 | ~~Custom domain?~~ | — | **Answered: `alex.connolly.cloud`.** `public/CNAME` set, so CI builds with base `/` |
 | Q5 | ~~GitHub username and repo name~~ | — | **Answered: `AlexConnolly/homesite`, public** |
 | Q6 | Do projects link to repos, live sites, or both? | F4 | Repo where one exists, otherwise no link |
-| Q7 | **Are the Highlights cleared to publish?** All three are Linnworks work, with figures (70M events/day, £60k, 2,000 customers) | Nothing — already live | Published. Say the word and any of them comes down |
+| Q7 | ~~Are work achievements cleared to publish?~~ | — | **Moot.** The section carrying them was deleted; the page describes work without figures |
 | Q8 | ~~How many roles~~ | — | **All five.** Twelve years at one employer is the story |
 | Q9 | **Buy a Futura licence?** Self-hosted from Scangraphic (the Barbican's exact cut, named in their own manual), Neufville, or URW. Adobe Fonts forbids self-hosting and adds a third-party request | Nothing — Jost\* ships today | Stay on Jost\*, swap later in one line |
-| Q10 | **Highlight images.** The three are internal systems — a diagram may serve better than a screenshot | Highlights looking like evidence | Generated plate compositions |
+| Q10 | ~~Project images~~ | — | **Moot** until there are public side projects to show |
 
 ---
 
@@ -760,10 +761,8 @@ Written from the CV, and it changed the shape of the page. Twelve years at **one
 employer across **five** roles is a better story than four anonymous companies, so
 Linnworks is stated once above the timeline and each segment carries the role.
 
-Projects became **Highlights**: there are no public side projects to link to, and the
-real material is the work — 70M events a day, agents that replaced a £60k/year system,
-an analytics product built from zero. A tile with no destination renders as a `div`,
-not an anchor to nowhere.
+The section showing work achievements was then deleted outright: attaching the CV's
+figures to them turned it into a pitch, which is not what this page is for.
 
 Timeline widths moved from whole years to **months**, because the roles are not
 year-aligned and the current one is six months old. Proportional-only squeezed it to
@@ -775,8 +774,4 @@ ever reaches the page.
 
 ### Then, in order
 
-1. Rasterise the social card: `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png`.
-   It still says "I enjoy building things that matter" over the mark, which is fine, but it has never been generated.
-2. Consider diagrams for the three Highlights — they are internal systems, so a
-   diagram would show more than a screenshot could (Q10).
-3. Decide Q9 (a real Futura licence).
+1. Decide Q9 — buying a real Futura licence. Everything else is done.

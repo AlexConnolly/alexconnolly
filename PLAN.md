@@ -730,6 +730,7 @@ follows the 2007 manual because it is the document that could actually be read.
 | --- | --- |
 | Repository | `AlexConnolly/homesite`, public |
 | Pages | Source: GitHub Actions. First deploy green in 38s |
+| Domain | `alex.connolly.cloud` — CNAME `alex` → `alexconnolly.github.io.` at Namecheap, custom domain set in Pages |
 | Project | Vite 6 + React 18 + TypeScript, no client-side router |
 | Design | `src/styles.css` is the approved stylesheet, unchanged |
 | Content | `src/content.ts` holds every word; `src/sections.ts` the plate table |
@@ -758,5 +759,6 @@ blend onto each rect. **No test would have caught it; it needed an eye on the re
 1. Replace the placeholder copy in `src/content.ts` — §12 Q1, the real blocker.
 2. Remove the `noindex` line from `index.html` once the copy is real.
 3. Rasterise the social card: `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png`.
+   Then point `og:image` and `og:url` at `https://alex.connolly.cloud/og.png`.
 4. Add real project screenshots by setting `image` on a project.
 5. Decide Q4 (domain) and Q9 (Futura licence).

@@ -28,8 +28,12 @@ npm run build      # vite build + SSR prerender into dist/
 
 ## Deploying
 
+Live at **https://alex.connolly.cloud**
+
 Pushing to `main` runs typecheck, tests and build, then publishes to GitHub Pages.
 The base path is resolved in CI: `/` if `public/CNAME` exists, otherwise `/<repo>/`.
+`public/CNAME` holds the custom domain; DNS is a CNAME record `alex` →
+`alexconnolly.github.io.` on `connolly.cloud` at Namecheap.
 
 ## Still to do
 

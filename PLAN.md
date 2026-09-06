@@ -484,7 +484,9 @@ No context, no store, no library.
 - If a custom domain is chosen later: add `public/CNAME`, set the A/AAAA or CNAME DNS
   records, tick *Enforce HTTPS*. Roughly ten minutes of work, no code change.
 
-The directory is **not yet a git repository.** First step is `git init` and a first commit.
+The repository is live at **https://github.com/AlexConnolly/homesite**, public, with Pages
+set to build from GitHub Actions. The first commit is made locally and waits only on an
+interactive `git push` — see §17.
 
 ---
 
@@ -589,8 +591,8 @@ Ordered by how much they hold things up.
 | Q1 | **All copy.** Intro, roles, dates, projects, tech. | Phase 6 | Placeholder ships; page cannot go public |
 | Q2 | Which email address is public? | F5 | A placeholder `hello@` |
 | Q3 | GitHub and LinkedIn URLs | F5 | Omitted |
-| Q4 | Domain, or GitHub subdomain? | Nothing — base path is configurable | `/`, decided at deploy |
-| Q5 | GitHub username and repo name | Phase 0 remote | Local repo only until told |
+| Q4 | Custom domain, or `alexconnolly.github.io/homesite`? | Nothing — CI resolves the base path | Project path. Add `public/CNAME` to switch to a domain |
+| Q5 | ~~GitHub username and repo name~~ | — | **Answered: `AlexConnolly/homesite`, public** |
 | Q6 | Do projects link to repos, live sites, or both? | F4 | Repo where one exists, otherwise no link |
 | Q7 | Are any projects work-owned, and can they be named? | Content | Only clearly personal projects listed |
 | Q8 | How many roles — full history, or the last three? | Layout density | Last four |
@@ -717,3 +719,43 @@ and Bold plus italics. Later coverage describes a tightened system of *three* we
 *three* sizes, with the wordmark set vertically. The identity was evolved over roughly a
 decade, so these are two stages of the same system rather than a contradiction — this plan
 follows the 2007 manual because it is the document that could actually be read.
+
+---
+
+## 17. Status
+
+**Built and committed. Not yet pushed.**
+
+| Done | Detail |
+| --- | --- |
+| Project scaffolded | Vite 6 + React 18 + TypeScript, no client-side router |
+| Design ported | `src/styles.css` is the approved stylesheet, unchanged |
+| Content extracted | `src/content.ts` holds every word; `src/sections.ts` holds the plate table |
+| Tests | 25 passing — design invariants, not just markup |
+| Typecheck | Clean |
+| Build | Passing. **48 KB JS gzipped** (budget 60), **3 KB CSS** (budget 8) |
+| Prerender | `dist/index.html` carries every section; the page reads with JavaScript off |
+| Favicon | `public/favicon.svg`, the mark at 16px |
+| CI | `.github/workflows/deploy.yml` — typecheck, test, build, deploy to Pages |
+| Repository | `AlexConnolly/homesite`, public |
+| Pages | Source set to GitHub Actions |
+| Draft guard | `<meta name="robots" content="noindex, nofollow">` while the copy is placeholder |
+
+**The one remaining step needs a human.** `git push` requires interactive sign-in and
+Claude cannot enter credentials. The remote is already set to
+`https://AlexConnolly@github.com/AlexConnolly/homesite.git`, so:
+
+```bash
+cd ~/homesite && git push -u origin main
+```
+
+That triggers the workflow, which deploys to
+**https://alexconnolly.github.io/homesite/**.
+
+### Then, in order
+
+1. Replace the placeholder copy in `src/content.ts` — §12 Q1, the real blocker.
+2. Remove the `noindex` line from `index.html` once the copy is real.
+3. Rasterise the social card: `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png`.
+4. Add real project screenshots by setting `image` on a project.
+5. Decide Q4 (domain) and Q9 (Futura licence).

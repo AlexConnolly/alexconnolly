@@ -588,16 +588,16 @@ Ordered by how much they hold things up.
 
 | # | Question | Blocks | Default if unanswered |
 | --- | --- | --- | --- |
-| Q1 | **All copy.** Intro, roles, dates, projects, tech. | Phase 6 | Placeholder ships; page cannot go public |
-| Q2 | Which email address is public? | F5 | A placeholder `hello@` |
-| Q3 | GitHub and LinkedIn URLs | F5 | Omitted |
+| Q1 | ~~All copy~~ | — | **Answered from the CV.** Live and indexable |
+| Q2 | ~~Public email~~ | — | **`alex.connolly.engineer@gmail.com`** — the personal one, not work |
+| Q3 | ~~GitHub and LinkedIn~~ | — | **Both live.** Phone number deliberately withheld |
 | Q4 | ~~Custom domain?~~ | — | **Answered: `alex.connolly.cloud`.** `public/CNAME` set, so CI builds with base `/` |
 | Q5 | ~~GitHub username and repo name~~ | — | **Answered: `AlexConnolly/homesite`, public** |
 | Q6 | Do projects link to repos, live sites, or both? | F4 | Repo where one exists, otherwise no link |
-| Q7 | Are any projects work-owned, and can they be named? | Content | Only clearly personal projects listed |
-| Q8 | How many roles — full history, or the last three? | Layout density | Last four |
+| Q7 | **Are the Highlights cleared to publish?** All three are Linnworks work, with figures (70M events/day, £60k, 2,000 customers) | Nothing — already live | Published. Say the word and any of them comes down |
+| Q8 | ~~How many roles~~ | — | **All five.** Twelve years at one employer is the story |
 | Q9 | **Buy a Futura licence?** Self-hosted from Scangraphic (the Barbican's exact cut, named in their own manual), Neufville, or URW. Adobe Fonts forbids self-hosting and adds a third-party request | Nothing — Jost\* ships today | Stay on Jost\*, swap later in one line |
-| Q10 | **Project images.** Screenshots, photographs, or diagrams? Do any belong to an employer? | F4a, and Projects looking like a real portfolio | Generated plate compositions, which cannot ship as final |
+| Q10 | **Highlight images.** The three are internal systems — a diagram may serve better than a screenshot | Highlights looking like evidence | Generated plate compositions |
 
 ---
 
@@ -754,11 +754,29 @@ The overlaps — cyan over magenta making blue, all three making near-black — 
 appeared, which is the entire point of a four-colour composition. Fixed by moving the
 blend onto each rect. **No test would have caught it; it needed an eye on the real page.**
 
+### Content
+
+Written from the CV, and it changed the shape of the page. Twelve years at **one**
+employer across **five** roles is a better story than four anonymous companies, so
+Linnworks is stated once above the timeline and each segment carries the role.
+
+Projects became **Highlights**: there are no public side projects to link to, and the
+real material is the work — 70M events a day, agents that replaced a £60k/year system,
+an analytics product built from zero. A tile with no destination renders as a `div`,
+not an anchor to nowhere.
+
+Timeline widths moved from whole years to **months**, because the roles are not
+year-aligned and the current one is six months old. Proportional-only squeezed it to
+4% of the width, so `weight()` applies a floor — segments stay proportional, the
+shortest stays readable, and the dates carry the exact truth.
+
+**The phone number on the CV is deliberately not here.** U29 fails the build if one
+ever reaches the page.
+
 ### Then, in order
 
-1. Replace the placeholder copy in `src/content.ts` — §12 Q1, the real blocker.
-2. Remove the `noindex` line from `index.html` once the copy is real.
-3. Rasterise the social card: `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png`.
-   Then point `og:image` and `og:url` at `https://alex.connolly.cloud/og.png`.
-4. Add real project screenshots by setting `image` on a project.
-5. Decide Q4 (domain) and Q9 (Futura licence).
+1. Rasterise the social card: `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png`.
+   It still says "I enjoy building things that matter" over the mark, which is fine, but it has never been generated.
+2. Consider diagrams for the three Highlights — they are internal systems, so a
+   diagram would show more than a screenshot could (Q10).
+3. Decide Q9 (a real Futura licence).

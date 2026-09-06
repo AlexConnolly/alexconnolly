@@ -15,8 +15,12 @@
  *   layer.tech, one line, ~65 chars
  */
 
+export type IconKind = "platform" | "orders" | "analytics" | "carriers" | "architecture";
+
 export interface Role {
   title: string;
+  /** what the job actually was, said in shapes — see RoleIcon */
+  icon: IconKind;
   /** team or area — the company is stated once, above the timeline */
   team: string;
   /** 'YYYY-MM' */
@@ -85,6 +89,7 @@ export const site: Site = {
     {
       title: "Software Engineer",
       team: "Platform",
+      icon: "platform",
       start: "2014-10",
       end: "2017-07",
       summary: "The developer ecosystem and app store — payments, billing, and third-party integrations.",
@@ -93,6 +98,7 @@ export const site: Site = {
     {
       title: "Software Engineer",
       team: "Order Management",
+      icon: "orders",
       start: "2017-07",
       end: "2022-01",
       summary: "Batch inventory tracking, and an open-orders screen built to cope with a lot of changes at once.",
@@ -101,6 +107,7 @@ export const site: Site = {
     {
       title: "Engineering Team Lead",
       team: "Analytics",
+      icon: "analytics",
       start: "2022-01",
       end: "2024-01",
       summary: "Started the analytics product and the team around it, and built the ETL underneath it.",
@@ -109,6 +116,7 @@ export const site: Site = {
     {
       title: "Senior Software Engineer",
       team: "Carrier Solutions",
+      icon: "carriers",
       start: "2024-01",
       end: "2026-03",
       summary: "Rewrote the carrier integration layer so a change stopped meaning the same edit in twenty places.",
@@ -117,6 +125,7 @@ export const site: Site = {
     {
       title: "Senior Software Engineer",
       team: "Software Architect",
+      icon: "architecture",
       start: "2026-03",
       end: null,
       summary: "Moving changes between products, and working out which product owns which data for each customer.",

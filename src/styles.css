@@ -252,6 +252,18 @@
   }
   /* the one place colour marks position: where you are now */
   .seg.is-now .axis { background: var(--m); height: 4px; margin-top: -1px; }
+  /* fills come from classes, not inline attributes: React strips inline SVG
+     styles on hydration, and a class cannot be stripped */
+  .f-c { fill: var(--c); }
+  .f-m { fill: var(--m); }
+  .f-y { fill: var(--y); }
+  .f-k { fill: var(--ink); }
+  .role-icon {
+    display: block;
+    width: clamp(26px, 2.4vw, 32px);
+    height: auto;
+    margin: 0 0 .7rem;
+  }
   .seg h3 { margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.15; }
   .seg .role { margin: .1rem 0 0; font-weight: 300; color: var(--ink-2); }
   .seg .sum { margin: .6rem 0 0; font-size: .9375rem; color: var(--ink-2); }

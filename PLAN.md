@@ -155,6 +155,30 @@ rather than identity, and it is Work's own plate, used once.
 Below 900px a left-to-right timeline is a lie — four segments in 390px is unreadable — so it
 becomes a vertical stack, keeping the years, ticks and axis pieces.
 
+### A mark per role
+
+Each role carries a small mark saying what that team actually did, drawn from the same
+rectangles as everything else:
+
+| Role | Mark |
+| --- | --- |
+| Platform | Blocks built on a base — the app store and developer ecosystem |
+| Order Management | A stack of stock being drawn down |
+| Analytics | Ascending bars on an axis |
+| Carrier Solutions | Many separate carriers feeding one lane |
+| Software Architect | One change going out to many products |
+
+The last two are deliberate mirrors: one job pulled twenty integrations into a single
+layer, the next pushes one change out to many products. The shape says the difference
+before the words do.
+
+A first attempt drew the *career* shape rather than the domain — platform, flow, lead,
+converge, distribute — which was an abstraction nobody had asked to read. The marks say
+what the team did.
+
+Fills come from classes, never inline `fill` attributes: React strips inline SVG styles
+during hydration, which is how the overlap composition silently lost its blend mode.
+
 ### Stack: what the dev work actually is
 
 A homepage that lists technologies as tags says nothing. What communicates is **where in a
@@ -498,6 +522,7 @@ homesite/
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
+   │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
    │  ├─ Path.tsx             # the bottom path; drag to scrub the page
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates

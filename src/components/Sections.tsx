@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { SECTIONS, type Section } from "../sections";
 import { MiniBar, Swatch } from "./Plate";
+import { RoleIcon } from "./RoleIcon";
 import { site, weight, label, isCurrent, spanYears } from "../content";
 
 /* ── navigation: horizontal, read the right way up ───────────────── */
@@ -67,6 +68,7 @@ export function Timeline() {
           >
             <p className="year cap">{isCurrent(role) ? `${label(role)} — now` : label(role)}</p>
             <div className="axis" aria-hidden="true" />
+            <RoleIcon kind={role.icon} />
             <h3>{role.title}</h3>
             <p className="role">{role.team}</p>
             <p className="sum">{role.summary}</p>

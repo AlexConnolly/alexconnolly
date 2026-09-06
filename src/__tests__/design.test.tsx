@@ -71,6 +71,15 @@ describe("the mark", () => {
     }
   });
 
+  it("U36: the path is actually switched on at a mobile width", () => {
+    // it shipped once as display:none at every width, because the media query
+    // was inserted against an anchor that no longer existed
+    const mobile = css.slice(css.indexOf("@media (max-width: 760px)"));
+    expect(mobile).toContain("@media (max-width: 760px)");
+    expect(mobile).toMatch(/\.path\s*\{[^}]*display:\s*block/);
+    expect(mobile).toMatch(/\.nav\s*\{\s*display:\s*none/);
+  });
+
   it("U35: the path is a real list of links, not only a drag target", () => {
     const { container } = render(<App />);
     const legs = [...container.querySelectorAll(".path .leg")];

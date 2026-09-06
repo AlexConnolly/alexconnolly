@@ -405,6 +405,31 @@
     .seg .axis { margin-bottom: .9rem; }
   }
 
+  @media (max-width: 760px) {
+    /*
+      Reaching the top of a phone screen one-handed is the worst thing about a
+      top bar, so below this width the nav becomes a path along the bottom:
+      the four plates end to end, each leg as wide as that section's share of
+      the page, with a handle showing where you are. Drag to scrub.
+    */
+    .nav { display: none; }
+    .level { scroll-margin-top: 1.5rem; }
+    .path {
+      display: block;
+      position: fixed;
+      inset: auto 0 0 0;
+      z-index: 30;
+      height: 14px;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      background: var(--ground);
+      touch-action: none;
+      cursor: grab;
+    }
+    .path:active { cursor: grabbing; }
+    .page { padding-bottom: 4.5rem; }
+    .stamp { bottom: 1.9rem; }
+  }
+
   @media (max-width: 560px) {
     .mark { --h: 4rem; }
     .mark .bar { width: 2.25rem; }

@@ -193,6 +193,30 @@ could put on a CV."* The deepest layer takes the section's plate; the rest are i
 Bars carry `aria-hidden`; the layer name and its technologies are the readable content, and
 the caption states the encoding, so nothing depends on reading a bar length.
 
+### A mark per role
+
+Each role carries a small mark, drawn from the same rectangles as everything else:
+
+| Role | Mark | Idea |
+| --- | --- | --- |
+| Platform | Two blocks on a base | Things resting on a base |
+| Order Management | Three equal blocks stacked | A stack of equal units |
+| Analytics | Three bars, ascending | Unequal heights — one thing measured against another |
+| Carrier Solutions | Three blocks feeding one | Many, gathered into one |
+| Software Architect | One block feeding three | One, spread across many |
+
+The last two are exact mirrors on purpose: the carrier job pulled twenty integrations into
+a single layer, the architecture job pushes one change out to many products. The shapes say
+that relationship before the words do.
+
+**Loose concepts, not pictures.** Two earlier attempts were wrong in opposite directions —
+the first drew the shape of the *career move* rather than the work, and the second went
+literal, to the point of an actual delivery van for the carrier role. A mark here suggests
+the idea and stops.
+
+Fills come from classes, never inline `fill` attributes: React strips inline SVG styles
+during hydration, which is how the overlap composition silently lost its blend mode.
+
 ### Play: the side projects
 
 Six repos from Alex's public GitHub, each tile linking to its own. Tiles are 3:2, three
@@ -522,6 +546,7 @@ homesite/
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
+   │  ├─ RoleIcon.tsx         # one loose mark per role
    │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
    │  ├─ Path.tsx             # the bottom path; drag to scrub the page

@@ -1,19 +1,23 @@
 /**
- * Every word on the page lives here. Adding a role or a highlight is an edit to
- * this file and nothing else.
+ * Every word on the page lives here.
+ *
+ * Tone: this is a personal site, not a CV and not a pitch. Say what the work
+ * actually was; leave the numbers, the money and the percentages on the CV
+ * where they belong. If a line reads like it is trying to win something,
+ * rewrite it. U30 guards the obvious cases.
+ *
+ * Deliberately NOT here: phone number, and anything from the CV that was
+ * written to impress rather than to describe.
  *
  * Copy constraints, so the layout keeps working (PLAN.md §5):
  *   intro paragraphs   <= 240 chars
- *   role/highlight summaries, one sentence, <= 145 chars
+ *   role summaries, one sentence, <= 145 chars
  *   layer.tech, one line, ~65 chars
- *
- * Deliberately NOT here: phone number. It is on the CV; it does not belong on
- * a public page that anyone can scrape.
  */
 
 export interface Role {
   title: string;
-  /** team or division — the company is stated once, above the timeline */
+  /** team or area — the company is stated once, above the timeline */
   team: string;
   /** 'YYYY-MM' */
   start: string;
@@ -25,18 +29,9 @@ export interface Role {
 
 export interface Layer {
   name: string;
-  /** 0-100. Time actually spent, not competence. */
+  /** 0-100. Roughly where the time goes. Not a competence rating. */
   depth: number;
   tech: string;
-}
-
-export interface Highlight {
-  name: string;
-  year: string;
-  summary: string;
-  tech: string;
-  href?: string;
-  image?: { src: string; alt: string };
 }
 
 export interface Site {
@@ -51,19 +46,19 @@ export interface Site {
   employerNote: string;
   roles: Role[];
   layers: Layer[];
-  highlights: Highlight[];
   ask: string;
 }
 
 export const site: Site = {
   name: "Alex Connolly",
   thesis: "I enjoy building things that matter.",
-  role: "Senior software engineer",
+  role: "Software engineer",
   location: "London",
 
   intro: [
-    "Twelve years building distributed, event-driven, multi-tenant systems at scale — most recently a change-propagation platform moving more than 70 million events a day.",
-    "I care most about the parts that don't demo well: hot paths, failure modes, and the generic layer that turns a change across twenty integrations into a one-line edit.",
+    "I'm a software engineer in London. I've spent most of my career at Linnworks, mostly on the backend — the plumbing that moves data between systems and tries to keep it consistent.",
+    "I like the unglamorous parts: how things fail, what an interface looks like a year after it shipped, and how to stop twenty near-identical integrations from being twenty separate things.",
+    "Away from work it's road cycling, cooking, and whichever AI side project has my attention this month.",
   ],
 
   email: "alex.connolly.engineer@gmail.com",
@@ -73,7 +68,7 @@ export const site: Site = {
   ],
 
   employer: "Linnworks",
-  employerNote: "E-commerce operations SaaS · London · one company, five roles",
+  employerNote: "E-commerce operations software, in London",
 
   // Chronological. The timeline renders oldest-left; widths come from the dates.
   roles: [
@@ -82,8 +77,7 @@ export const site: Site = {
       team: "Platform",
       start: "2014-10",
       end: "2017-07",
-      summary:
-        "Built the developer ecosystem and app store — payments, recurring billing, third-party integrations — now hosting 150+ apps.",
+      summary: "The developer ecosystem and app store — payments, billing, and third-party integrations.",
       tech: "C# · .NET · JavaScript",
     },
     {
@@ -91,8 +85,7 @@ export const site: Site = {
       team: "Order Management",
       start: "2017-07",
       end: "2022-01",
-      summary:
-        "Batch inventory tracking that opened an entirely new industry vertical, plus a high-volume open-orders screen on Redis and MSSQL.",
+      summary: "Batch inventory tracking, and an open-orders screen built to cope with a lot of changes at once.",
       tech: "C# · Redis · MSSQL",
     },
     {
@@ -100,8 +93,7 @@ export const site: Site = {
       team: "Analytics",
       start: "2022-01",
       end: "2024-01",
-      summary:
-        "Launched a customer-facing analytics product from zero: hired and led five engineers across five countries, ETL moving 20M+ records a day.",
+      summary: "Started the analytics product and the team around it, and built the ETL underneath it.",
       tech: "PostgreSQL · ETL · C#",
     },
     {
@@ -109,8 +101,7 @@ export const site: Site = {
       team: "Carrier Solutions",
       start: "2024-01",
       end: "2026-03",
-      summary:
-        "Delivered a full system rewrite on schedule with 70% less follow-up rework, and a generic data layer that made twenty-carrier edits one-line changes.",
+      summary: "Rewrote the carrier integration layer so a change stopped meaning the same edit in twenty places.",
       tech: "C# · .NET · Azure",
     },
     {
@@ -118,8 +109,7 @@ export const site: Site = {
       team: "Software Architect",
       start: "2026-03",
       end: null,
-      summary:
-        "Change propagation across products at 70M+ events a day, and a broker that resolves which product owns each entity, per tenant.",
+      summary: "Moving changes between products, and working out which product owns which data for each customer.",
       tech: "C# · Azure Service Bus · TypeScript",
     },
   ],
@@ -128,56 +118,32 @@ export const site: Site = {
     {
       name: "Interfaces",
       depth: 40,
-      tech: "TypeScript · React — enough to be useful, not my home",
+      tech: "TypeScript and React. Enough to be useful, not where I live.",
     },
     {
       name: "Services & APIs",
       depth: 85,
-      tech: "C# · .NET — and the contracts other teams build against",
+      tech: "C# and .NET, and the contracts other teams build against.",
     },
     {
       name: "Distributed systems",
       depth: 100,
-      tech: "Azure Service Bus · Kafka · SQS/SNS — queues, retries, idempotency",
+      tech: "Service Bus, Kafka, SQS. Queues, retries, and making things idempotent.",
     },
     {
       name: "Data",
       depth: 75,
-      tech: "PostgreSQL · MSSQL · Redis · ETL — schemas, migrations, query plans",
+      tech: "Postgres, MSSQL, Redis. Schemas, migrations, the occasional query plan.",
     },
     {
       name: "AI & agents",
       depth: 70,
-      tech: "Claude Code · Codex · RAG · local open-weight models",
+      tech: "Agentic coding tools, RAG, and running small open models locally.",
     },
     {
       name: "Infrastructure",
       depth: 45,
-      tech: "Docker · GitHub Actions · AWS Lambda, S3 · Hangfire",
-    },
-  ],
-
-  highlights: [
-    {
-      name: "Change propagation at 70M events a day",
-      year: "2026",
-      summary:
-        "An Azure Service Bus platform distributing data to tenant-specific platforms across multiple products, with a broker resolving source of truth per tenant.",
-      tech: "Azure Service Bus · C# · multi-tenant",
-    },
-    {
-      name: "Agents that replaced a £60k/year system",
-      year: "2025",
-      summary:
-        "Internal AI agents built and shipped to production, then agentic delivery rolled out across engineering — one team cut a sprint's work to a day.",
-      tech: "Claude Code · RAG · agentic design",
-    },
-    {
-      name: "An analytics product from zero",
-      year: "2022",
-      summary:
-        "Hired and led a greenfield team of five across five countries, shipping stock forecasting and BI dashboards to 2,000 customers on a 20M-record-a-day ETL.",
-      tech: "PostgreSQL · ETL · team of five",
+      tech: "Docker, GitHub Actions, and enough AWS to keep things running.",
     },
   ],
 
@@ -225,9 +191,8 @@ export function deepestLayer(layers: Layer[]): number {
   return layers.reduce((best, l, i) => (l.depth > layers[best].depth ? i : best), 0);
 }
 
-/** Total span, for the line above the timeline. */
+/** Span of the whole timeline, for the line above it. */
 export function spanYears(roles: Role[]): number {
   if (!roles.length) return 0;
-  const total = months(roles[0]) + roles.slice(1).reduce((s, r) => s + months(r), 0);
-  return Math.round(total / 12);
+  return Math.round(roles.reduce((s, r) => s + months(r), 0) / 12);
 }

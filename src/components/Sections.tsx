@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { SECTIONS, type Section } from "../sections";
-import { MiniBar, Swatch } from "./Plate";
+import { Swatch } from "./Plate";
 import { site, weight, label, isCurrent, deepestLayer, spanYears } from "../content";
 
 /* ── navigation: horizontal, read the right way up ───────────────── */
@@ -17,7 +17,7 @@ export function Nav({ activeIndex }: { activeIndex: number }) {
               aria-current={i === activeIndex ? "true" : undefined}
             >
               {/* the motif, without the colour — chrome must not compete with the mark */}
-              {s.plate ? <Swatch plate={s.plate} mono /> : <MiniBar mono />}
+              <Swatch plate={s.plate} mono />
               {s.label}
             </a>
           </li>
@@ -42,7 +42,7 @@ export function SectionBlock({
     <section className="level grid" id={section.id} aria-labelledby={`h-${section.id}`}>
       {heading && (
         <h2 id={`h-${section.id}`}>
-          {section.plate ? <Swatch plate={section.plate} /> : <MiniBar />}
+          <Swatch plate={section.plate} />
           {section.label}
         </h2>
       )}
@@ -103,77 +103,8 @@ export function Stack() {
         ))}
       </ul>
       <p className="stack-note">
-        Bar length is where I actually spend my time, not what I could put on a CV.
+        Bar length is roughly where the time goes. It isn't a skills rating.
       </p>
     </>
-  );
-}
-
-/* ── projects: small tiles, the whole tile is the link ───────────── */
-
-/** Placeholder art, built from the same four plates. Delete when real images land. */
-function PlateComposition({ index }: { index: number }) {
-  const art = [
-    <>
-      <rect x="44" y="86" width="40" height="80" fill="#0093D5" />
-      <rect x="92" y="42" width="40" height="124" fill="#E0006C" />
-      <rect x="140" y="112" width="40" height="54" fill="#F5B800" />
-      <rect x="188" y="68" width="40" height="98" fill="#14130F" />
-    </>,
-    <g>
-      <rect className="mul" x="48" y="30" width="104" height="104" fill="#0093D5" />
-      <rect className="mul" x="108" y="58" width="104" height="104" fill="#E0006C" />
-      <rect className="mul" x="78" y="86" width="104" height="104" fill="#F5B800" />
-    </g>,
-    <>
-      <rect x="44" y="42" width="212" height="24" fill="#0093D5" />
-      <rect x="44" y="74" width="152" height="24" fill="#E0006C" />
-      <rect x="44" y="106" width="104" height="24" fill="#F5B800" />
-      <rect x="44" y="138" width="60" height="24" fill="#14130F" />
-    </>,
-  ];
-  return (
-    <span className="shot" aria-hidden="true">
-      <svg viewBox="0 0 300 200" preserveAspectRatio="xMidYMid slice">
-        {art[index % art.length]}
-      </svg>
-    </span>
-  );
-}
-
-export function Highlights() {
-  return (
-    <ul className="projects">
-      {site.highlights.map((h, i) => {
-        const inner = (
-          <>
-            {h.image ? (
-              <span className="shot">
-                <img src={h.image.src} alt={h.image.alt} width={900} height={600} loading="lazy" />
-              </span>
-            ) : (
-              <PlateComposition index={i} />
-            )}
-            <h3>{h.name}</h3>
-            <span className="p-year cap">{h.year}</span>
-            <span className="p-sum">{h.summary}</span>
-            <span className="p-tech">{h.tech}</span>
-          </>
-        );
-        return (
-          <li key={h.name}>
-            {/* Most of these are internal work with nowhere to link. A tile with
-                no destination must not pretend to be a link. */}
-            {h.href ? (
-              <a className="project" href={h.href} target="_blank" rel="noopener noreferrer">
-                {inner}
-              </a>
-            ) : (
-              <div className="project is-static">{inner}</div>
-            )}
-          </li>
-        );
-      })}
-    </ul>
   );
 }

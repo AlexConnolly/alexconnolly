@@ -1,7 +1,7 @@
 import { SECTIONS } from "./sections";
 import { site } from "./content";
 import { Mark } from "./components/Plate";
-import { Highlights, Nav, SectionBlock, Stack, Timeline } from "./components/Sections";
+import { Nav, SectionBlock, Stack, Timeline } from "./components/Sections";
 import { useActiveSection } from "./hooks/useActiveSection";
 
 const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
@@ -46,10 +46,6 @@ export default function App() {
 
         <SectionBlock section={byId("stack")}>
           <Stack />
-        </SectionBlock>
-
-        <SectionBlock section={byId("highlights")}>
-          <Highlights />
         </SectionBlock>
 
         <SectionBlock section={byId("contact")}>

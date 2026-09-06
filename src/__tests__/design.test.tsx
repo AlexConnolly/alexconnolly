@@ -22,8 +22,7 @@ describe("the mark", () => {
     for (const s of SECTIONS) {
       const heading = container.querySelector(`h2#h-${s.id}`);
       if (!heading) continue; // Overview's heading is the h1 — see below
-      const mark = s.plate ? `.swatch.p-${s.plate}` : ".minibar";
-      expect(heading.querySelector(mark)).toBeTruthy();
+      expect(heading.querySelector(`.swatch.p-${s.plate}`)).toBeTruthy();
     }
   });
 
@@ -49,11 +48,9 @@ describe("the mark", () => {
     expect(markBlock).not.toMatch(/border\s*:/);
   });
 
-  it("Contact has no plate, and closes with the whole bar", () => {
-    const contact = SECTIONS.find((s) => s.id === "contact")!;
-    expect(contact.plate).toBeUndefined();
-    const { container } = render(<App />);
-    expect(container.querySelectorAll("#h-contact .minibar i")).toHaveLength(PLATES.length);
+  it("four plates, four sections, one each", () => {
+    expect(SECTIONS).toHaveLength(PLATES.length);
+    expect(SECTIONS.map((s) => s.plate)).toEqual(PLATES);
   });
 });
 
@@ -155,6 +152,17 @@ describe("the stack", () => {
     expect(container.textContent).not.toMatch(/\+44/);
   });
 
+  it("U30: reads as a personal site, not a pitch", () => {
+    const { container } = render(<App />);
+    const text = container.textContent ?? "";
+    // The CV's figures are written to win a job. They do not belong here,
+    // and some of them are generous. Keep them on the CV.
+    expect(text).not.toMatch(/[£$€]\s?\d/);          // money
+    expect(text).not.toMatch(/\d+\s?%/);              // improvement percentages
+    expect(text).not.toMatch(/\d+\s?[MKmk]\+/);      // "70M+", "150+"
+    expect(text).not.toMatch(/\d{1,3},\d{3}/);   // "2,000 customers"
+  });
+
   it("U26: emits no percentage, rating or score — it is not a skills chart", () => {
     const { container } = render(<App />);
     const text = container.querySelector("#stack")!.textContent!;
@@ -164,48 +172,6 @@ describe("the stack", () => {
 });
 
 /* ── projects ─────────────────────────────────────────────────────── */
-
-describe("project tiles", () => {
-  it("U20: a tile is at most one link, never nested, never a dead link", () => {
-    const { container } = render(<App />);
-    const tiles = [...container.querySelectorAll(".projects > li")];
-    expect(tiles).toHaveLength(site.highlights.length);
-    tiles.forEach((tile, i) => {
-      const anchors = tile.querySelectorAll("a");
-      if (site.highlights[i].href) {
-        expect(anchors).toHaveLength(1);
-        expect(tile.querySelector("a")).toHaveClass("project");
-      } else {
-        // nothing to link to, so nothing should look or behave like a link
-        expect(anchors).toHaveLength(0);
-        expect(tile.querySelector(".project")).toHaveClass("is-static");
-      }
-    });
-  });
-
-  it("U18: a project without an image falls back to a plate composition", () => {
-    const { container } = render(<App />);
-    container.querySelectorAll(".project").forEach((p) => {
-      expect(p.querySelector(".shot svg") ?? p.querySelector(".shot img")).toBeTruthy();
-    });
-  });
-
-  it("U27: the overlap composition blends via CSS, not a strippable inline style", () => {
-    const { container } = render(<App />);
-    const rects = container.querySelectorAll(".project .shot svg rect.mul");
-    expect(rects).toHaveLength(3);
-    rects.forEach((r) => expect(r.getAttribute("style")).toBeNull());
-    expect(css).toMatch(/rect\.mul\s*\{\s*mix-blend-mode:\s*multiply/);
-  });
-
-  it("U7: outbound links carry rel=noopener noreferrer", () => {
-    const { container } = render(<App />);
-    container.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]').forEach((a) => {
-      expect(a.rel).toContain("noopener");
-      expect(a.rel).toContain("noreferrer");
-    });
-  });
-});
 
 /* ── structure and accessibility ──────────────────────────────────── */
 
@@ -243,6 +209,16 @@ describe("structure", () => {
     const { container } = render(<App />);
     const mailtos = container.querySelectorAll(`a[href="mailto:${site.email}"]`);
     expect(mailtos.length).toBeGreaterThanOrEqual(2);
+  });
+
+  it("U7: outbound links carry rel=noopener noreferrer", () => {
+    const { container } = render(<App />);
+    const external = container.querySelectorAll<HTMLAnchorElement>('a[target="_blank"]');
+    expect(external.length).toBeGreaterThan(0);
+    external.forEach((a) => {
+      expect(a.rel).toContain("noopener");
+      expect(a.rel).toContain("noreferrer");
+    });
   });
 
   it("there is a skip link", () => {

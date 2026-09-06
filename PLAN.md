@@ -477,7 +477,6 @@ homesite/
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
    │  ├─ Stack.tsx            # layers, depth bars
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates
-   │  └─ Colophon.tsx
    └─ hooks/
       └─ useActiveSection.ts  # rAF-throttled; drives the signatures
 ```
@@ -663,7 +662,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | Generated plate compositions ship as if they were the projects | **High** | They are scaffolding. F4a and Q10 both say so; nothing goes public until real images replace them |
 | Real screenshots destroy the restraint — busy UI against a calm page | Medium | Tiles are small and fixed 3:2 on a tinted ground so they read as plates in a layout; crop tightly and prefer one clear idea per image |
 | A project image belongs to an employer | Medium | Q10. Only ship images you own or are cleared to show |
-| Jost\* is not Futura and a typographer will notice | Medium | Named honestly in the colophon; swaps in one line once a licence is bought — Q9 |
+| Jost\* is not Futura and a typographer will notice | Medium | One token; swaps in one line once a licence is bought — Q9. The colophon that used to say so has gone |
 | The 9:1 hierarchy overwhelms on a small screen | Medium | Title clamps down to 3.4rem; check at 390px specifically |
 | Two navigations (signatures and mark) feel redundant | Low | They differ in role — one is persistent, one is the front-door index. Drop the mark's links if it grates |
 | Yellow is divisive at full saturation | Low | One token; the whole palette can be retuned in one line |

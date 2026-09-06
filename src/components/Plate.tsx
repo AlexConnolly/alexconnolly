@@ -26,5 +26,16 @@ export function Swatch({ plate, mono = false }: { plate: PlateId; mono?: boolean
   );
 }
 
+/** The whole bar in miniature — Overview, which is where the real mark lives. */
+export function MiniBar({ mono = false }: { mono?: boolean }) {
+  return (
+    <span className={`minibar${mono ? " minibar--mono" : ""}`} aria-hidden="true">
+      {PLATES.map((p) => (
+        <i key={p} className={plateClass(p)} />
+      ))}
+    </span>
+  );
+}
+
 /** Ratios are exported for tests: the mark and every swatch share these numbers. */
 export { PLATE_RATIO };

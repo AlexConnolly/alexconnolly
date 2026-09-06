@@ -17,12 +17,14 @@ describe("the mark", () => {
     bars.forEach((bar, i) => expect(bar).toHaveClass(`p-${PLATES[i]}`));
   });
 
-  it("U10: every h2 carries its own plate, matching the bar", () => {
+  it("U10: every h2 sits on its own plate, matching the bar", () => {
     const { container } = render(<App />);
     for (const s of SECTIONS) {
       const heading = container.querySelector(`h2#h-${s.id}`);
       if (!heading) continue; // Overview's heading is the h1 — see below
-      expect(heading.querySelector(`.swatch.p-${s.plate}`)).toBeTruthy();
+      const tag = heading.querySelector(`.tag.p-${s.plate}`);
+      expect(tag).toBeTruthy();
+      expect(tag!.textContent).toBe(s.label);
     }
   });
 
@@ -48,9 +50,22 @@ describe("the mark", () => {
     expect(markBlock).not.toMatch(/border\s*:/);
   });
 
-  it("four plates, four sections, one each", () => {
-    expect(SECTIONS).toHaveLength(PLATES.length);
-    expect(SECTIONS.map((s) => s.plate)).toEqual(PLATES);
+  it("U31: the four headed sections take the four plates, in bar order", () => {
+    const headed = SECTIONS.filter((s) => s.plate);
+    expect(headed).toHaveLength(PLATES.length);
+    expect(headed.map((s) => s.plate)).toEqual(PLATES);
+    // Overview is the exception: it has no h2, and the whole bar sits above its h1
+    const overview = SECTIONS.find((s) => s.id === "overview")!;
+    expect(overview.plate).toBeUndefined();
+    const { container } = render(<App />);
+    expect(container.querySelectorAll(".nav .minibar")).toHaveLength(1);
+  });
+
+  it("U32: ink never sits on the key plate — that heading inverts", () => {
+    const { container } = render(<App />);
+    const key = container.querySelector(".tag.p-k");
+    expect(key).toBeTruthy();
+    expect(css).toMatch(/\.tag\.p-k\s*\{\s*color:\s*var\(--ground\)/);
   });
 });
 
@@ -218,6 +233,25 @@ describe("structure", () => {
     external.forEach((a) => {
       expect(a.rel).toContain("noopener");
       expect(a.rel).toContain("noreferrer");
+    });
+  });
+
+  it("U33: every Play tile links out, and screenshots are real or absent", () => {
+    const { container } = render(<App />);
+    const tiles = [...container.querySelectorAll(".projects > li")];
+    expect(tiles).toHaveLength(site.play.length);
+    tiles.forEach((tile, i) => {
+      const a = tile.querySelector<HTMLAnchorElement>("a.project");
+      expect(a?.getAttribute("href")).toBe(site.play[i].href);
+      const img = tile.querySelector("img");
+      if (site.play[i].image) {
+        // a real screenshot pulled from the repo
+        expect(img?.getAttribute("alt")).toBeTruthy();
+      } else {
+        // no screenshot exists, so nothing pretends to be one
+        expect(img).toBeNull();
+        expect(tile.querySelector(".shot svg")).toBeTruthy();
+      }
     });
   });
 

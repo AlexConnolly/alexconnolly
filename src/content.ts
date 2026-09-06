@@ -34,6 +34,15 @@ export interface Layer {
   tech: string;
 }
 
+export interface Project {
+  name: string;
+  summary: string;
+  tech: string;
+  href: string;
+  /** a real screenshot from the repo, or nothing — never a stand-in for one */
+  image?: { src: string; alt: string };
+}
+
 export interface Site {
   name: string;
   thesis: string;
@@ -46,6 +55,8 @@ export interface Site {
   employerNote: string;
   roles: Role[];
   layers: Layer[];
+  play: Project[];
+  playNote: string;
   ask: string;
 }
 
@@ -146,6 +157,48 @@ export const site: Site = {
       tech: "Docker, GitHub Actions, and enough AWS to keep things running.",
     },
   ],
+
+  play: [
+    {
+      name: "smarty",
+      summary: "A personal assistant that runs entirely on your own machine. No cloud, no API keys, no subscription.",
+      tech: "C#",
+      href: "https://github.com/AlexConnolly/smarty",
+      image: { src: "img/smarty.jpg", alt: "Smarty's landing screen" },
+    },
+    {
+      name: "bugboard",
+      summary: "Plugs into your logging, polls it on a schedule, and turns a firehose of noise into the bugs that actually matter.",
+      tech: "C#",
+      href: "https://github.com/AlexConnolly/bugboard",
+      image: { src: "img/bugboard.jpg", alt: "The Bugboard error dashboard" },
+    },
+    {
+      name: "autocoder",
+      summary: "A Kanban board that codes for you. Write a task in plain English, drop it in the backlog, and agents pick it up.",
+      tech: "C#",
+      href: "https://github.com/AlexConnolly/autocoder",
+    },
+    {
+      name: "openstudio",
+      summary: "A self-hosted screen recorder and editor that adds the zooms and follows the clicks for you.",
+      tech: "TypeScript",
+      href: "https://github.com/AlexConnolly/openstudio",
+    },
+    {
+      name: "StreetCapture",
+      summary: "Turns a live camera into a searchable memory of one place — a visual record you can actually ask questions of.",
+      tech: "Python",
+      href: "https://github.com/AlexConnolly/StreetCapture",
+    },
+    {
+      name: "OnBehalfOf",
+      summary: "A draft standard for tying a human identity to the things an agent does on their behalf.",
+      tech: "Proposal",
+      href: "https://github.com/AlexConnolly/OnBehalfOf",
+    },
+  ],
+  playNote: "Mostly evenings and weekends. All of it is on GitHub.",
 
   ask: "Fancy a chat?",
 };

@@ -1,7 +1,7 @@
 import { SECTIONS } from "./sections";
 import { site } from "./content";
 import { Mark } from "./components/Plate";
-import { Nav, SectionBlock, Stack, Timeline } from "./components/Sections";
+import { Nav, Play, SectionBlock, Stack, Timeline } from "./components/Sections";
 import { useActiveSection } from "./hooks/useActiveSection";
 
 const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
@@ -48,6 +48,10 @@ export default function App() {
           <Stack />
         </SectionBlock>
 
+        <SectionBlock section={byId("play")}>
+          <Play />
+        </SectionBlock>
+
         <SectionBlock section={byId("contact")}>
           <p className="ask">{site.ask}</p>
           <a className="link email" href={`mailto:${site.email}`}>
@@ -62,11 +66,6 @@ export default function App() {
               </li>
             ))}
           </ul>
-          <p className="colophon">
-            Set in Jost*, a geometric revival in the Futura tradition, after the Barbican
-            Identity Guidelines by North (2007): one typeface, ranged left, sentence case,
-            leading set tighter than default. The mark is a four-colour process bar.
-          </p>
         </SectionBlock>
       </main>
     </>

@@ -92,6 +92,11 @@
   }
   .swatch--mono { background: currentColor; }
 
+  /* the whole bar, miniature — Overview */
+  .minibar { display: inline-flex; align-items: flex-end; gap: 1px; }
+  .minibar i { display: block; width: .3em; height: calc(.5em + var(--ratio) * .8em); background: var(--plate); }
+  .minibar--mono i { background: currentColor; }
+
   .vh {
     position: absolute;
     width: 1px; height: 1px;
@@ -167,15 +172,26 @@
 
   h2 {
     grid-column: 1 / -1;
-    display: flex;
-    align-items: center;
-    gap: .65rem;
     margin: 0 0 clamp(1.75rem, 4vh, 2.75rem);
     font-size: var(--t-super);
     font-weight: 700;
     line-height: 1;
     letter-spacing: -.012em;
   }
+  /*
+    The plate sits behind the word rather than beside it. Ink holds on cyan,
+    magenta and yellow; on the key plate it would be ink on ink, so that one
+    inverts to the page ground instead.
+  */
+  .tag {
+    display: inline-block;
+    padding: .2em .3em .26em;
+    background: var(--plate);
+    color: var(--ink);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  .tag.p-k { color: var(--ground); }
 
   .cap { font-size: var(--t-cap); line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
@@ -252,6 +268,42 @@
   .layer-tech { grid-column: 2; grid-row: 2; font-size: var(--t-cap); color: var(--ink-2); }
   .stack-note { grid-column: 1 / span 4; margin: 1.6rem 0 0; font-size: var(--t-cap); color: var(--ink-2); }
 
+  /* ── play: side projects, tiles ─────────────────────────── */
+  .projects {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 2.6vw, 2.25rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .project { display: block; text-decoration: none; }
+  .project .shot { display: block; aspect-ratio: 3 / 2; background: var(--field); overflow: hidden; }
+  .project .shot svg,
+  .project .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  /* plates multiply against each other, so the overlaps make the secondary colours */
+  .project .shot svg rect.mul { mix-blend-mode: multiply; }
+  .project h3 {
+    margin: .85rem 0 0;
+    font-size: 1.0625rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+  }
+  .project:hover h3, .project:focus-visible h3 { text-decoration-style: solid; }
+  .project .p-sum { display: block; margin: .45rem 0 0; font-size: .9375rem; color: var(--ink-2); }
+  .project .p-tech { display: block; margin-top: .55rem; font-size: var(--t-cap); color: var(--ink-2); }
+  .play-note {
+    grid-column: 1 / -1;
+    margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
+    font-size: var(--t-cap);
+    color: var(--ink-2);
+  }
+
   /* ── contact ────────────────────────────────────────────── */
   .ask {
     grid-column: 1 / -1;
@@ -302,6 +354,10 @@
   }
 
   /* ── responsive ─────────────────────────────────────────── */
+  @media (max-width: 1000px) {
+    .projects { grid-template-columns: repeat(2, 1fr); }
+  }
+
   @media (max-width: 900px) {
     .intro, .super, .lockup, .stack, .stack-note { grid-column: 1 / -1; }
     .colophon { grid-column: 1 / -1; }
@@ -320,6 +376,7 @@
     .mark .bar { width: 2.25rem; }
     h1 { font-size: clamp(2.9rem, 15vw, 3.75rem); max-width: 100%; }
     .super, .ask { font-size: 1.4rem; max-width: 100%; }
+    .projects { grid-template-columns: 1fr; }
     .layer { grid-template-columns: 1fr; gap: .3rem; }
     .layer-bar { grid-row: 2; }
     .layer-tech { grid-column: 1; grid-row: 3; }
@@ -338,7 +395,7 @@
     #overview { padding-top: 0; }
     h1 { font-size: 34pt; }
     .super, .ask, h2 { font-size: 15pt; }
-    .seg h3 { font-size: 12pt; }
+    .seg h3, .project h3 { font-size: 12pt; }
     .mark { --h: 2.4rem; }
     .mark .bar { width: 1.6rem; }
     .timeline { display: block; }
@@ -350,7 +407,7 @@
       font-size: 8pt; color: #444; word-break: break-all;
     }
     .link[href^="#"]::after { content: ""; }
-    .seg, .layer { break-inside: avoid; page-break-inside: avoid; }
+    .seg, .layer, .project { break-inside: avoid; page-break-inside: avoid; }
     h2 { break-after: avoid; page-break-after: avoid; }
   }
 

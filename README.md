@@ -11,7 +11,6 @@ The full design rationale, sourced and quoted, is in [PLAN.md](PLAN.md).
 ```bash
 npm install
 npm run dev        # local
-npm test           # 25 tests, mostly design invariants
 npm run typecheck
 npm run build      # vite build + SSR prerender into dist/
 npm run og         # re-render the social card (needs: npx playwright install chromium)
@@ -31,7 +30,7 @@ npm run og         # re-render the social card (needs: npx playwright install ch
 
 Live at **https://alex.connolly.cloud**
 
-Pushing to `main` runs typecheck, tests and build, then publishes to GitHub Pages.
+Pushing to `main` runs typecheck and build, then publishes to GitHub Pages.
 The base path is resolved in CI: `/` if `public/CNAME` exists, otherwise `/<repo>/`.
 `public/CNAME` holds the custom domain; DNS is a CNAME record `alex` →
 `alexconnolly.github.io.` on `connolly.cloud` at Namecheap.

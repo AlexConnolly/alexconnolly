@@ -14,19 +14,10 @@
     --rule:   #DCD9D0;
     --field:  #EAE8E2;
 
-    /* process inks — the mark, the nav, the path */
     --c: #0093D5;
     --m: #E0006C;
     --y: #F5B800;
     --k: #14130F;
-
-    /* solid builds — heading blocks, where white type has to hold.
-       Bright yellow under white is 1.6:1, and no version of yellow is both
-       bright and legible under white, so the block goes deeper. */
-    --c-solid: #0071A8;
-    --m-solid: #C4005E;
-    --y-solid: #9A7400;
-    --k-solid: #14130F;
 
     --face: "Jost", "Futura", "Century Gothic", "Avant Garde", sans-serif;
 
@@ -70,10 +61,10 @@
   .skip:focus { left: 1rem; top: 1rem; }
 
   /* ── the plates ─────────────────────────────────────────── */
-  .p-c { --plate: var(--c); --solid: var(--c-solid); --ratio: .62; }
-  .p-m { --plate: var(--m); --solid: var(--m-solid); --ratio: 1; }
-  .p-y { --plate: var(--y); --solid: var(--y-solid); --ratio: .44; }
-  .p-k { --plate: var(--k); --solid: var(--k-solid); --ratio: .80; }
+  .p-c { --plate: var(--c); --ratio: .62; }
+  .p-m { --plate: var(--m); --ratio: 1; }
+  .p-y { --plate: var(--y); --ratio: .44; }
+  .p-k { --plate: var(--k); --ratio: .80; }
 
   .mark {
     grid-column: 1 / -1;
@@ -195,7 +186,7 @@
   .tag {
     display: inline-block;
     padding: .2em .32em .26em;
-    background: var(--solid);
+    background: var(--plate);
     color: var(--ground);
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;

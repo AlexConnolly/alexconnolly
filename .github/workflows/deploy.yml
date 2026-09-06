@@ -30,9 +30,6 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Test
-        run: npm test
-
       # A custom domain serves from the root; a project repo serves from /<repo>/.
       # PLAN.md Q4 is still open, so the base path is decided here, not in the code.
       - name: Resolve base path

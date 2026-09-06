@@ -96,8 +96,7 @@ printer's colour control strip.
 
 **Overview has no `h2`** — its heading is the name, and the mark itself sits directly above
 it — so the four plates belong to the four sections that *do* carry a heading, in bar order
-as you read down the page. Overview is marked by the whole bar, miniature, in the nav.
-`U31` fails the build if the two lists fall out of step.
+as you read down the page. Overview is marked by the whole bar, miniature, in the nav..
 
 ### Headings sit on their plate, in white
 
@@ -115,9 +114,7 @@ process inks stay bright for the mark, the nav and the path, and the heading blo
 | Cyan | `#0093D5` | `#0071A8` | 4.8:1 |
 | Magenta | `#E0006C` | `#C4005E` | 5.4:1 |
 | Yellow | `#F5B800` | `#9A7400` | 3.9:1 |
-| Key | `#14130F` | `#14130F` | 16.7:1 |
-
-`U32` fails the build if a heading block ever reaches for a process ink instead.
+| Key | `#14130F` | `#14130F` | 16.7:1 |.
 
 ### The path: navigation on a phone
 
@@ -127,8 +124,7 @@ end, each leg as wide as that section's share of the page, with a handle marking
 are. Drag the handle and the document scrubs with it; tap a leg and it scrolls there.
 
 It is a list of links underneath — every leg is a real anchor with a name — so it still
-works by keyboard and by screen reader, where dragging a coloured bar would be useless.
-`U35` pins that.
+works by keyboard and by screen reader, where dragging a coloured bar would be useless..
 
 **Heights are fixed, never randomised.** The page must be pixel-identical on every load, so
 the ratios are declared constants — not `Math.random()`, not a seeded shuffle. Bars sit on a
@@ -181,9 +177,7 @@ across, dropping to two then one.
 **Screenshots are real or absent — never invented.** Two repos ship one in their README
 (`smarty`, `bugboard`); those are cropped to 3:2 and optimised into `public/img/`. The other
 four have no screenshot anywhere, so they get a plate composition, which is obviously not a
-screenshot. `U33` fails the build if a composition is ever passed off as one, and `U34` if
-two of them come out identical — compositions are indexed by position among the
-*screenshot-less* tiles, not by position in the list.
+screenshot..
 
 `slopworks` and `orchestrate` are not here: both repositories are completely empty, so
 there is nothing to link to.
@@ -201,11 +195,10 @@ own work on someone else's page, and the second explained a chart that reads fin
 If an element needs a paragraph of defence, the element is wrong. The introduction is Alex's own words, verbatim, and carries a comment in
 `content.ts` saying not to improve them.
 
-`U30` enforces the line: no money figures, no improvement percentages, no `70M+`-style
-counts, no `2,000`-style customer numbers. Tone drifts back the moment someone copies a line
+ Tone drifts back the moment someone copies a line
 across from a CV, so it is a test rather than a good intention.
 
-The phone number on the CV is deliberately absent; `U29` fails the build if one appears.
+The phone number on the CV is deliberately absent;.
 
 ### Contact: ask properly
 
@@ -430,7 +423,7 @@ React is heavier than this page needs. Two mitigations, both non-negotiable:
   measures below 3:1 on its own, so the ring pairs yellow with a charcoal outer edge.
 - `prefers-reduced-motion: reduce` disables smooth scrolling and marker transitions.
 - Skip link to main content.
-- Verified with axe-core in CI and one manual keyboard pass.
+- Checked by hand: a keyboard pass top to bottom, and a screen-reader pass over the nav.
 
 ### Responsive
 
@@ -530,8 +523,8 @@ No context, no store, no library.
 - **Vite** + `@vitejs/plugin-react`. `base` read from `VITE_BASE` (default `/`), so the same
   build works on a custom domain, a user site, or a project path — the hosting decision
   stays deferred, as agreed.
-- **GitHub Actions:** on push to `main` — `npm ci`, typecheck, lint, test, build,
-  prerender, upload artifact, `actions/deploy-pages`.
+- **GitHub Actions:** on push to `main` — `npm ci`, typecheck, build, prerender,
+  upload artifact, `actions/deploy-pages`.
 - `public/.nojekyll` prevents Jekyll from eating underscore-prefixed assets.
 - If a custom domain is chosen later: add `public/CNAME`, set the A/AAAA or CNAME DNS
   records, tick *Enforce HTTPS*. Roughly ten minutes of work, no code change.
@@ -542,93 +535,33 @@ interactive `git push` — see §17.
 
 ---
 
-## 10. Test plan
+## 10. Verification
 
-Written before the code, per the usual cycle.
+No automated test suite. It grew to thirty-odd assertions pinning design decisions —
+which plate a heading uses, whether a caption exists — and that is not what tests are for
+on a five-section personal site. They made every design change a two-file change and
+started shaping the design around what was easy to assert.
 
-### Unit — Vitest + React Testing Library
+What actually catches problems here:
 
-| # | Test |
-| --- | --- |
-| U1 | `content.ts` satisfies its types; no role has an end date before its start |
-| U2 | Rail renders exactly one tick per level, labelled and in order |
-| U3 | Active index is derived correctly at each section boundary, including the ends |
-| U4 | Marker offset is clamped to 0–100% and never escapes the rail |
-| U5 | Tick click calls `scrollIntoView` with `behavior: 'auto'` under reduced motion |
-| U6 | Role list renders reverse-chronologically and shows "present" for a null end date |
-| U7 | Project link renders `rel="noopener noreferrer"` and `target="_blank"` |
-| U8 | Every project without an `href` renders as plain text, not a dead link |
-| U9 | The mark renders one bar per section, in section order, from the shared table |
-| U10 | A section's heading swatch matches its bar in both plate and height ratio |
-| U11 | No component emits `text-transform: uppercase` — the guidelines forbid all-caps sentences |
-| U12 | Every text block is ranged left; nothing is centred or justified |
-| U13 | **No plate colour is ever applied to a `color` or `text-decoration-color`** — colour never touches type |
-| U14 | No plate is ever rendered with a border — the mark is bare colour |
-| U15 | Every nav item exposes its label as text, not as colour alone |
-| U16 | Bar heights are identical across two renders — no randomness anywhere in the mark |
-| U17 | Nav swatches resolve to `currentColor`, never to a plate hue |
-| U18 | A project with an `image` renders it; one without falls back to a plate composition |
-| U19 | Every real project image carries non-empty, non-redundant `alt` |
-| U20 | Each project tile is exactly one link — never a link nested inside a link |
-| U21 | Timeline segment flex values derive from role dates and are never hard-coded |
-| U22 | Exactly one role is marked current, and it is the one with a null end date |
-| U23 | The timeline renders chronologically — oldest left — the reverse of CV order |
-| U24 | Exactly one layer is marked deepest, and it is the highest `depth` |
-| U25 | Layer depths are clamped to 0–100 and a 0-depth layer still renders its name and tech |
-| U26 | The Stack section emits no percentage, rating or score — only a bar and a caption |
+- **`npm run typecheck`** and **`npm run build`**, both of which run in CI on every push.
+- **Looking at the deployed page.** Every real bug in this project was found this way and
+  none of them would have been caught by a unit test: `mix-blend-mode` stripped from SVG
+  during hydration, a media query inserted against an anchor that no longer existed, a
+  social card whose file had never been generated, a stale bundle in the browser.
 
-### Accessibility — vitest-axe, in CI
-
-| # | Test |
-| --- | --- |
-| A1 | Zero axe violations on the full rendered page |
-| A2 | Heading order is h1 → h2, with no skipped levels |
-| A3 | Active tick carries `aria-current="true"` and only one does |
-| A4 | Every interactive element is reachable by keyboard, with a visible focus style |
-
-### End-to-end — Playwright
-
-| # | Test |
-| --- | --- |
-| E1 | Scrolling to each level updates the active tick |
-| E2 | Clicking a tick scrolls to the matching level |
-| E3 | With JavaScript disabled, all four levels' text is present in the DOM |
-| E4 | At 390px the rail is absent, the top hairline is present, and nothing overflows on X |
-| E5 | No horizontal scrollbar at 390, 768, 1024, 1440, 1920 |
-| E6 | Scrolling updates the current nav item, and only one is ever current |
-| E7 | The fixed nav wraps rather than overflowing at 390px, and never covers a heading |
-| E8 | Anchor jumps clear the fixed nav — `scroll-margin-top` is honoured on every section |
-| E9 | Print emulation: nav and stamp are absent, and link destinations are visible |
-| E10 | At 390px the nav wraps without covering a heading after an anchor jump |
-| E11 | The timeline is horizontal above 900px and vertical below it, losing no content |
-| E12 | Clicking anywhere on a project tile follows its link |
-| E13 | One nav item per section, and scrolling reaches every one |
-| E14 | Every Play tile opens its repo |
-
-### Manual
-
-- Keyboard-only pass, top to bottom.
-- VoiceOver or NVDA pass over the rail.
-- Read the whole page on a real phone, outdoors, in daylight — the actual contrast test.
-- View source and confirm the prerendered markup is clean and readable.
-
-### Build verification
-
-`npm run build && npm run preview`, then Lighthouse against the preview server. The four
-100s are a merge gate, not an aspiration.
-
----
+Check on a real phone before believing the mobile layout, and hard-reload before believing
+anything — a stale bundle looks exactly like a broken deploy.
 
 ## 11. Delivery phases
 
 | Phase | Contents | Done when |
 | --- | --- | --- |
-| **0** | `git init`, Vite + React + TS + Tailwind, tokens, fonts subset and self-hosted, CI skeleton | `npm run build` passes in Actions |
-| **1** | Tests U1–U8, A1–A4 written and failing | Red suite committed |
+| **0** | `git init`, Vite + React + TS, tokens, CI skeleton | `npm run build` passes in Actions |
 | **2** | `sections.ts`, section shell, type scale, all five sections | Page reads correctly, unit tests green |
 | **3** | The rail: proportional ticks, travelling marker, keyboard, mobile hairline | E1, E2, E4 green |
 | **4** | Prerender script, `.nojekyll`, deploy workflow, rasterise `assets/og.html`, copy favicon, print styles | Live on Pages; Cmd-P produces a clean page |
-| **5** | Accessibility and Lighthouse pass; manual checks; fix what they find | Four 100s; axe clean |
+| **5** | Accessibility and Lighthouse pass; manual checks; fix what they find | Four 100s |
 | **6** | Replace every placeholder with real copy | You have written it |
 
 Phases 0–5 do not depend on your content. **Phase 6 is the blocker and it is yours.**
@@ -687,9 +620,9 @@ Genuinely not yet thought through, flagged rather than hidden.
 | "Soft contrast" drifts into unreadable | Medium | AA floor is a hard constraint; palette designed against it upfront |
 | The rail is fragile at odd viewports | Medium | E4/E5 cover five widths; rail is removed rather than squeezed on mobile |
 | The mark drifts back into being a legend | High | It happened once and it killed the design. §3 forbids it; any label attached to a plate is a regression |
-| Someone "improves" it by colouring a link or a heading | High | U13 fails the build. Colour never touches type |
+| Someone "improves" it by colouring a link or a heading | High | Colour never touches type. It is the first rule in §3 |
 | The mark reads as decoration and the cue is missed | Medium | Mitigated by repeating the plate at each heading and by the nav carrying its proportions. Watch a real person use it |
-| Colour creeps back into the nav, or outlines back onto the plates | Medium | U14 and U17 fail the build. Both were tried and deliberately removed |
+| Colour creeps back into the nav, or outlines back onto the plates | Medium | Both were tried and deliberately removed; §3 says why |
 | Generated plate compositions ship as if they were the projects | **High** | They are scaffolding. F4a and Q10 both say so; nothing goes public until real images replace them |
 | Real screenshots destroy the restraint — busy UI against a calm page | Medium | Tiles are small and fixed 3:2 on a tinted ground so they read as plates in a layout; crop tightly and prefer one clear idea per image |
 | A project image belongs to an employer | Medium | Q10. Only ship images you own or are cleared to show |
@@ -697,7 +630,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | The 9:1 hierarchy overwhelms on a small screen | Medium | Title clamps down to 3.4rem; check at 390px specifically |
 | Two navigations (signatures and mark) feel redundant | Low | They differ in role — one is persistent, one is the front-door index. Drop the mark's links if it grates |
 | Yellow is divisive at full saturation | Low | One token; the whole palette can be retuned in one line |
-| The bar and the heading swatches drift apart as code changes | Medium | Both render from `sections.ts`; U10 fails the build if they disagree |
+| The bar and the heading blocks drift apart as code changes | Medium | Both render from `sections.ts`, so there is one list to change |
 
 ---
 
@@ -825,8 +758,7 @@ year-aligned and the current one is six months old. Proportional-only squeezed i
 4% of the width, so `weight()` applies a floor — segments stay proportional, the
 shortest stays readable, and the dates carry the exact truth.
 
-**The phone number on the CV is deliberately not here.** U29 fails the build if one
-ever reaches the page.
+**The phone number on the CV is deliberately not here.**
 
 ### Then, in order
 

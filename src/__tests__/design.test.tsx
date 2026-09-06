@@ -255,6 +255,12 @@ describe("structure", () => {
     });
   });
 
+  it("U34: no two generated compositions repeat", () => {
+    const { container } = render(<App />);
+    const svgs = [...container.querySelectorAll(".project .shot svg")].map((s) => s.innerHTML);
+    expect(new Set(svgs).size).toBe(svgs.length);
+  });
+
   it("there is a skip link", () => {
     const { container } = render(<App />);
     expect(container.querySelector("a.skip")?.getAttribute("href")).toBe("#overview");

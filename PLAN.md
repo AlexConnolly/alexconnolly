@@ -158,7 +158,12 @@ across, dropping to two then one.
 **Screenshots are real or absent — never invented.** Two repos ship one in their README
 (`smarty`, `bugboard`); those are cropped to 3:2 and optimised into `public/img/`. The other
 four have no screenshot anywhere, so they get a plate composition, which is obviously not a
-screenshot. `U33` fails the build if a composition is ever passed off as one.
+screenshot. `U33` fails the build if a composition is ever passed off as one, and `U34` if
+two of them come out identical — compositions are indexed by position among the
+*screenshot-less* tiles, not by position in the list.
+
+`slopworks` and `orchestrate` are not here: both repositories are completely empty, so
+there is nothing to link to.
 
 An earlier section showed *work* achievements with the CV's figures attached — events per
 day, money saved, customer counts. That was the page's sales pitch and it was deleted. Play

@@ -125,6 +125,12 @@ function PlateComposition({ index }: { index: number }) {
       <rect x="44" y="106" width="104" height="24" fill="#F5B800" />
       <rect x="44" y="138" width="60" height="24" fill="#14130F" />
     </>,
+    <>
+      <rect x="52" y="34" width="58" height="58" fill="#0093D5" />
+      <rect x="112" y="70" width="58" height="58" fill="#E0006C" />
+      <rect x="172" y="106" width="58" height="58" fill="#F5B800" />
+      <rect x="232" y="142" width="58" height="58" fill="#14130F" />
+    </>,
   ];
   return (
     <span className="shot" aria-hidden="true">
@@ -136,6 +142,11 @@ function PlateComposition({ index }: { index: number }) {
 }
 
 export function Play() {
+  // Compositions are indexed by position among the screenshot-less tiles, not
+  // by position in the list — otherwise two of them come out identical.
+  let plain = -1;
+  const variant = site.play.map((p) => (p.image ? -1 : ++plain));
+
   return (
     <>
       <ul className="projects">
@@ -147,7 +158,7 @@ export function Play() {
                   <img src={p.image.src} alt={p.image.alt} width={900} height={600} loading="lazy" />
                 </span>
               ) : (
-                <PlateComposition index={i} />
+                <PlateComposition index={variant[i]} />
               )}
               <h3>{p.name}</h3>
               <span className="p-sum">{p.summary}</span>

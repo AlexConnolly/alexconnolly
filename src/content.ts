@@ -114,8 +114,8 @@ export const site: Site = {
       tech: "C# · .NET · Azure",
     },
     {
-      title: "Software Architect",
-      team: "Senior Software Engineer",
+      title: "Senior Software Engineer",
+      team: "Software Architect",
       start: "2026-03",
       end: null,
       summary:

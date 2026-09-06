@@ -591,7 +591,7 @@ Ordered by how much they hold things up.
 | Q1 | **All copy.** Intro, roles, dates, projects, tech. | Phase 6 | Placeholder ships; page cannot go public |
 | Q2 | Which email address is public? | F5 | A placeholder `hello@` |
 | Q3 | GitHub and LinkedIn URLs | F5 | Omitted |
-| Q4 | Custom domain, or `alexconnolly.github.io/homesite`? | Nothing — CI resolves the base path | Project path. Add `public/CNAME` to switch to a domain |
+| Q4 | ~~Custom domain?~~ | — | **Answered: `alex.connolly.cloud`.** `public/CNAME` set, so CI builds with base `/` |
 | Q5 | ~~GitHub username and repo name~~ | — | **Answered: `AlexConnolly/homesite`, public** |
 | Q6 | Do projects link to repos, live sites, or both? | F4 | Repo where one exists, otherwise no link |
 | Q7 | Are any projects work-owned, and can they be named? | Content | Only clearly personal projects listed |
@@ -724,7 +724,7 @@ follows the 2007 manual because it is the document that could actually be read.
 
 ## 17. Status
 
-**Live at https://alexconnolly.github.io/homesite/**
+**Live at https://alex.connolly.cloud** (was `alexconnolly.github.io/homesite`)
 
 | Done | Detail |
 | --- | --- |

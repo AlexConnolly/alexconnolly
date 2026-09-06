@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>OG card — Alex Connolly</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&display=swap">
+<style>
+  /*
+    Social card, 1200x630. Screenshot this page at exactly that size.
+      npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png
+    Rendered in a browser rather than exported from SVG so the real
+    webfont is used — an SVG rasteriser would silently fall back.
+  */
+  :root {
+    --ground: #F4F3EF;
+    --ink:    #14130F;
+    --ink-2:  #55524A;
+    --c: #0093D5;
+    --m: #E0006C;
+    --y: #F5B800;
+    --k: #14130F;
+    --face: "Jost", "Futura", "Century Gothic", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    width: 1200px;
+    height: 630px;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--face);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 76px 84px;
+    overflow: hidden;
+  }
+  .mark { display: flex; align-items: flex-end; }
+  .mark span { display: block; width: 76px; }
+  .mark .c { height: 68px;  background: var(--c); }
+  .mark .m { height: 110px; background: var(--m); }
+  .mark .y { height: 48px;  background: var(--y); }
+  .mark .k { height: 88px;  background: var(--k); }
+
+  h1 {
+    margin: 0;
+    font-size: 132px;
+    font-weight: 700;
+    line-height: .78;
+    letter-spacing: -.022em;
+    max-width: 12ch;
+  }
+  p {
+    margin: 28px 0 0;
+    font-size: 38px;
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--ink);
+  }
+  .foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 21px;
+    color: var(--ink-2);
+  }
+</style>
+</head>
+<body>
+  <div class="mark">
+    <span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span>
+  </div>
+
+  <div>
+    <h1>Alex Connolly</h1>
+    <p>I enjoy building things that matter.</p>
+  </div>
+
+  <div class="foot">
+    <span>Software engineer · London</span>
+    <span>alexconnolly.dev</span>
+  </div>
+</body>
+</html>

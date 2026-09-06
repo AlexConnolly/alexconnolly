@@ -64,15 +64,32 @@ export function Path() {
     window.scrollTo({ top: t * scrollable(), behavior: "auto" });
   };
 
+  /*
+    Drag is tracked on the window rather than on the element. Relying on
+    pointer capture alone drops moves as soon as the pointer leaves the 14px
+    track — which, on a bar this thin, is immediately.
+  */
   const onPointerDown = (e: React.PointerEvent) => {
+    e.preventDefault();
     dragged.current = false;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
     scrubTo(e.clientX);
-  };
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!(e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) return;
-    dragged.current = true;
-    scrubTo(e.clientX);
+
+    const move = (ev: PointerEvent) => {
+      dragged.current = true;
+      scrubTo(ev.clientX);
+    };
+    const up = () => {
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      window.removeEventListener("pointercancel", up);
+      // let the click that follows a drag be swallowed, then forget it
+      setTimeout(() => {
+        dragged.current = false;
+      }, 0);
+    };
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    window.addEventListener("pointercancel", up);
   };
 
   const active = stops.reduce((best, s, i) => (progress + 0.001 >= s ? i : best), 0);
@@ -83,7 +100,6 @@ export function Path() {
       aria-label="Sections"
       ref={track}
       onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
     >
       <ul>
         {SECTIONS.map((s, i) => {

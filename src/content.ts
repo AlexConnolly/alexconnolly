@@ -52,13 +52,13 @@ export interface Site {
 export const site: Site = {
   name: "Alex Connolly",
   thesis: "I enjoy building things that matter.",
-  role: "Software engineer",
+  role: "Senior software engineer",
   location: "London",
 
+  // Alex's own words. Do not "improve" these.
   intro: [
-    "I'm a software engineer in London. I've spent most of my career at Linnworks, mostly on the backend — the plumbing that moves data between systems and tries to keep it consistent.",
-    "I like the unglamorous parts: how things fail, what an interface looks like a year after it shipped, and how to stop twenty near-identical integrations from being twenty separate things.",
-    "Away from work it's road cycling, cooking, and whichever AI side project has my attention this month.",
+    "Senior software engineer with 12 years of industry experience across multiple disciplines, including leadership and IC roles.",
+    "Systems thinking, hard problem solving and products that people use daily are what excite me.",
   ],
 
   email: "alex.connolly.engineer@gmail.com",

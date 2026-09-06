@@ -14,10 +14,19 @@
     --rule:   #DCD9D0;
     --field:  #EAE8E2;
 
+    /* process inks — the mark, the nav, the path */
     --c: #0093D5;
     --m: #E0006C;
     --y: #F5B800;
     --k: #14130F;
+
+    /* solid builds — heading blocks, where white type has to hold.
+       Bright yellow under white is 1.6:1, and no version of yellow is both
+       bright and legible under white, so the block goes deeper. */
+    --c-solid: #0071A8;
+    --m-solid: #C4005E;
+    --y-solid: #9A7400;
+    --k-solid: #14130F;
 
     --face: "Jost", "Futura", "Century Gothic", "Avant Garde", sans-serif;
 
@@ -61,10 +70,10 @@
   .skip:focus { left: 1rem; top: 1rem; }
 
   /* ── the plates ─────────────────────────────────────────── */
-  .p-c { --plate: var(--c); --ratio: .62; }
-  .p-m { --plate: var(--m); --ratio: 1; }
-  .p-y { --plate: var(--y); --ratio: .44; }
-  .p-k { --plate: var(--k); --ratio: .80; }
+  .p-c { --plate: var(--c); --solid: var(--c-solid); --ratio: .62; }
+  .p-m { --plate: var(--m); --solid: var(--m-solid); --ratio: 1; }
+  .p-y { --plate: var(--y); --solid: var(--y-solid); --ratio: .44; }
+  .p-k { --plate: var(--k); --solid: var(--k-solid); --ratio: .80; }
 
   .mark {
     grid-column: 1 / -1;
@@ -185,13 +194,12 @@
   */
   .tag {
     display: inline-block;
-    padding: .2em .3em .26em;
-    background: var(--plate);
-    color: var(--ink);
+    padding: .2em .32em .26em;
+    background: var(--solid);
+    color: var(--ground);
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
-  .tag.p-k { color: var(--ground); }
 
   .cap { font-size: var(--t-cap); line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
@@ -258,15 +266,25 @@
   .seg .sum { margin: .6rem 0 0; font-size: .9375rem; color: var(--ink-2); }
   .seg .tech { margin: .8rem 0 0; padding: 0; list-style: none; font-size: var(--t-cap); color: var(--ink-2); line-height: 1.7; }
 
-  /* ── stack: where in the system I actually live ─────────── */
-  .stack { grid-column: 1 / span 4; margin: 0; padding: 0; list-style: none; display: grid; gap: 1.35rem; }
-  .layer { display: grid; grid-template-columns: clamp(6rem, 12vw, 9.5rem) 1fr; gap: .4rem clamp(1rem, 2vw, 1.5rem); align-items: center; }
-  .layer-name { grid-row: 1; font-weight: 500; }
-  .layer-bar { grid-row: 1; position: relative; height: 12px; background: var(--rule); }
-  .layer-bar i { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--d) * 1%); background: var(--ink); }
-  .layer.is-deep .layer-bar i { background: var(--y); }
-  .layer-tech { grid-column: 2; grid-row: 2; font-size: var(--t-cap); color: var(--ink-2); }
-  .stack-note { grid-column: 1 / span 4; margin: 1.6rem 0 0; font-size: var(--t-cap); color: var(--ink-2); }
+  /* ── stack: prose, not a chart ──────────────────────────── */
+  .stack { grid-column: 1 / span 4; }
+  .stack-lead { margin: 0; font-size: 1.25rem; font-weight: 500; color: var(--ink); }
+  .stack-list { margin: clamp(1.5rem, 3vh, 2.25rem) 0 0; padding: 0; }
+  .stack-list > div {
+    display: grid;
+    grid-template-columns: clamp(5.5rem, 11vw, 8rem) 1fr;
+    gap: 0 clamp(1rem, 2vw, 1.5rem);
+    padding: .7rem 0;
+    border-top: 1px solid var(--rule);
+  }
+  .stack-list dt { font-weight: 700; }
+  .stack-list dd { margin: 0; color: var(--ink-2); }
+  .stack-close {
+    margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
+    padding-top: .9rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-2);
+  }
 
   /* ── play: side projects, tiles ─────────────────────────── */
   .projects {
@@ -302,6 +320,25 @@
     margin: clamp(1.5rem, 3vh, 2.25rem) 0 0;
     font-size: var(--t-cap);
     color: var(--ink-2);
+  }
+
+  /* ── the path: mobile navigation ────────────────────────── */
+  .path { display: none; }
+  .path ul { display: flex; margin: 0; padding: 0; list-style: none; height: 100%; }
+  .path .leg { flex: 0 0 var(--w); background: var(--plate); }
+  .path .leg--none { background: var(--rule); }
+  .path .leg a { display: block; height: 100%; }
+  .path .leg a:focus-visible { outline-offset: -3px; }
+  .path-handle {
+    position: absolute;
+    top: -5px;
+    left: var(--at);
+    width: 3px;
+    height: calc(100% + 10px);
+    background: var(--ink);
+    transform: translateX(-1.5px);
+    box-shadow: 0 0 0 3px var(--ground);
+    pointer-events: none;
   }
 
   /* ── contact ────────────────────────────────────────────── */
@@ -359,7 +396,7 @@
   }
 
   @media (max-width: 900px) {
-    .intro, .super, .lockup, .stack, .stack-note { grid-column: 1 / -1; }
+    .intro, .super, .lockup, .stack { grid-column: 1 / -1; }
     .colophon { grid-column: 1 / -1; }
 
     /* a left-to-right timeline cannot survive this width — stack it */
@@ -369,9 +406,6 @@
   }
 
   @media (max-width: 560px) {
-    .level { scroll-margin-top: 5.25rem; }
-    .nav ul { gap: .3rem 1rem; padding: .6rem var(--edge); }
-    .nav a { font-size: .875rem; gap: .4rem; }
     .mark { --h: 4rem; }
     .mark .bar { width: 2.25rem; }
     h1 { font-size: clamp(2.9rem, 15vw, 3.75rem); max-width: 100%; }
@@ -389,7 +423,7 @@
     @page { margin: 18mm; }
     :root { --ground: #FFF; --ink: #000; --ink-2: #333; --rule: #BBB; --field: #EEE; }
     body { font-size: 10.5pt; line-height: 1.35; }
-    .nav, .stamp, .skip { display: none !important; }
+    .nav, .path, .stamp, .skip { display: none !important; }
     .page { padding: 0; }
     .level { padding-top: 1.5rem; }
     #overview { padding-top: 0; }

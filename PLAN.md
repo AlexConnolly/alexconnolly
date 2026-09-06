@@ -99,13 +99,36 @@ it — so the four plates belong to the four sections that *do* carry a heading,
 as you read down the page. Overview is marked by the whole bar, miniature, in the nav.
 `U31` fails the build if the two lists fall out of step.
 
-### Headings sit on their plate
+### Headings sit on their plate, in white
 
 The colour is a block behind the word, not a swatch beside it — the heading prints on the
-plate. Ink holds on cyan (7.3:1), magenta (4.4:1, and the heading is large text) and yellow
-(10.5:1). On the key plate it would be ink on ink, so **that heading alone inverts** to the
-page ground at 15.6:1. `U32` pins the inversion, because it is the sort of thing a later
-tidy-up would "simplify" into invisibility.
+plate, in the page ground colour.
+
+That forces a second build of each plate. White on bright yellow measures **1.6:1**, and
+there is no version of yellow that is both bright and legible under white — for white to
+reach 3:1 the plate has to drop to a luminance of 0.265, which is olive, not yellow. So the
+process inks stay bright for the mark, the nav and the path, and the heading blocks use a
+**solid build** that white can sit on:
+
+| Plate | Process ink | Solid build | White on solid |
+| --- | --- | --- | --- |
+| Cyan | `#0093D5` | `#0071A8` | 4.8:1 |
+| Magenta | `#E0006C` | `#C4005E` | 5.4:1 |
+| Yellow | `#F5B800` | `#9A7400` | 3.9:1 |
+| Key | `#14130F` | `#14130F` | 16.7:1 |
+
+`U32` fails the build if a heading block ever reaches for a process ink instead.
+
+### The path: navigation on a phone
+
+A fixed bar at the top of a phone screen is the hardest thing on it to reach one-handed, so
+below 760px the nav is replaced by a **path along the bottom**: the four plates laid end to
+end, each leg as wide as that section's share of the page, with a handle marking where you
+are. Drag the handle and the document scrubs with it; tap a leg and it scrolls there.
+
+It is a list of links underneath — every leg is a real anchor with a name — so it still
+works by keyboard and by screen reader, where dragging a coloured bar would be useless.
+`U35` pins that.
 
 **Heights are fixed, never randomised.** The page must be pixel-identical on every load, so
 the ratios are declared constants — not `Math.random()`, not a seeded shuffle. Bars sit on a
@@ -279,8 +302,9 @@ under `prefers-reduced-motion`. Nothing else moves.
   own duration, carrying company, title, start year, one descriptive line and technologies.
   The current role is marked on the axis. Collapses to a vertical stack below 900px.
 - **F3a** Segment widths derive from the dates in `content.ts`, never hand-tuned.
-- **F4** Stack: layers, each with a name, a depth bar and its technologies. Not a skills
-  chart — no percentages, no ratings.
+- **F4** Stack: prose. A lead line, a short labelled list, and a closing line. **No bars,
+  no depths, no ratings** — an earlier version drew a chart and it read as a skills rating,
+  which is exactly what it must not be.
 - **F4b** Play: side projects from the public repos, each tile one outbound link. A tile
   shows a real screenshot or a plate composition, never a stand-in dressed as a screenshot.
 - **F4a** A social card at `public/og.png`, 1200×630, generated from `assets/og.html` by
@@ -290,9 +314,10 @@ under `prefers-reduced-motion`. Nothing else moves.
   top so it is available from anywhere on the page.
 - **F7** All content authored in one typed data file, separate from any markup.
 - **F8** Content is present in the served HTML — the page is readable with JavaScript off.
-- **F13** Horizontal navigation fixed to the top: four labels set the right way up, each
-  preceded by its plate's swatch **in the label's own tone, not in colour**. Active in ink
-  and bold, inactive in `--ink-3`.
+- **F13** Above 760px: horizontal navigation fixed to the top, each label preceded by its
+  plate's swatch **in the label's own tone, not in colour**.
+- **F13a** Below 760px: the path along the bottom — draggable, tappable, and a real list of
+  links for anyone not using a pointer.
 - **F14** The mark: a four-colour bar, one plate per section, butted, at fixed height
   ratios — rendered from a single typed table so the bar and every swatch always agree.
 - **F15** Bar heights are **deterministic constants**. No randomisation at any point.
@@ -480,7 +505,8 @@ homesite/
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
-   │  ├─ Stack.tsx            # layers, depth bars
+   │  ├─ Stack.tsx            # prose, no chart
+   │  ├─ Path.tsx             # the bottom path; drag to scrub the page
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates
    └─ hooks/
       └─ useActiveSection.ts  # rAF-throttled; drives the signatures

@@ -27,11 +27,10 @@ export interface Role {
   tech: string;
 }
 
-export interface Layer {
-  name: string;
-  /** 0-100. Roughly where the time goes. Not a competence rating. */
-  depth: number;
-  tech: string;
+export interface Stack {
+  lead: string;
+  lines: { label: string; text: string }[];
+  close: string;
 }
 
 export interface Project {
@@ -54,7 +53,7 @@ export interface Site {
   employer: string;
   employerNote: string;
   roles: Role[];
-  layers: Layer[];
+  stack: Stack;
   play: Project[];
   playNote: string;
   ask: string;
@@ -125,38 +124,17 @@ export const site: Site = {
     },
   ],
 
-  layers: [
-    {
-      name: "Interfaces",
-      depth: 40,
-      tech: "TypeScript and React. Enough to be useful, not where I live.",
-    },
-    {
-      name: "Services & APIs",
-      depth: 85,
-      tech: "C# and .NET, and the contracts other teams build against.",
-    },
-    {
-      name: "Distributed systems",
-      depth: 100,
-      tech: "Service Bus, Kafka, SQS. Queues, retries, and making things idempotent.",
-    },
-    {
-      name: "Data",
-      depth: 75,
-      tech: "Postgres, MSSQL, Redis. Schemas, migrations, the occasional query plan.",
-    },
-    {
-      name: "AI & agents",
-      depth: 70,
-      tech: "Agentic coding tools, RAG, and running small open models locally.",
-    },
-    {
-      name: "Infrastructure",
-      depth: 45,
-      tech: "Docker, GitHub Actions, and enough AWS to keep things running.",
-    },
-  ],
+  stack: {
+    lead: "Full stack, with the back end as home.",
+    lines: [
+      { label: "Day to day", text: "C# and .NET on the server, TypeScript and React in front of it." },
+      { label: "Data", text: "Postgres, MSSQL and Redis — schemas, migrations, and the occasional query plan." },
+      { label: "Distributed", text: "Service Bus, Kafka and SQS. Queues, retries, and making things idempotent." },
+      { label: "Cloud", text: "AWS by preference, Azure by experience. Docker and GitHub Actions around both." },
+      { label: "Lately", text: "Agentic tooling, RAG, and running small open models locally." },
+    ],
+    close: "Mostly I believe in picking the right tool for the job.",
+  },
 
   play: [
     {
@@ -184,18 +162,6 @@ export const site: Site = {
       summary: "A self-hosted screen recorder and editor that adds the zooms and follows the clicks for you.",
       tech: "TypeScript",
       href: "https://github.com/AlexConnolly/openstudio",
-    },
-    {
-      name: "StreetCapture",
-      summary: "Turns a live camera into a searchable memory of one place — a visual record you can actually ask questions of.",
-      tech: "Python",
-      href: "https://github.com/AlexConnolly/StreetCapture",
-    },
-    {
-      name: "OnBehalfOf",
-      summary: "A draft standard for tying a human identity to the things an agent does on their behalf.",
-      tech: "Proposal",
-      href: "https://github.com/AlexConnolly/OnBehalfOf",
     },
   ],
   playNote: "Mostly evenings and weekends. All of it is on GitHub.",
@@ -237,11 +203,6 @@ export function label(role: Role): string {
 
 export function isCurrent(role: Role): boolean {
   return role.end === null;
-}
-
-/** The single deepest layer takes the section's plate colour. */
-export function deepestLayer(layers: Layer[]): number {
-  return layers.reduce((best, l, i) => (l.depth > layers[best].depth ? i : best), 0);
 }
 
 /** Span of the whole timeline, for the line above it. */

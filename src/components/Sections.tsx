@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SECTIONS, type Section } from "../sections";
 import { MiniBar, Swatch } from "./Plate";
-import { site, weight, label, isCurrent, deepestLayer, spanYears } from "../content";
+import { site, weight, label, isCurrent, spanYears } from "../content";
 
 /* ── navigation: horizontal, read the right way up ───────────────── */
 
@@ -80,26 +80,22 @@ export function Timeline() {
   );
 }
 
-/* ── stack: where in a system the work actually happens ──────────── */
+/* ── stack: prose, not a chart ───────────────────────────────────── */
 
 export function Stack() {
-  const deepest = deepestLayer(site.layers);
   return (
-    <ul className="stack">
-      {site.layers.map((layer, i) => (
-        <li
-          key={layer.name}
-          className={`layer${i === deepest ? " is-deep" : ""}`}
-          style={{ ["--d" as string]: Math.min(100, Math.max(0, layer.depth)) }}
-        >
-          <span className="layer-name">{layer.name}</span>
-          <span className="layer-bar" aria-hidden="true">
-            <i />
-          </span>
-          <span className="layer-tech">{layer.tech}</span>
-        </li>
-      ))}
-    </ul>
+    <div className="stack">
+      <p className="stack-lead">{site.stack.lead}</p>
+      <dl className="stack-list">
+        {site.stack.lines.map((l) => (
+          <div key={l.label}>
+            <dt>{l.label}</dt>
+            <dd>{l.text}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="stack-close">{site.stack.close}</p>
+    </div>
   );
 }
 

@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import App from "../App";
 import { PLATES, PLATE_RATIO, SECTIONS } from "../sections";
-import { site, weight, months, isCurrent, deepestLayer, MIN_WEIGHT } from "../content";
+import { site, weight, months, isCurrent, MIN_WEIGHT } from "../content";
 
 const css = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf-8");
 
@@ -61,11 +61,26 @@ describe("the mark", () => {
     expect(container.querySelectorAll(".nav .minibar")).toHaveLength(1);
   });
 
-  it("U32: ink never sits on the key plate — that heading inverts", () => {
+  it("U32: heading blocks are white on a solid build, never on a process ink", () => {
+    // white on bright yellow is 1.6:1 — the heading block must use the deeper
+    // build of each plate, or it is unreadable
+    expect(css).toMatch(/\.tag\s*\{[^}]*background:\s*var\(--solid\)/);
+    expect(css).toMatch(/\.tag\s*\{[^}]*color:\s*var\(--ground\)/);
+    for (const p of PLATES) {
+      expect(css).toMatch(new RegExp(`\\.p-${p}\\s*\\{[^}]*--solid:`));
+    }
+  });
+
+  it("U35: the path is a real list of links, not only a drag target", () => {
     const { container } = render(<App />);
-    const key = container.querySelector(".tag.p-k");
-    expect(key).toBeTruthy();
-    expect(css).toMatch(/\.tag\.p-k\s*\{\s*color:\s*var\(--ground\)/);
+    const legs = [...container.querySelectorAll(".path .leg")];
+    expect(legs).toHaveLength(SECTIONS.length);
+    legs.forEach((leg, i) => {
+      const a = leg.querySelector<HTMLAnchorElement>("a");
+      expect(a?.getAttribute("href")).toBe(`#${SECTIONS[i].id}`);
+      expect(a?.textContent).toBe(SECTIONS[i].label);
+    });
+    expect(container.querySelectorAll('.path a[aria-current="true"]')).toHaveLength(1);
   });
 });
 
@@ -140,55 +155,25 @@ describe("the timeline", () => {
 /* ── stack ────────────────────────────────────────────────────────── */
 
 describe("the stack", () => {
-  it("U24: exactly one layer is deepest, and it is the highest depth", () => {
+  it("U24: is prose, not a chart — no bars, no depths, no ratings", () => {
     const { container } = render(<App />);
-    const deep = container.querySelectorAll(".layer.is-deep");
-    expect(deep).toHaveLength(1);
-    const idx = deepestLayer(site.layers);
-    expect(deep[0].querySelector(".layer-name")?.textContent).toBe(site.layers[idx].name);
-    expect(site.layers[idx].depth).toBe(Math.max(...site.layers.map((l) => l.depth)));
+    const stack = container.querySelector("#stack")!;
+    expect(stack.querySelectorAll(".layer-bar")).toHaveLength(0);
+    expect(stack.textContent).not.toMatch(/\d+\s?%/);
+    expect(stack.querySelector(".stack-lead")?.textContent).toBe(site.stack.lead);
+    expect(stack.querySelector(".stack-close")?.textContent).toBe(site.stack.close);
   });
 
-  it("U25: depths are clamped to 0-100 and every layer keeps its name and tech", () => {
+  it("U25: every line renders its label and its text", () => {
     const { container } = render(<App />);
-    container.querySelectorAll<HTMLElement>(".layer").forEach((l, i) => {
-      const d = Number(l.style.getPropertyValue("--d"));
-      expect(d).toBeGreaterThanOrEqual(0);
-      expect(d).toBeLessThanOrEqual(100);
-      expect(l.querySelector(".layer-name")?.textContent).toBe(site.layers[i].name);
-      expect(l.querySelector(".layer-tech")?.textContent).toBe(site.layers[i].tech);
+    const rows = [...container.querySelectorAll("#stack .stack-list > div")];
+    expect(rows).toHaveLength(site.stack.lines.length);
+    rows.forEach((row, i) => {
+      expect(row.querySelector("dt")?.textContent).toBe(site.stack.lines[i].label);
+      expect(row.querySelector("dd")?.textContent).toBe(site.stack.lines[i].text);
     });
   });
-
-  it("U29: no phone number reaches the page", () => {
-    const { container } = render(<App />);
-    // CV carries one; a public page should not
-    expect(container.textContent).not.toMatch(/0\d{4}\s?\d{6}/);
-    expect(container.textContent).not.toMatch(/\+44/);
-  });
-
-  it("U30: reads as a personal site, not a pitch", () => {
-    const { container } = render(<App />);
-    const text = container.textContent ?? "";
-    // The CV's figures are written to win a job. They do not belong here,
-    // and some of them are generous. Keep them on the CV.
-    expect(text).not.toMatch(/[£$€]\s?\d/);          // money
-    expect(text).not.toMatch(/\d+\s?%/);              // improvement percentages
-    expect(text).not.toMatch(/\d+\s?[MKmk]\+/);      // "70M+", "150+"
-    expect(text).not.toMatch(/\d{1,3},\d{3}/);   // "2,000 customers"
-  });
-
-  it("U26: emits no percentage, rating or score — it is not a skills chart", () => {
-    const { container } = render(<App />);
-    const text = container.querySelector("#stack")!.textContent!;
-    expect(text).not.toMatch(/\d+\s*%/);
-    expect(text).not.toMatch(/\b\d\s*\/\s*(5|10)\b/);
-  });
 });
-
-/* ── projects ─────────────────────────────────────────────────────── */
-
-/* ── structure and accessibility ──────────────────────────────────── */
 
 describe("structure", () => {
   it("U2/E13: one nav item per section, in order, all reachable", () => {

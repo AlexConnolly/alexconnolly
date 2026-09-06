@@ -1,7 +1,7 @@
 import { SECTIONS } from "./sections";
 import { site } from "./content";
 import { Mark } from "./components/Plate";
-import { Nav, ProjectTiles, SectionBlock, Stack, Timeline } from "./components/Sections";
+import { Highlights, Nav, SectionBlock, Stack, Timeline } from "./components/Sections";
 import { useActiveSection } from "./hooks/useActiveSection";
 
 const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
@@ -14,8 +14,6 @@ export default function App() {
       <a className="skip" href="#overview">
         Skip to content
       </a>
-
-      <p className="stamp">Draft — placeholder copy</p>
 
       <Nav activeIndex={active} />
 
@@ -50,8 +48,8 @@ export default function App() {
           <Stack />
         </SectionBlock>
 
-        <SectionBlock section={byId("projects")}>
-          <ProjectTiles />
+        <SectionBlock section={byId("highlights")}>
+          <Highlights />
         </SectionBlock>
 
         <SectionBlock section={byId("contact")}>
@@ -70,9 +68,8 @@ export default function App() {
           </ul>
           <p className="colophon">
             Set in Jost*, a geometric revival in the Futura tradition, after the Barbican
-            Identity Guidelines by North. Ranged left, sentence case, leading set tighter than
-            default. The mark is a four-colour process bar. Draft — every word on this page is
-            placeholder.
+            Identity Guidelines by North (2007): one typeface, ranged left, sentence case,
+            leading set tighter than default. The mark is a four-colour process bar.
           </p>
         </SectionBlock>
       </main>

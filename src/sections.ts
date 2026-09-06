@@ -30,6 +30,6 @@ export const SECTIONS: Section[] = [
   { id: "overview", label: "Overview", plate: "c" },
   { id: "work", label: "Work", plate: "m" },
   { id: "stack", label: "Stack", plate: "y" },
-  { id: "projects", label: "Projects", plate: "k" },
+  { id: "highlights", label: "Highlights", plate: "k" },
   { id: "contact", label: "Contact" },
 ];

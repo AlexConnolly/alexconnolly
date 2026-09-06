@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { SECTIONS, type Section } from "../sections";
 import { MiniBar, Swatch } from "./Plate";
-import { site, years, isCurrent, deepestLayer } from "../content";
+import { site, weight, label, isCurrent, deepestLayer, spanYears } from "../content";
 
 /* ── navigation: horizontal, read the right way up ───────────────── */
 
@@ -55,24 +55,29 @@ export function SectionBlock({
 
 export function Timeline() {
   return (
-    <div className="timeline">
-      {site.roles.map((role, i) => (
-        <article
-          key={`${role.company}-${role.start}-${i}`}
-          className={`seg${isCurrent(role) ? " is-now" : ""}`}
-          style={{ ["--yrs" as string]: years(role) }}
-        >
-          <p className="year cap">{isCurrent(role) ? `${role.start} — now` : role.start}</p>
-          <div className="axis" aria-hidden="true" />
-          <h3>{role.company}</h3>
-          <p className="role">{role.title}</p>
-          <p className="sum">{role.summary}</p>
-          <ul className="tech">
-            <li>{role.tech}</li>
-          </ul>
-        </article>
-      ))}
-    </div>
+    <>
+      <p className="work-lead">
+        <strong>{site.employer}</strong> · {spanYears(site.roles)} years · {site.employerNote}
+      </p>
+      <div className="timeline">
+        {site.roles.map((role, i) => (
+          <article
+            key={`${role.title}-${role.start}-${i}`}
+            className={`seg${isCurrent(role) ? " is-now" : ""}`}
+            style={{ ["--yrs" as string]: weight(role) }}
+          >
+            <p className="year cap">{isCurrent(role) ? `${label(role)} — now` : label(role)}</p>
+            <div className="axis" aria-hidden="true" />
+            <h3>{role.title}</h3>
+            <p className="role">{role.team}</p>
+            <p className="sum">{role.summary}</p>
+            <ul className="tech">
+              <li>{role.tech}</li>
+            </ul>
+          </article>
+        ))}
+      </div>
+    </>
   );
 }
 
@@ -136,30 +141,39 @@ function PlateComposition({ index }: { index: number }) {
   );
 }
 
-export function ProjectTiles() {
+export function Highlights() {
   return (
     <ul className="projects">
-      {site.projects.map((p, i) => (
-        <li key={`${p.name}-${p.year}`}>
-          <a
-            className="project"
-            href={p.href ?? "#projects"}
-            {...(p.href ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-          >
-            {p.image ? (
+      {site.highlights.map((h, i) => {
+        const inner = (
+          <>
+            {h.image ? (
               <span className="shot">
-                <img src={p.image.src} alt={p.image.alt} width={900} height={600} loading="lazy" />
+                <img src={h.image.src} alt={h.image.alt} width={900} height={600} loading="lazy" />
               </span>
             ) : (
               <PlateComposition index={i} />
             )}
-            <h3>{p.name}</h3>
-            <span className="p-year cap">{p.year}</span>
-            <span className="p-sum">{p.summary}</span>
-            <span className="p-tech">{p.tech}</span>
-          </a>
-        </li>
-      ))}
+            <h3>{h.name}</h3>
+            <span className="p-year cap">{h.year}</span>
+            <span className="p-sum">{h.summary}</span>
+            <span className="p-tech">{h.tech}</span>
+          </>
+        );
+        return (
+          <li key={h.name}>
+            {/* Most of these are internal work with nowhere to link. A tile with
+                no destination must not pretend to be a link. */}
+            {h.href ? (
+              <a className="project" href={h.href} target="_blank" rel="noopener noreferrer">
+                {inner}
+              </a>
+            ) : (
+              <div className="project is-static">{inner}</div>
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }

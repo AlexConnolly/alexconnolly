@@ -207,6 +207,14 @@
   .link:hover, .link:focus-visible { text-decoration-style: solid; }
 
   /* ── work: a timeline, left to right ────────────────────── */
+  .work-lead {
+    grid-column: 1 / -1;
+    margin: 0 0 clamp(1.75rem, 4vh, 2.5rem);
+    font-size: var(--t-cap);
+    color: var(--ink-2);
+  }
+  .work-lead strong { color: var(--ink); font-weight: 700; }
+
   .timeline {
     grid-column: 1 / -1;
     display: flex;
@@ -260,6 +268,8 @@
     list-style: none;
   }
   .project { display: block; text-decoration: none; }
+  /* no destination, so nothing should look clickable */
+  .project.is-static h3 { text-decoration: none; }
   .project .shot { display: block; aspect-ratio: 3 / 2; background: var(--field); overflow: hidden; }
   .project .shot svg { display: block; width: 100%; height: 100%; }
   /* Process overlap: plates multiply against each other, so cyan over magenta

@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import App from "../App";
 import { PLATES, PLATE_RATIO, SECTIONS } from "../sections";
-import { site, years, isCurrent, deepestLayer } from "../content";
+import { site, weight, months, isCurrent, deepestLayer, MIN_WEIGHT } from "../content";
 
 const css = readFileSync(resolve(process.cwd(), "src/styles.css"), "utf-8");
 
@@ -92,8 +92,18 @@ describe("the timeline", () => {
     const segs = [...container.querySelectorAll<HTMLElement>(".seg")];
     expect(segs).toHaveLength(site.roles.length);
     segs.forEach((seg, i) => {
-      expect(seg.style.getPropertyValue("--yrs")).toBe(String(years(site.roles[i])));
+      expect(seg.style.getPropertyValue("--yrs")).toBe(String(weight(site.roles[i])));
     });
+  });
+
+  it("U28: a short role keeps a readable floor, and longer roles stay proportional", () => {
+    site.roles.forEach((r) => {
+      expect(weight(r)).toBeGreaterThanOrEqual(MIN_WEIGHT);
+      expect(weight(r)).toBe(Math.max(MIN_WEIGHT, months(r)));
+    });
+    // the floor must not flatten everything into equal segments
+    const distinct = new Set(site.roles.map(weight));
+    expect(distinct.size).toBeGreaterThan(1);
   });
 
   it("U22: exactly one role is current, and it is the open-ended one", () => {
@@ -102,7 +112,7 @@ describe("the timeline", () => {
     expect(now).toHaveLength(1);
     expect(site.roles.filter(isCurrent)).toHaveLength(1);
     expect(now[0].querySelector("h3")?.textContent).toBe(
-      site.roles.find(isCurrent)!.company,
+      site.roles.find(isCurrent)!.title,
     );
   });
 
@@ -138,6 +148,13 @@ describe("the stack", () => {
     });
   });
 
+  it("U29: no phone number reaches the page", () => {
+    const { container } = render(<App />);
+    // CV carries one; a public page should not
+    expect(container.textContent).not.toMatch(/0\d{4}\s?\d{6}/);
+    expect(container.textContent).not.toMatch(/\+44/);
+  });
+
   it("U26: emits no percentage, rating or score — it is not a skills chart", () => {
     const { container } = render(<App />);
     const text = container.querySelector("#stack")!.textContent!;
@@ -149,13 +166,20 @@ describe("the stack", () => {
 /* ── projects ─────────────────────────────────────────────────────── */
 
 describe("project tiles", () => {
-  it("U20: each tile is exactly one link, never nested", () => {
+  it("U20: a tile is at most one link, never nested, never a dead link", () => {
     const { container } = render(<App />);
     const tiles = [...container.querySelectorAll(".projects > li")];
-    expect(tiles).toHaveLength(site.projects.length);
-    tiles.forEach((tile) => {
-      expect(tile.querySelectorAll("a")).toHaveLength(1);
-      expect(tile.querySelector("a")).toHaveClass("project");
+    expect(tiles).toHaveLength(site.highlights.length);
+    tiles.forEach((tile, i) => {
+      const anchors = tile.querySelectorAll("a");
+      if (site.highlights[i].href) {
+        expect(anchors).toHaveLength(1);
+        expect(tile.querySelector("a")).toHaveClass("project");
+      } else {
+        // nothing to link to, so nothing should look or behave like a link
+        expect(anchors).toHaveLength(0);
+        expect(tile.querySelector(".project")).toHaveClass("is-static");
+      }
     });
   });
 

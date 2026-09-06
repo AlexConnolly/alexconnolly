@@ -19,9 +19,10 @@ reappears as a small swatch beside that section's heading, so the form itself te
 where you are. Contact, the fifth section, is marked by the whole bar in miniature.
 Nothing explains it, and nothing should.
 
-Four sections: **Overview, Work, Stack, Contact.** Work is a left-to-right timeline because
-a career runs that way. Stack shows where in a system the engineering actually happens,
-because a list of technologies communicates nothing.
+Five sections: **Overview, Work, Stack, Play, Contact.** Work is a left-to-right timeline
+because a career runs that way. Stack shows where in a system the engineering actually
+happens, because a list of technologies communicates nothing. Play is the side projects,
+pulled from the public repos.
 
 Navigation runs horizontally across the top, read the right way up, carrying the motif's
 proportions but not its colour.
@@ -87,14 +88,24 @@ printer's colour control strip.
 
 | Section | Plate | Height ratio |
 | --- | --- | --- |
-| Overview | Cyan `#0093D5` | `.62` |
-| Work | Magenta `#E0006C` | `1` |
-| Stack | Yellow `#F5B800` | `.44` |
+| Overview | *the whole bar* | — |
+| Work | Cyan `#0093D5` | `.62` |
+| Stack | Magenta `#E0006C` | `1` |
+| Play | Yellow `#F5B800` | `.44` |
 | Contact | Key `#14130F` | `.80` |
 
-**Four plates, four sections, one each.** A fifth section briefly existed and Contact gave
-up its plate for a miniature of the whole bar; deleting that section removed the need for
-the workaround. `U31` fails the build if the two lists ever fall out of step again.
+**Overview has no `h2`** — its heading is the name, and the mark itself sits directly above
+it — so the four plates belong to the four sections that *do* carry a heading, in bar order
+as you read down the page. Overview is marked by the whole bar, miniature, in the nav.
+`U31` fails the build if the two lists fall out of step.
+
+### Headings sit on their plate
+
+The colour is a block behind the word, not a swatch beside it — the heading prints on the
+plate. Ink holds on cyan (7.3:1), magenta (4.4:1, and the heading is large text) and yellow
+(10.5:1). On the key plate it would be ink on ink, so **that heading alone inverts** to the
+page ground at 15.6:1. `U32` pins the inversion, because it is the sort of thing a later
+tidy-up would "simplify" into invisibility.
 
 **Heights are fixed, never randomised.** The page must be pixel-identical on every load, so
 the ratios are declared constants — not `Math.random()`, not a seeded shuffle. Bars sit on a
@@ -139,20 +150,27 @@ could put on a CV."* The deepest layer takes the section's plate; the rest are i
 Bars carry `aria-hidden`; the layer name and its technologies are the readable content, and
 the caption states the encoding, so nothing depends on reading a bar length.
 
-### There is no projects or highlights section
+### Play: the side projects
 
-One existed and was deleted. It showed three pieces of work with the CV's figures attached —
-events per day, money saved, customer counts — and that made it the page's sales pitch. The
-figures are unverifiable to a reader and, by Alex's own account, generous.
+Six repos from Alex's public GitHub, each tile linking to its own. Tiles are 3:2, three
+across, dropping to two then one.
 
-Removing it took the tile grid, the plate compositions and the MiniBar with it, and restored
-the four-plate mapping. If public side projects ever appear, this is where they go — with
-links, and without numbers.
+**Screenshots are real or absent — never invented.** Two repos ship one in their README
+(`smarty`, `bugboard`); those are cropped to 3:2 and optimised into `public/img/`. The other
+four have no screenshot anywhere, so they get a plate composition, which is obviously not a
+screenshot. `U33` fails the build if a composition is ever passed off as one.
+
+An earlier section showed *work* achievements with the CV's figures attached — events per
+day, money saved, customer counts. That was the page's sales pitch and it was deleted. Play
+is the opposite: things built for fun, linked so anyone can go and look.
 
 ### Tone
 
 **This is a personal site, not a CV and not a pitch.** The copy says what the work was and
-stops there. The introduction is Alex's own words, verbatim, and carries a comment in
+stops there. **No explanatory captions.** A colophon about the typography and a note
+explaining the stack bars were both removed: the first was the designer writing about their
+own work on someone else's page, and the second explained a chart that reads fine without it.
+If an element needs a paragraph of defence, the element is wrong. The introduction is Alex's own words, verbatim, and carries a comment in
 `content.ts` saying not to improve them.
 
 `U30` enforces the line: no money figures, no improvement percentages, no `70M+`-style
@@ -250,14 +268,16 @@ under `prefers-reduced-motion`. Nothing else moves.
 
 ### Must have
 
-- **F1** Four sections in fixed order: Overview, Work, Stack, Contact.
+- **F1** Five sections in fixed order: Overview, Work, Stack, Play, Contact.
 - **F2** Overview: the mark, name, supporting line, two short paragraphs, and the lock-up.
 - **F3** Work: a left-to-right timeline, **chronological**, each role a segment flexed to its
   own duration, carrying company, title, start year, one descriptive line and technologies.
   The current role is marked on the axis. Collapses to a vertical stack below 900px.
 - **F3a** Segment widths derive from the dates in `content.ts`, never hand-tuned.
-- **F4** Stack: layers, each with a name, a depth bar and its technologies, plus one caption
-  stating what bar length means. Not a skills chart — no percentages, no ratings.
+- **F4** Stack: layers, each with a name, a depth bar and its technologies. Not a skills
+  chart — no percentages, no ratings.
+- **F4b** Play: side projects from the public repos, each tile one outbound link. A tile
+  shows a real screenshot or a plate composition, never a stand-in dressed as a screenshot.
 - **F4a** A social card at `public/og.png`, 1200×630, generated from `assets/og.html` by
   `npm run og` so it cannot drift from the design.
 - **F5** Contact: email as a `mailto:` link, plus GitHub and LinkedIn.
@@ -455,7 +475,8 @@ homesite/
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
-   │  └─ Stack.tsx            # layers, depth bars, one caption
+   │  ├─ Stack.tsx            # layers, depth bars
+   │  └─ Play.tsx             # side-project tiles, real screenshots or plates
    │  └─ Colophon.tsx
    └─ hooks/
       └─ useActiveSection.ts  # rAF-throttled; drives the signatures
@@ -552,6 +573,7 @@ Written before the code, per the usual cycle.
 | E11 | The timeline is horizontal above 900px and vertical below it, losing no content |
 | E12 | Clicking anywhere on a project tile follows its link |
 | E13 | One nav item per section, and scrolling reaches every one |
+| E14 | Every Play tile opens its repo |
 
 ### Manual
 
@@ -573,7 +595,7 @@ Written before the code, per the usual cycle.
 | --- | --- | --- |
 | **0** | `git init`, Vite + React + TS + Tailwind, tokens, fonts subset and self-hosted, CI skeleton | `npm run build` passes in Actions |
 | **1** | Tests U1–U8, A1–A4 written and failing | Red suite committed |
-| **2** | `sections.ts`, section shell, type scale, all four sections | Page reads correctly, unit tests green |
+| **2** | `sections.ts`, section shell, type scale, all five sections | Page reads correctly, unit tests green |
 | **3** | The rail: proportional ticks, travelling marker, keyboard, mobile hairline | E1, E2, E4 green |
 | **4** | Prerender script, `.nojekyll`, deploy workflow, rasterise `assets/og.html`, copy favicon, print styles | Live on Pages; Cmd-P produces a clean page |
 | **5** | Accessibility and Lighthouse pass; manual checks; fix what they find | Four 100s; axe clean |
@@ -671,6 +693,10 @@ Genuinely not yet thought through, flagged rather than hidden.
 | A Stack section, not skill bars | Where someone works in a system is the honest visual answer; percentages and star ratings are not |
 | Projects shrank to tiles | They are an invitation to click through, not the argument itself |
 | Contact asks properly | Four sections of precision earn a warm ending |
+| Headings sit on their plate | The colour is the label, not an ornament beside it |
+| Play, and no Highlights | Side projects invite you to go and look; work achievements with figures attached were a pitch |
+| Screenshots real or absent | A generated composition must never stand in for a screenshot of software |
+| No explanatory captions | If an element needs a paragraph of defence, the element is wrong |
 | Contact gives up its plate | CMYK is four; the page is five. The whole bar as a sign-off beats inventing a fifth colour |
 | No legend, ever | A labelled key was built and removed — explaining the cue destroys it |
 | One meaning per plate | Encoding completion in the fill state as well was one method too many |

@@ -325,25 +325,6 @@
     color: var(--ink-2);
   }
 
-  /* ── the path: mobile navigation ────────────────────────── */
-  .path { display: none; }
-  .path ul { display: flex; margin: 0; padding: 0; list-style: none; height: 100%; }
-  .path .leg { flex: 0 0 var(--w); background: var(--plate); }
-  .path .leg--none { background: var(--rule); }
-  .path .leg a { display: block; height: 100%; }
-  .path .leg a:focus-visible { outline-offset: -3px; }
-  .path-handle {
-    position: absolute;
-    top: -5px;
-    left: var(--at);
-    width: 3px;
-    height: calc(100% + 10px);
-    background: var(--ink);
-    transform: translateX(-1.5px);
-    box-shadow: 0 0 0 3px var(--ground);
-    pointer-events: none;
-  }
-
   /* ── contact ────────────────────────────────────────────── */
   .ask {
     grid-column: 1 / -1;
@@ -454,27 +435,21 @@
 
   @media (max-width: 760px) {
     /*
-      Reaching the top of a phone screen one-handed is the worst thing about a
-      top bar, so below this width the nav becomes a path along the bottom:
-      the four plates end to end, each leg as wide as that section's share of
-      the page, with a handle showing where you are. Drag to scrub.
+      The top of a phone screen is the hardest place on it to reach, so the
+      nav moves to the bottom. Same nav, same labels — just where a thumb
+      already is.
     */
-    .nav { display: none; }
-    .level { scroll-margin-top: 1.5rem; }
-    .path {
-      display: block;
-      position: fixed;
+    .nav {
       inset: auto 0 0 0;
-      z-index: 30;
-      height: 14px;
+      border-bottom: 0;
+      border-top: 1px solid var(--rule);
       padding-bottom: env(safe-area-inset-bottom, 0px);
-      background: var(--ground);
-      touch-action: none;
-      cursor: grab;
     }
-    .path:active { cursor: grabbing; }
-    .page { padding-bottom: 4.5rem; }
-    .stamp { bottom: 1.9rem; }
+    .nav ul { gap: .3rem clamp(.8rem, 3.4vw, 1.6rem); padding: .7rem var(--edge); }
+    .nav a { font-size: .875rem; gap: .4rem; }
+    .level { scroll-margin-top: 1.5rem; }
+    .page { padding-bottom: 5.5rem; }
+    .stamp { bottom: 4.2rem; }
   }
 
   @media (max-width: 560px) {
@@ -495,7 +470,7 @@
     @page { margin: 18mm; }
     :root { --ground: #FFF; --ink: #000; --ink-2: #333; --rule: #BBB; --field: #EEE; }
     body { font-size: 10.5pt; line-height: 1.35; }
-    .nav, .path, .stamp, .skip { display: none !important; }
+    .nav, .stamp, .skip { display: none !important; }
     .page { padding: 0; }
     .level { padding-top: 1.5rem; }
     #overview { padding-top: 0; }

@@ -2,7 +2,6 @@ import { SECTIONS } from "./sections";
 import { site } from "./content";
 import { Mark } from "./components/Plate";
 import { Nav, Play, SectionBlock, Stack, Timeline } from "./components/Sections";
-import { Path } from "./components/Path";
 import { useActiveSection } from "./hooks/useActiveSection";
 
 const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
@@ -17,7 +16,6 @@ export default function App() {
       </a>
 
       <Nav activeIndex={active} />
-      <Path />
 
       <main className="page">
         <SectionBlock section={byId("overview")} heading={false}>

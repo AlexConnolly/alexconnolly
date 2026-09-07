@@ -116,31 +116,15 @@ process inks stay bright for the mark, the nav and the path, and the heading blo
 | Yellow | `#F5B800` | `#9A7400` | 3.9:1 |
 | Key | `#14130F` | `#14130F` | 16.7:1 |.
 
-### The path: navigation on a phone
+### Navigation on a phone
 
-A fixed bar at the top of a phone screen is the hardest thing on it to reach one-handed, so
-below 760px the nav is replaced by a **path along the bottom**: the four plates laid end to
-end, each leg as wide as that section's share of the page, with a handle marking where you
-are. Drag the handle and the document scrubs with it; tap a leg and it scrolls there.
+The top of a phone screen is the hardest place on it to reach one-handed, so below 760px
+the nav moves to the bottom of the viewport. Same nav, same labels, same swatches — just
+where a thumb already is.
 
-It is a list of links underneath — every leg is a real anchor with a name — so it still
-works by keyboard and by screen reader, where dragging a coloured bar would be useless..
-
-**Heights are fixed, never randomised.** The page must be pixel-identical on every load, so
-the ratios are declared constants — not `Math.random()`, not a seeded shuffle. Bars sit on a
-shared baseline so the variation reads upward.
-
-The ratio is a property of the plate, not of the bar, so the same number drives the mark,
-the swatch beside a heading, and the miniature bar. They cannot disagree.
-
-**There is no legend and there must never be one.** The swatch is a cue, not a key. An
-earlier revision explained the system in a labelled row and it killed it — the point is that
-the form is recognised, not read.
-
-**No outlines.** The plates are bare colour, butted straight against each other and against
-the ground. An ink border was tried and removed — it made the mark look drawn rather than
-printed. Yellow was deepened from `#FFC72C` to `#F5B800` as a consequence, so it still holds
-its own on a warm off-white without a line around it.
+A draggable colour bar was tried in its place: the four plates laid end to end with a
+handle you could drag to scrub the document. It worked, and it went. Novel enough to
+need explaining is the wrong trade for the only way to get around a page.
 
 ### Work: a timeline, left to right
 
@@ -363,10 +347,9 @@ under `prefers-reduced-motion`. Nothing else moves.
   top so it is available from anywhere on the page.
 - **F7** All content authored in one typed data file, separate from any markup.
 - **F8** Content is present in the served HTML — the page is readable with JavaScript off.
-- **F13** Above 760px: horizontal navigation fixed to the top, each label preceded by its
-  plate's swatch **in the label's own tone, not in colour**.
-- **F13a** Below 760px: the path along the bottom — draggable, tappable, and a real list of
-  links for anyone not using a pointer.
+- **F13** Horizontal navigation, fixed to the top of the viewport above 760px and to the
+  bottom below it. Each label is preceded by its plate's swatch **in the label's own tone,
+  not in colour**.
 - **F14** The mark: a four-colour bar, one plate per section, butted, at fixed height
   ratios — rendered from a single typed table so the bar and every swatch always agree.
 - **F15** Bar heights are **deterministic constants**. No randomisation at any point.
@@ -557,7 +540,6 @@ homesite/
    │  ├─ RoleIcon.tsx         # one loose mark per role
    │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
-   │  ├─ Path.tsx             # the bottom path; drag to scrub the page
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates
    └─ hooks/
       └─ useActiveSection.ts  # rAF-throttled; drives the signatures
@@ -709,6 +691,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | A colour bar, not circles | A butted swatch at varying fixed heights reads as print; four identical dots read as bullets |
 | No outlines on the plates | Bare colour looks printed; a border looks drawn |
 | Horizontal navigation | The vertical signature was authentic but made you tilt your head to read a menu — the identity should cost the reader nothing |
+| No draggable scrubber | It worked, but the only way around a page should not need explaining |
 | Motif in the nav, colour withheld | Colour appears twice only, so it stays a cue; a four-colour top bar is a toolbar, not an identity |
 | Work is a timeline, not a list | A career runs left to right; duration is information a list throws away |
 | A Stack section, not skill bars | Where someone works in a system is the honest visual answer; percentages and star ratings are not |

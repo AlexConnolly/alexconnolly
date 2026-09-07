@@ -1,1 +1,1 @@
-{"root":["./src/app.tsx","./src/content.ts","./src/entry-server.tsx","./src/main.tsx","./src/sections.ts","./src/components/path.tsx","./src/components/plate.tsx","./src/components/roleicon.tsx","./src/components/sections.tsx","./src/hooks/useactivesection.ts","./vite.config.ts"],"version":"5.7.3"}
+{"root":["./src/app.tsx","./src/content.ts","./src/entry-server.tsx","./src/main.tsx","./src/sections.ts","./src/components/plate.tsx","./src/components/roleicon.tsx","./src/components/sections.tsx","./src/hooks/useactivesection.ts","./vite.config.ts"],"version":"5.7.3"}

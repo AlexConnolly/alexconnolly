@@ -152,8 +152,16 @@ The axis pieces butt together into one continuous line with a tick at every boun
 current role's axis is magenta and thicker.** That is the one place colour marks position
 rather than identity, and it is Work's own plate, used once.
 
-Below 900px a left-to-right timeline is a lie — four segments in 390px is unreadable — so it
-becomes a vertical stack, keeping the years, ticks and axis pieces.
+Below 900px the timeline **turns ninety degrees** rather than degrading into a list: a
+continuous rule down the left, with each role's mark sitting on it as the node and the
+dates and copy to its right.
+
+The mechanism is the same as the horizontal version, rotated — every segment draws its own
+piece of the rule, so the pieces butt into one continuous line and the current role's piece
+can be magenta. It runs on past the last block of text, which reads as ongoing.
+
+The mark earns its place twice here: on desktop it labels the role, on mobile it *is* the
+node, so the timeline needs no separate bullet.
 
 ### A mark per role
 

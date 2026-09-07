@@ -402,10 +402,54 @@
     .intro, .super, .lockup, .stack { grid-column: 1 / -1; }
     .colophon { grid-column: 1 / -1; }
 
-    /* a left-to-right timeline cannot survive this width — stack it */
+    /*
+      A left-to-right timeline cannot survive this width, so it turns ninety
+      degrees rather than degrading into a list: a continuous rule down the
+      left, with each role's mark sitting on it as the node. Each segment
+      draws its own piece of the rule, so the pieces butt into one line and
+      the current role's piece can be magenta — the same device as the
+      horizontal axis, rotated.
+    */
     .timeline { display: block; }
-    .seg { padding: 0 0 1.75rem; }
-    .seg .axis { margin-bottom: .9rem; }
+    .seg {
+      position: relative;
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 0 1.15rem;
+      padding: 0 0 2rem;
+    }
+    .seg::before {
+      content: "";
+      position: absolute;
+      left: 13px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--rule);
+    }
+    .seg.is-now::before { background: var(--m); width: 4px; left: 12px; }
+
+    /* the horizontal axis and its tick are the desktop device */
+    .seg .axis { display: none; }
+
+    .seg .role-icon {
+      position: relative;
+      z-index: 1;
+      grid-column: 1;
+      grid-row: 1 / -1;
+      align-self: start;
+      width: 28px;
+      margin: 0;
+      /* break the rule so the mark reads as a node on it, not over it */
+      background: var(--ground);
+      padding: 4px 0;
+    }
+    .seg .year,
+    .seg h3,
+    .seg .role,
+    .seg .sum,
+    .seg .tech { grid-column: 2; }
+    .seg .year { margin-bottom: .35rem; }
   }
 
   @media (max-width: 760px) {

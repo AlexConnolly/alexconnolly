@@ -7,6 +7,7 @@
     Contact gives up its plate and closes the page with the whole bar.
   */
   :root {
+    --gut: 46px;
     --ground: #F4F3EF;
     --ink:    #14130F;
     --ink-2:  #55524A;
@@ -154,7 +155,24 @@
   }
   .link:hover, .link:focus-visible { text-decoration-style: solid; }
 
-  /* ── work: a timeline, left to right ────────────────────── */
+  /* fills come from classes, not inline attributes: React strips inline SVG
+     styles on hydration, and a class cannot be stripped */
+  .f-c { fill: var(--c); }
+  .f-m { fill: var(--m); }
+  .f-y { fill: var(--y); }
+  .f-k { fill: var(--ink); }
+
+  /* ── work: a vertical timeline, entries either side ─────── */
+  /*
+    A full-width horizontal timeline left tall empty columns wherever a role
+    was short. This runs down a centre line instead, with roles alternating
+    left and right — narrower, denser, and it still reads as one line rather
+    than a list.
+
+    Each block is pushed toward the line (justify-self) while the type inside
+    it stays ranged left, which the guidelines require. Fixed block widths
+    keep the outer edges aligned down each side.
+  */
   .work-lead {
     grid-column: 1 / -1;
     margin: 0 0 clamp(1.75rem, 4vh, 2.5rem);
@@ -165,43 +183,51 @@
 
   .timeline {
     grid-column: 1 / -1;
-    display: flex;
-    align-items: stretch;
-    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr var(--gut) 1fr;
+    align-items: start;
+    max-width: 1000px;
   }
+
   .seg {
-    flex: var(--yrs) 1 0;
-    min-width: 0;
-    padding-right: clamp(.75rem, 1.6vw, 1.5rem);
-  }
-  .seg .year { margin: 0 0 .55rem; font-weight: 500; color: var(--ink); }
-  .seg .axis {
     position: relative;
-    height: 2px;
-    background: var(--rule);
-    margin-bottom: 1.1rem;
+    width: min(100%, 36ch);
+    padding-bottom: clamp(1.75rem, 4vh, 2.75rem);
   }
-  .seg .axis::before {
+  .seg--left { grid-column: 1; justify-self: end; }
+  .seg--right { grid-column: 3; justify-self: start; }
+
+  /* each segment draws its own piece of the centre line, so the pieces butt
+     together and the current role's piece can be magenta */
+  .seg::before {
     content: "";
     position: absolute;
-    left: 0; top: -7px;
-    width: 2px; height: 9px;
-    background: var(--ink);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--rule);
   }
-  /* the one place colour marks position: where you are now */
-  .seg.is-now .axis { background: var(--m); height: 4px; margin-top: -1px; }
-  /* fills come from classes, not inline attributes: React strips inline SVG
-     styles on hydration, and a class cannot be stripped */
-  .f-c { fill: var(--c); }
-  .f-m { fill: var(--m); }
-  .f-y { fill: var(--y); }
-  .f-k { fill: var(--ink); }
-  .role-icon {
-    display: block;
-    width: clamp(26px, 2.4vw, 32px);
-    height: auto;
-    margin: 0 0 .7rem;
+  .seg--left::before { right: calc(var(--gut) / -2 - 1px); }
+  .seg--right::before { left: calc(var(--gut) / -2 - 1px); }
+  .seg.is-now::before { background: var(--m); width: 4px; }
+  .seg--left.is-now::before { right: calc(var(--gut) / -2 - 2px); }
+  .seg--right.is-now::before { left: calc(var(--gut) / -2 - 2px); }
+
+  /* the role's mark sits on the line as the node */
+  .seg .role-icon {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 30px;
+    margin: 0;
+    padding: 4px 0;
+    background: var(--ground);
   }
+  .seg--left .role-icon { right: calc(var(--gut) / -2 - 15px); }
+  .seg--right .role-icon { left: calc(var(--gut) / -2 - 15px); }
+
+  .seg .axis { display: none; }
+  .seg .year { margin: 0 0 .4rem; font-weight: 500; color: var(--ink); }
   .seg h3 { margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.15; }
   .seg .role { margin: .1rem 0 0; font-weight: 300; color: var(--ink-2); }
   .seg .sum { margin: .6rem 0 0; font-size: .9375rem; color: var(--ink-2); }
@@ -322,46 +348,40 @@
     .colophon { grid-column: 1 / -1; }
 
     /*
-      A left-to-right timeline cannot survive this width, so it turns ninety
-      degrees rather than degrading into a list: a continuous rule down the
-      left, with each role's mark sitting on it as the node. Each segment
-      draws its own piece of the rule, so the pieces butt into one line and
-      the current role's piece can be magenta — the same device as the
-      horizontal axis, rotated.
+      Two columns cannot survive this width, so the timeline collapses onto a
+      single line down the left. Same device, one side instead of two.
     */
-    .timeline { display: block; }
-    .seg {
+    .timeline { display: block; max-width: none; }
+    .seg,
+    .seg--left,
+    .seg--right {
+      grid-column: auto;
+      justify-self: stretch;
+      width: auto;
       position: relative;
       display: grid;
       grid-template-columns: 28px 1fr;
       gap: 0 1.15rem;
       padding: 0 0 2rem;
     }
-    .seg::before {
-      content: "";
-      position: absolute;
+    .seg--left::before,
+    .seg--right::before {
       left: 13px;
-      top: 0;
-      bottom: 0;
+      right: auto;
       width: 2px;
-      background: var(--rule);
     }
-    .seg.is-now::before { background: var(--m); width: 4px; left: 12px; }
+    .seg--left.is-now::before,
+    .seg--right.is-now::before { left: 12px; right: auto; width: 4px; }
 
-    /* the horizontal axis and its tick are the desktop device */
-    .seg .axis { display: none; }
-
-    .seg .role-icon {
+    .seg--left .role-icon,
+    .seg--right .role-icon {
       position: relative;
-      z-index: 1;
+      left: auto;
+      right: auto;
       grid-column: 1;
       grid-row: 1 / -1;
       align-self: start;
       width: 28px;
-      margin: 0;
-      /* break the rule so the mark reads as a node on it, not over it */
-      background: var(--ground);
-      padding: 4px 0;
     }
     .seg .year,
     .seg h3,

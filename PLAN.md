@@ -129,26 +129,26 @@ Removing it took the skip link with it — a skip link exists to jump over navig
 there is none — along with the swatch and mini-bar marks, which existed only to sit beside
 nav labels, and the scroll-position hook that drove the active state.
 
-### Work: a timeline, left to right
+### Work: a vertical timeline, entries either side
 
-A career runs left to right, so the section does too. Each role is a segment flexed to its
-own duration — `flex: <years>` — so 2016–18 is two units wide and 2020–23 is three. Each
-segment carries a year, a tick, a length of axis, then the role beneath it.
+A line down the centre with roles alternating left and right. The first version ran
+left-to-right across the full width, which left tall empty columns wherever a role was
+short and pushed everything else down the page for no gain.
 
-The axis pieces butt together into one continuous line with a tick at every boundary. **The
-current role's axis is magenta and thicker.** That is the one place colour marks position
-rather than identity, and it is Work's own plate, used once.
+Each block is pushed toward the line with `justify-self` while the type inside it stays
+**ranged left**, which the guidelines require — so the blocks hug the line and their outer
+edges still align down each side. Fixed block widths do the aligning.
 
-Below 900px the timeline **turns ninety degrees** rather than degrading into a list: a
-continuous rule down the left, with each role's mark sitting on it as the node and the
-dates and copy to its right.
+Every segment draws its own piece of the centre line, so the pieces butt into one
+continuous line and the current role's piece can be magenta. It runs on past the last
+paragraph, which reads as ongoing. Segments take an explicit `grid-row` so the sides
+alternate down the line instead of pairing up beside each other.
 
-The mechanism is the same as the horizontal version, rotated — every segment draws its own
-piece of the rule, so the pieces butt into one continuous line and the current role's piece
-can be magenta. It runs on past the last block of text, which reads as ongoing.
+Each role's mark sits on the line as the node, with the page ground behind it so the line
+appears to stop at it rather than run underneath.
 
-The mark earns its place twice here: on desktop it labels the role, on mobile it *is* the
-node, so the timeline needs no separate bullet.
+Below 900px two columns cannot survive, so the whole thing collapses onto a single line
+down the left — same device, one side instead of two.
 
 ### A mark per role
 

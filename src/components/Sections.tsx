@@ -38,8 +38,16 @@ export function Timeline() {
         {site.roles.map((role, i) => (
           <article
             key={`${role.title}-${role.start}-${i}`}
-            className={`seg${isCurrent(role) ? " is-now" : ""}`}
-            style={{ ["--yrs" as string]: weight(role) }}
+            className={[
+              "seg",
+              i % 2 === 0 ? "seg--left" : "seg--right",
+              isCurrent(role) ? "is-now" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            // one row each, so the sides alternate down the line rather than
+            // pairing up beside each other
+            style={{ ["--yrs" as string]: weight(role), gridRow: i + 1 }}
           >
             <p className="year cap">{isCurrent(role) ? `${label(role)} — now` : label(role)}</p>
             <div className="axis" aria-hidden="true" />

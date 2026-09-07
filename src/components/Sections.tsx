@@ -1,32 +1,7 @@
 import type { ReactNode } from "react";
-import { SECTIONS, type Section } from "../sections";
-import { MiniBar, Swatch } from "./Plate";
+import type { Section } from "../sections";
 import { RoleIcon } from "./RoleIcon";
 import { site, weight, label, isCurrent, spanYears } from "../content";
-
-/* ── navigation: horizontal, read the right way up ───────────────── */
-
-export function Nav({ activeIndex }: { activeIndex: number }) {
-  return (
-    <nav className="nav" aria-label="Sections">
-      <ul>
-        {SECTIONS.map((s, i) => (
-          <li key={s.id}>
-            <a
-              href={`#${s.id}`}
-              data-target={s.id}
-              aria-current={i === activeIndex ? "true" : undefined}
-            >
-              {/* the motif, without the colour — chrome must not compete with the mark */}
-              {s.plate ? <Swatch plate={s.plate} mono /> : <MiniBar mono />}
-              {s.label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </nav>
-  );
-}
 
 /* ── a section, with its own plate beside its heading ────────────── */
 

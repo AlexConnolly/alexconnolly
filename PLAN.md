@@ -116,15 +116,18 @@ process inks stay bright for the mark, the nav and the path, and the heading blo
 | Yellow | `#F5B800` | `#9A7400` | 3.9:1 |
 | Key | `#14130F` | `#14130F` | 16.7:1 |.
 
-### Navigation on a phone
+### There is no navigation
 
-The top of a phone screen is the hardest place on it to reach one-handed, so below 760px
-the nav moves to the bottom of the viewport. Same nav, same labels, same swatches — just
-where a thumb already is.
+There was, twice: a fixed bar at the top, then the same bar moved to the bottom on phones,
+and briefly a draggable colour path in its place. All of it is gone.
 
-A draggable colour bar was tried in its place: the four plates laid end to end with a
-handle you could drag to scrub the document. It worked, and it went. Novel enough to
-need explaining is the wrong trade for the only way to get around a page.
+Four sections on one short page do not need a menu. Scrolling reaches everything, the
+headings are unmissable colour blocks, and `#work`, `#stack`, `#play` and `#contact` still
+work as deep links for anyone who wants them.
+
+Removing it took the skip link with it — a skip link exists to jump over navigation, and
+there is none — along with the swatch and mini-bar marks, which existed only to sit beside
+nav labels, and the scroll-position hook that drove the active state.
 
 ### Work: a timeline, left to right
 
@@ -343,13 +346,11 @@ under `prefers-reduced-motion`. Nothing else moves.
 - **F4a** A social card at `public/og.png`, 1200×630, generated from `assets/og.html` by
   `npm run og` so it cannot drift from the design.
 - **F5** Contact: email as a `mailto:` link, plus GitHub and LinkedIn.
-- **F6** A horizontal navigation showing current position, keyboard-reachable, fixed to the
-  top so it is available from anywhere on the page.
+- **F6** Deep links: `#overview`, `#work`, `#stack`, `#play`, `#contact`.
 - **F7** All content authored in one typed data file, separate from any markup.
 - **F8** Content is present in the served HTML — the page is readable with JavaScript off.
-- **F13** Horizontal navigation, fixed to the top of the viewport above 760px and to the
-  bottom below it. Each label is preceded by its plate's swatch **in the label's own tone,
-  not in colour**.
+- **F13** No navigation. The page is short enough to scroll, and every section keeps a
+  hash anchor for deep linking.
 - **F14** The mark: a four-colour bar, one plate per section, butted, at fixed height
   ratios — rendered from a single typed table so the bar and every swatch always agree.
 - **F15** Bar heights are **deterministic constants**. No randomisation at any point.
@@ -436,18 +437,19 @@ These are enforced by review, not by code — but they are the reason the layout
 
 | Metric | Target |
 | --- | --- |
-| JS shipped (gzip) | < 60 KB |
+| JS shipped (gzip) | **0.4 KB** — Vite's modulepreload polyfill and nothing else |
 | CSS shipped (gzip) | < 8 KB |
 | Project images | < 120 KB each, AVIF with WebP fallback, lazy below the fold |
 | Largest Contentful Paint | < 1.2s on a 4G throttle |
 | Cumulative Layout Shift | 0 — fonts preloaded, no late-injected content |
 | Lighthouse | 100 across all four categories |
 
-React is heavier than this page needs. Two mitigations, both non-negotiable:
+React never reaches the browser. It renders the page at build time and stops there:
 
-1. **Prerender at build time.** A small Node script renders the app with
-   `react-dom/server` and writes the markup into `index.html`. First paint needs no
-   JavaScript; hydration only activates the rail.
+1. **Prerender at build time.** `scripts/prerender.mjs` renders the app with
+   `react-dom/server` and writes the markup into `index.html`. There is no hydration —
+   `src/main.tsx` exists only to pull the stylesheet into the build. If interactivity is
+   ever needed again, hydration goes back in that file.
 2. **Self-host the font.** Subset Jost\* (or licensed Futura) to Latin, serve as `.woff2` from
    the same origin, `<link rel="preload">` both, `font-display: swap` with a metric-matched
    fallback stack so nothing shifts.
@@ -532,8 +534,6 @@ homesite/
    ├─ tokens.css              # the six colour tokens + type scale
    ├─ sections.ts            # THE table: id, label, plate, form. Single source
    ├─ components/
-   │  ├─ Nav.tsx              # fixed, horizontal; motif without colour
-   │  ├─ Swatch.tsx           # one plate, driven by sections.ts
    │  ├─ Mark.tsx             # the four-colour bar
    │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
@@ -541,8 +541,6 @@ homesite/
    │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates
-   └─ hooks/
-      └─ useActiveSection.ts  # rAF-throttled; drives the signatures
 ```
 
 **No client-side router.** Four levels on one page with hash anchors. A router would be
@@ -691,7 +689,8 @@ Genuinely not yet thought through, flagged rather than hidden.
 | A colour bar, not circles | A butted swatch at varying fixed heights reads as print; four identical dots read as bullets |
 | No outlines on the plates | Bare colour looks printed; a border looks drawn |
 | Horizontal navigation | The vertical signature was authentic but made you tilt your head to read a menu — the identity should cost the reader nothing |
-| No draggable scrubber | It worked, but the only way around a page should not need explaining |
+| No navigation at all | Four sections on one short page do not need a menu. A top bar, a bottom bar and a draggable path were all tried first |
+| No client-side JavaScript | With the nav gone there is nothing to hydrate, so React stays at build time and the browser gets 0.4 KB |
 | Motif in the nav, colour withheld | Colour appears twice only, so it stays a cue; a four-colour top bar is a toolbar, not an identity |
 | Work is a timeline, not a list | A career runs left to right; duration is information a list throws away |
 | A Stack section, not skill bars | Where someone works in a system is the honest visual answer; percentages and star ratings are not |

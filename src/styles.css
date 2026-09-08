@@ -186,7 +186,6 @@
     display: grid;
     grid-template-columns: 1fr var(--gut) 1fr;
     align-items: start;
-    max-width: 1000px;
   }
 
   .seg {
@@ -351,7 +350,7 @@
       Two columns cannot survive this width, so the timeline collapses onto a
       single line down the left. Same device, one side instead of two.
     */
-    .timeline { display: block; max-width: none; }
+    .timeline { display: block; }
     .seg,
     .seg--left,
     .seg--right {

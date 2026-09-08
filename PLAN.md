@@ -638,7 +638,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | Was unexplored | Now |
 | --- | --- |
 | The OG image | `assets/og.html` — a 1200×630 card, rendered in the browser so it uses the real webfont. Rasterise with `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png` |
-| The favicon | `assets/favicon.svg` — the same four forms at 16px, stacked two by two rather than in a row, because at that size a row of four is four smudges. No outlines |
+| The favicon | `assets/favicon.svg` — the same four forms, stacked two by two rather than in a row, each centred in its quarter and sized to fill it. A row of four gives each form eight pixels of width and no height. Flat colour quadrants read more sharply at 16px but drop the form system; the forms stay. No outlines |
 | Print | A full `@media print` block: nav and stamp dropped, ink on white, link destinations printed after the text, `break-inside: avoid` on every entry |
 | The 390px experience | Designed rather than squeezed — the nav wraps and `scroll-margin` grows to match, the bar keeps its proportions at a smaller scale, and the 9:1 type ratio closes up because it is too violent at that width |
 | The Barbican reference | Resolved. The 2007 North manual was found and extracted; §3 is quoted from it and §16 lists the sources |

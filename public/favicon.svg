@@ -1,12 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Alex Connolly">
   <!--
-    The mark, at 16px. The same four forms as the site — circle, square,
-    half-circle, diamond — but stacked two by two rather than in a row: at
-    this size a row of four is four smudges. No outlines, matching the page.
+    The mark at 16px. The same four forms as the page - circle, square,
+    half-circle, diamond - stacked two by two rather than in a row, because a
+    row of four gives each form eight pixels of width and no height.
+
+    Each form is centred in its own quarter and sized to fill it, which is as
+    much room as four forms can be given in a square. The half-circle is
+    centred on its quarter rather than sat on a baseline: it is half the
+    height of the others, and left at the foot it hangs off an empty corner.
+
+    Flat colour quadrants read more sharply at 16px, but they drop the form
+    system that the rest of the page is built on. The forms stay.
   -->
   <rect width="32" height="32" fill="#F4F3EF"/>
-  <circle cx="9" cy="9" r="6.3" fill="#0093D5"/>
-  <rect x="17" y="3" width="12" height="12" fill="#E0006C"/>
-  <path d="M 1.5 29 A 7.5 7.5 0 0 1 16.5 29 Z" fill="#F5B800"/>
-  <polygon points="23,16 30,23 23,30 16,23" fill="#14130F"/>
+  <circle cx="8.5" cy="8.5" r="7.6" fill="#0093D5"/>
+  <rect x="17" y="1" width="14" height="14" fill="#E0006C"/>
+  <path d="M 0.9 27.8 A 7.6 7.6 0 0 1 16.1 27.8 Z" fill="#F5B800"/>
+  <polygon points="24,16.2 31.8,24 24,31.8 16.2,24" fill="#14130F"/>
 </svg>

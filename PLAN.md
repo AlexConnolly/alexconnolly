@@ -19,7 +19,7 @@ belongs to a section and its form reappears beside that section's heading, so th
 itself tells you where you are, and tells you without leaning on the colour.
 Nothing explains it, and nothing should.
 
-Five sections: **Overview, Work, Stack, Play, Contact.** Overview is not a section you
+Four sections: **Overview, Work, Stack, Play.** Overview is not a section you
 scroll past — above 1100px it is a rail held still on the left while the other four move
 past it on the right, so the work gets the top of the page rather than waiting below an
 introduction. Work is a timeline that folds: panels flowing left to right and wrapping,
@@ -95,7 +95,7 @@ identified by its shape as much as by its colour.
 | Work | Cyan `#0093D5` | Circle |
 | Stack | Magenta `#E0006C` | Square |
 | Play | Yellow `#F5B800` | Half-circle |
-| Contact | Key `#14130F` | Diamond |
+| *the lock-up* | Key `#14130F` | Diamond |
 
 Sizes are optical, not arithmetic. Equal areas leave the diamond reading much larger than
 the square and the half-circle much smaller, so each form is tuned by eye. Gaps get the
@@ -129,9 +129,9 @@ before it.
 There was, twice: a fixed bar at the top, then the same bar moved to the bottom on phones,
 and briefly a draggable colour path in its place. All of it is gone.
 
-Four sections on one short page do not need a menu. Scrolling reaches everything, the
-headings are unmissable colour blocks, and `#work`, `#stack`, `#play` and `#contact` still
-work as deep links for anyone who wants them.
+Three sections on one short page do not need a menu. Scrolling reaches everything, the
+headings each carry their plate's form, and `#overview`, `#work`, `#stack` and `#play`
+still work as deep links for anyone who wants them.
 
 Removing it took the skip link with it — a skip link exists to jump over navigation, and
 there is none — along with the swatch and mini-bar marks, which existed only to sit beside
@@ -158,30 +158,6 @@ appears to stop at it rather than run underneath.
 Below 900px two columns cannot survive, so the whole thing collapses onto a single line
 down the left — same device, one side instead of two.
 
-### A mark per role
-
-Each role carries a small mark saying what that team actually did, drawn from the same
-rectangles as everything else:
-
-| Role | Mark |
-| --- | --- |
-| Platform | Blocks built on a base — the app store and developer ecosystem |
-| Order Management | A stack of stock being drawn down |
-| Analytics | Ascending bars on an axis |
-| Carrier Solutions | Many separate carriers feeding one lane |
-| Software Architect | One change going out to many products |
-
-The last two are deliberate mirrors: one job pulled twenty integrations into a single
-layer, the next pushes one change out to many products. The shape says the difference
-before the words do.
-
-A first attempt drew the *career* shape rather than the domain — platform, flow, lead,
-converge, distribute — which was an abstraction nobody had asked to read. The marks say
-what the team did.
-
-Fills come from classes, never inline `fill` attributes: React strips inline SVG styles
-during hydration, which is how the overlap composition silently lost its blend mode.
-
 ### Stack: what the dev work actually is
 
 A homepage that lists technologies as tags says nothing. What communicates is **where in a
@@ -196,29 +172,21 @@ could put on a CV."* The deepest layer takes the section's plate; the rest are i
 Bars carry `aria-hidden`; the layer name and its technologies are the readable content, and
 the caption states the encoding, so nothing depends on reading a bar length.
 
-### A mark per role
+### No mark per role
 
-Each role carries a small mark, drawn from the same rectangles as everything else:
+Each role carried a small mark saying what that team did — a dome and a square on a base
+for platform, three circles gathering into a diamond for carriers, its mirror for
+architecture. Three attempts got them right: the first drew the shape of the *career move*
+rather than the work, the second went literal to the point of a delivery van, the third
+suggested the idea and stopped.
 
-| Role | Mark | Idea |
-| --- | --- | --- |
-| Platform | A dome and a square on a base | Things resting on a base |
-| Order Management | Three equal circles stacked | A stack of equal units |
-| Analytics | Three circles, ascending in size | Unequal sizes — one thing measured against another |
-| Carrier Solutions | Three circles feeding one diamond | Many, gathered into one |
-| Software Architect | One diamond feeding three circles | One, spread across many |
+They are gone anyway. Five of them down a column of five entries put five small pieces of
+four-colour artwork next to five pieces of text, and the section stopped being a timeline
+you read and became a page you scanned. The rule, the tick and the year carry the
+structure; the marks were a second system saying the same thing louder.
 
-The last two are exact mirrors on purpose: the carrier job pulled twenty integrations into
-a single layer, the architecture job pushes one change out to many products. The shapes say
-that relationship before the words do.
-
-**Loose concepts, not pictures.** Two earlier attempts were wrong in opposite directions —
-the first drew the shape of the *career move* rather than the work, and the second went
-literal, to the point of an actual delivery van for the carrier role. A mark here suggests
-the idea and stops.
-
-Fills come from classes, never inline `fill` attributes: React strips inline SVG styles
-during hydration, which is how the overlap composition silently lost its blend mode.
+The lesson is not that the marks were badly drawn. It is that a page gets one place where
+colour and shape do the talking, and this page already spends it on the plates.
 
 ### Play: the side projects
 
@@ -251,11 +219,16 @@ across from a CV, so it is a test rather than a good intention.
 
 The phone number on the CV is deliberately absent;.
 
-### Contact: ask properly
+### Contact: there is no Contact section
 
-*"Fancy a chat?"* at the supporting step, then the address at display size. A page that has
-spent four sections being precise can afford to end warmly, and "Contact" as a bare heading
-over an email address is a form, not an invitation.
+There was, with *"Fancy a chat?"* over the address at display size, and it earned its place
+while the foot of the page was the only way to reach him from it. The rail changed that.
+Role, location, address and both profiles now sit at the bottom of the rail, in view at
+every scroll position, so a section at the end repeats them further away and asks twice.
+
+That leaves the key plate without a section. It goes to the lock-up, which is the contact —
+the fourth plate marks the thing it was always naming. Four plates, three sections and the
+lock-up, rather than a fifth colour or a plate doing nothing.
 
 ### Where colour is allowed
 
@@ -351,7 +324,7 @@ under `prefers-reduced-motion`. Nothing else moves.
 
 ### Must have
 
-- **F1** Five sections in fixed order: Overview, Work, Stack, Play, Contact.
+- **F1** Four sections in fixed order: Overview, Work, Stack, Play.
 - **F2** Overview: the mark, name, supporting line, two short paragraphs, and the lock-up —
   a sticky rail above 1100px, an ordinary header below it.
 - **F3** Work: a timeline that folds, **chronological**, each role an equal panel carrying
@@ -368,8 +341,9 @@ under `prefers-reduced-motion`. Nothing else moves.
   shows a real screenshot or a plate composition, never a stand-in dressed as a screenshot.
 - **F4a** A social card at `public/og.png`, 1200×630, generated from `assets/og.html` by
   `npm run og` so it cannot drift from the design.
-- **F5** Contact: email as a `mailto:` link, plus GitHub and LinkedIn.
-- **F6** Deep links: `#overview`, `#work`, `#stack`, `#play`, `#contact`.
+- **F5** Contact is the lock-up, not a section: role, location, email as a `mailto:` link,
+  GitHub and LinkedIn, at the foot of the rail and reachable from anywhere on the page.
+- **F6** Deep links: `#overview`, `#work`, `#stack`, `#play`.
 - **F7** All content authored in one typed data file, separate from any markup.
 - **F8** Content is present in the served HTML — the page is readable with JavaScript off.
 - **F13** No navigation. The page is short enough to scroll, and every section keeps a
@@ -382,7 +356,7 @@ under `prefers-reduced-motion`. Nothing else moves.
 
 ### Should have
 
-- **F9** Deep links: `#overview`, `#work`, `#projects`, `#contact`.
+- **F9** Deep links: `#overview`, `#work`, `#stack`, `#play`.
 - **F10** Social preview card (Open Graph + Twitter). Designed — `assets/og.html`, rasterised
   to `public/og.png` at build.
 - **F11** `Person` JSON-LD for search results.
@@ -521,8 +495,9 @@ requirement. Someone who ignores it entirely gets the whole page.
 **Orientation.** The marker's position answers "where am I and how much is left" without a
 word. The reader should never wonder how long the page is.
 
-**The ending.** Contact is a deliberate close, not a footer people scroll past. Your email
-is the last thing, at a size that says it is the point.
+**The ending.** There is no sign-off to scroll to. The address is held at the foot of the
+rail the whole way down, which is a stronger claim than putting it last: it was never out
+of reach in the first place.
 
 **Feel.** Calm, spacious, exact. The reader should not consciously notice the design — they
 should notice that the person who made it is careful.
@@ -560,8 +535,6 @@ homesite/
    │  ├─ Mark.tsx             # the four forms
    │  ├─ Section.tsx          # six-column wrapper; renders its own form in the h2
    │  ├─ Timeline.tsx         # work, folding left to right; equal panels
-   │  ├─ RoleIcon.tsx         # one loose mark per role
-   │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
    │  └─ Play.tsx             # side-project tiles, real screenshots or plates
 ```
@@ -719,12 +692,12 @@ Genuinely not yet thought through, flagged rather than hidden.
 | The identity is a rail, not a first screen | It does not need repeating as you read, and holding it still gives the work the top of the page |
 | A Stack section, not skill bars | Where someone works in a system is the honest visual answer; percentages and star ratings are not |
 | Projects shrank to tiles | They are an invitation to click through, not the argument itself |
-| Contact asks properly | Four sections of precision earn a warm ending |
+| No Contact section | The rail holds the address at every scroll position, so a section at the end asks twice and from further away |
 | Headings sit on their plate | The colour is the label, not an ornament beside it |
 | Play, and no Highlights | Side projects invite you to go and look; work achievements with figures attached were a pitch |
 | Screenshots real or absent | A generated composition must never stand in for a screenshot of software |
 | No explanatory captions | If an element needs a paragraph of defence, the element is wrong |
-| Contact gives up its plate | CMYK is four; the page is five. The whole bar as a sign-off beats inventing a fifth colour |
+| The lock-up takes the key plate | CMYK is four and the page has three headed sections; the plate goes to the contact rather than to nothing |
 | No legend, ever | A labelled key was built and removed — explaining the cue destroys it |
 | One meaning per plate | Encoding completion in the fill state as well was one method too many |
 | Links underlined in ink only | Colour never touches type; the underline alone must carry it |

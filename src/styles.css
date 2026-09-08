@@ -77,7 +77,7 @@
     grid-template-columns: minmax(0, clamp(20rem, 30%, 27rem)) minmax(0, 1fr);
     gap: 0 var(--rail-gap);
     max-width: 1520px;
-    padding: 0 var(--edge) clamp(5rem, 12vh, 9rem);
+    padding: 0 var(--edge);
   }
 
   .ident {
@@ -119,7 +119,10 @@
   /* the lock-up drops to the foot of the rail and stays there */
   .ident .lockup { margin-top: auto; }
 
-  .flow { min-width: 0; }
+  /* the tail of the page belongs to the flow, not to the shell: padding on
+     the shell sits outside the grid row, and the rail would run out of row to
+     stick to and stop short of the foot of the page */
+  .flow { min-width: 0; padding-bottom: clamp(5rem, 12vh, 9rem); }
 
   .grid {
     display: grid;
@@ -181,15 +184,24 @@
 
   .cap { font-size: var(--t-cap); line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
+  /*
+    Everything needed to get hold of him, at the foot of the rail: what he is
+    and where, the address, and the two places he is elsewhere. Stacked rather
+    than wrapped, because these are three separate things and a wrapping row
+    puts the break in a different place at every width.
+  */
   .lockup {
     padding-top: .9rem;
     border-top: 1px solid var(--rule);
     display: flex;
-    flex-wrap: wrap;
-    gap: .5rem 1.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: .55rem;
     line-height: 1.3;
   }
-  .lockup .cap { align-self: center; }
+  .lockup .cap { margin: 0; }
+  /* the key plate: the lock-up is the contact, so it carries that plate */
+  .lockup .plate-form { height: 1.5rem; margin: 0 0 .2rem; }
 
   .link {
     color: var(--ink);
@@ -267,8 +279,6 @@
   }
   .seg.is-now::before { background: var(--m); height: 5px; }
 
-  .seg .role-icon { display: block; width: 30px; margin: 0 0 .6rem; }
-
   .seg .year { margin: 0 0 .4rem; font-weight: 500; color: var(--ink); }
   .seg h3 { margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.15; }
   .seg .role { margin: .1rem 0 0; font-weight: 300; color: var(--ink-2); }
@@ -331,34 +341,11 @@
     color: var(--ink-2);
   }
 
-  /* ── contact ────────────────────────────────────────────── */
-  .ask {
-    grid-column: 1 / -1;
-    margin: 0 0 clamp(1.25rem, 3vh, 2rem);
-    font-size: var(--t-super);
-    font-weight: 300;
-    line-height: 1.05;
-  }
-  .email {
-    grid-column: 1 / -1;
-    justify-self: start;
-    /* the floor has to be small enough for the address to hold one line on a
-       narrow phone; anywhere is the backstop below that, because a wrapped
-       address is survivable and a sideways-scrolling page is not */
-    overflow-wrap: anywhere;
-    font-size: clamp(1.15rem, 5vw, 4rem);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -.02em;
-    text-decoration-thickness: 4px;
-    text-underline-offset: 10px;
-  }
   .elsewhere {
-    grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem 1.75rem;
-    margin: clamp(1.75rem, 4vh, 2.5rem) 0 0;
+    gap: .5rem 1.5rem;
+    margin: 0;
     padding: 0;
     list-style: none;
   }
@@ -397,8 +384,9 @@
     /*
       No column count survives this width, so the line turns ninety degrees
       and runs down the left instead of folding across. Same idea, one line
-      still: each entry draws its own piece of it, so the pieces butt into a
-      continuous rule, and the role's mark is the node sat on it.
+      still: each entry draws its own piece of it and the pieces butt into a
+      continuous rule. The first column is the lane that rule runs down; the
+      entry sits beside it.
     */
     .timeline { display: block; }
     .seg {
@@ -422,17 +410,6 @@
     }
     .seg.is-now::before { left: 12px; width: 4px; height: auto; background: var(--m); }
 
-    .seg .role-icon {
-      grid-column: 1;
-      grid-row: 1 / -1;
-      align-self: start;
-      position: relative;
-      z-index: 1;
-      width: 28px;
-      margin: 0;
-      padding: 4px 0;
-      background: var(--ground);
-    }
     .seg .year,
     .seg h3,
     .seg .role,
@@ -444,9 +421,8 @@
   @media (max-width: 560px) {
     .mark { height: 3.25rem; }
     h1 { font-size: clamp(2.9rem, 15vw, 3.75rem); max-width: 100%; }
-    .super, .ask { font-size: 1.4rem; max-width: 100%; }
+    .super { font-size: 1.4rem; max-width: 100%; }
     .projects { grid-template-columns: 1fr; }
-    .email { text-decoration-thickness: 3px; text-underline-offset: 7px; }
   }
 
   /* ── print ──────────────────────────────────────────────── */
@@ -461,13 +437,12 @@
     .level { padding-top: 1.5rem; }
     .flow > .level:first-child { padding-top: 1.5rem; }
     h1 { font-size: 34pt; }
-    .super, .ask, h2 { font-size: 15pt; }
+    .super, h2 { font-size: 15pt; }
     .seg h3, .project h3 { font-size: 12pt; }
     .mark { height: 2.4rem; }
     .timeline { display: block; }
     .seg { padding: .5rem 0 1rem; }
     .seg:nth-child(2n + 1)::after { content: none; }
-    .seg .role-icon { width: 24px; }
     .link { text-decoration: none; }
     .link[href^="http"]::after,
     .link[href^="mailto"]::after {

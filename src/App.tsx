@@ -1,6 +1,6 @@
 import { SECTIONS } from "./sections";
 import { site } from "./content";
-import { Mark } from "./components/Plate";
+import { Mark, PlateForm } from "./components/Plate";
 import { Play, SectionBlock, Stack, Timeline } from "./components/Sections";
 
 const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
@@ -10,6 +10,10 @@ const byId = (id: string) => SECTIONS.find((s) => s.id === id)!;
  * done, scrolling past it on the right. The identity does not need repeating
  * as you read, and the work gets the top of the page instead of waiting below
  * an introduction.
+ *
+ * There is no Contact section. Every way of reaching him sits at the foot of
+ * the rail, in view at any scroll position, so a section at the end would be
+ * the same information a second time and further away.
  *
  * It is one document scrolling, not a pane with its own scrollbar — the left
  * is sticky rather than fixed. Below 900px the two panes become one column and
@@ -29,16 +33,28 @@ export default function App() {
           ))}
         </div>
 
-        {/* the lock-up: essential information, in a fixed relationship — and
-            now literally fixed, sat at the foot of the rail */}
-        <p className="lockup">
-          <span className="cap">
+        {/* the lock-up: every way of reaching him, in a fixed relationship —
+            and now literally fixed, sat at the foot of the rail. It wears the
+            key plate, because it is the contact: there is no longer a section
+            for that, and the fourth plate would otherwise do no work. */}
+        <div className="lockup">
+          <PlateForm plate="k" />
+          <p className="cap">
             {site.role} · {site.location}
-          </span>
+          </p>
           <a className="link" href={`mailto:${site.email}`}>
             {site.email}
           </a>
-        </p>
+          <ul className="elsewhere">
+            {site.links.map((l) => (
+              <li key={l.label}>
+                <a className="link" href={l.href} target="_blank" rel="noopener noreferrer">
+                  {l.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </header>
 
       <main className="flow">
@@ -52,22 +68,6 @@ export default function App() {
 
         <SectionBlock section={byId("play")}>
           <Play />
-        </SectionBlock>
-
-        <SectionBlock section={byId("contact")}>
-          <p className="ask">{site.ask}</p>
-          <a className="link email" href={`mailto:${site.email}`}>
-            {site.email}
-          </a>
-          <ul className="elsewhere">
-            {site.links.map((l) => (
-              <li key={l.label}>
-                <a className="link" href={l.href} target="_blank" rel="noopener noreferrer">
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
         </SectionBlock>
       </main>
     </div>

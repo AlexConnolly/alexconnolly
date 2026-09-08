@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import type { Section } from "../sections";
 import { PlateForm } from "./Plate";
-import { RoleIcon } from "./RoleIcon";
 import { site, label, isCurrent, spanYears } from "../content";
 
 /* ── a section, with its own plate beside its heading ────────────── */
@@ -41,7 +40,6 @@ export function Timeline() {
             className={["seg", isCurrent(role) ? "is-now" : ""].filter(Boolean).join(" ")}
           >
             <p className="year cap">{isCurrent(role) ? `${label(role)} — now` : label(role)}</p>
-            <RoleIcon kind={role.icon} />
             <h3>{role.title}</h3>
             <p className="role">{role.team}</p>
             <p className="sum">{role.summary}</p>

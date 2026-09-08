@@ -9,6 +9,7 @@
   :root {
     --gut: 46px;
     --ground: #F4F3EF;
+    --panel:  #FFFFFF;
     --ink:    #14130F;
     --ink-2:  #55524A;
     --ink-3:  #6E6A5E;
@@ -53,49 +54,103 @@
   /* ── the plates ─────────────────────────────────────────── */
 
   .mark {
-    grid-column: 1 / -1;
-    /* a grid item narrower than its area only stays narrow if it is told not
-       to stretch; without this the svg is pulled across the whole grid */
-    justify-self: start;
+    /* a flex item that is not told otherwise stretches across the rail, and a
+       stretched svg keeps its ratio by centring the forms inside the box —
+       the mark would silently stop being ranged left */
+    align-self: flex-start;
     display: block;
-    margin: 0 0 clamp(2rem, 5vh, 3.25rem);
-    height: clamp(4.5rem, 10vw, 7.5rem);
+    margin: 0 0 clamp(1.5rem, 4vh, 2.5rem);
+    height: clamp(3rem, 4.4vw, 4.75rem);
     width: auto;
   }
 
-  /* ── navigation ─────────────────────────────────────────── */
-  /* ── page ───────────────────────────────────────────────── */
-  .page { padding: 0 var(--edge) clamp(5rem, 12vh, 9rem); }
+  /* ── page: the identity held still, the work moving past it ── */
+  /*
+    Who this is does not need repeating as you read, so it is pinned to the
+    left and the work takes the top of the page instead of waiting below an
+    introduction. Sticky rather than fixed: one document scrolling, no pane
+    with a scrollbar of its own, nothing to hydrate.
+  */
+  .shell {
+    --rail-gap: clamp(2.5rem, 5vw, 6rem);
+    display: grid;
+    grid-template-columns: minmax(0, clamp(20rem, 30%, 27rem)) minmax(0, 1fr);
+    gap: 0 var(--rail-gap);
+    max-width: 1520px;
+    padding: 0 var(--edge) clamp(5rem, 12vh, 9rem);
+  }
+
+  .ident {
+    /* a stretched grid item is as tall as its row and has nowhere to travel,
+       so the rail takes its own height and sticks inside the tall row */
+    align-self: start;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(2.5rem, 7vh, 4.5rem) 0 clamp(1.75rem, 5vh, 3rem);
+  }
+
+  /*
+    The rail is a panel, not a column of text on the same ground: hard white
+    against the warm page, so the split is obvious without a border.
+
+    It bleeds past its own box — left to the window edge, right into half the
+    gutter — which is why it is a pseudo-element rather than a background on
+    .ident itself. The children are lifted to `relative` so they paint over
+    it; the pseudo comes first in the box order, so no z-index is needed and
+    the rail does not have to open a stacking context to hold its own.
+
+    The shadow's blur is pulled back by its own offset so it shows on the
+    right edge and does not smear along the top and bottom of the viewport.
+  */
+  .ident::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--edge) * -1);
+    right: calc(var(--rail-gap) / -2);
+    background: var(--panel);
+    box-shadow: 10px 0 26px -10px rgba(20, 19, 15, .16);
+  }
+  .ident > * { position: relative; }
+  /* the lock-up drops to the foot of the rail and stays there */
+  .ident .lockup { margin-top: auto; }
+
+  .flow { min-width: 0; }
+
   .grid {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 0 var(--gap);
-    max-width: 1280px;
   }
   .level { padding-top: clamp(4rem, 11vh, 8.5rem); scroll-margin-top: 4.5rem; }
-  #overview { padding-top: clamp(5rem, 12vh, 8rem); }
+  /* the work starts level with the top of the rail, not a screen below it */
+  .flow > .level:first-child { padding-top: clamp(2.5rem, 7vh, 4.5rem); }
 
   h1 {
-    grid-column: 1 / -1;
     margin: 0;
-    font-size: var(--t-title);
+    /* sized to the rail, not to the viewport: the name takes two lines here
+       and that is the intended shape, not an accident of wrapping */
+    font-size: clamp(2.6rem, 3.6vw, 4.5rem);
     font-weight: 700;
-    line-height: .78;
+    line-height: .82;
     letter-spacing: -.022em;
     max-width: 12ch;
     text-wrap: balance;
   }
 
   .super {
-    grid-column: 1 / span 4;
-    margin: clamp(1.75rem, 4vh, 2.75rem) 0 0;
-    font-size: var(--t-super);
+    margin: clamp(1.25rem, 3vh, 2rem) 0 0;
+    font-size: clamp(1.35rem, 1.65vw, 1.9rem);
     font-weight: 300;
     line-height: 1.05;
     max-width: 20ch;
   }
 
-  .intro { grid-column: 1 / span 3; margin: clamp(1.75rem, 4vh, 2.5rem) 0 0; max-width: 44ch; }
+  .intro { margin: clamp(1.25rem, 3vh, 2rem) 0 0; max-width: 44ch; }
   .intro p { margin: 0 0 .8rem; color: var(--ink-2); }
   .intro p:last-child { margin: 0; }
 
@@ -127,8 +182,6 @@
   .cap { font-size: var(--t-cap); line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
 
   .lockup {
-    grid-column: 1 / span 4;
-    margin: clamp(1.75rem, 4vh, 2.5rem) 0 0;
     padding-top: .9rem;
     border-top: 1px solid var(--rule);
     display: flex;
@@ -155,16 +208,21 @@
   .f-y { fill: var(--y); }
   .f-k { fill: var(--ink); }
 
-  /* ── work: a vertical timeline, entries either side ─────── */
+  /* ── work: a timeline that folds ─────────────────────────── */
   /*
-    A full-width horizontal timeline left tall empty columns wherever a role
-    was short. This runs down a centre line instead, with roles alternating
-    left and right — narrower, denser, and it still reads as one line rather
-    than a list.
+    Panels flow left to right and wrap, so the full width is used and a sixth
+    role costs nothing. A centre line with roles either side was tried first
+    and read as two columns of cards rather than one career.
 
-    Each block is pushed toward the line (justify-self) while the type inside
-    it stays ranged left, which the guidelines require. Fixed block widths
-    keep the outer edges aligned down each side.
+    The rule must not restart at each row or the thing goes back to being
+    cards. So the panel that begins a row draws that row's rule across the
+    whole grid — 200% of its own cell is exactly two columns — which means the
+    line reaches the right edge even on a row that is not full, and the whole
+    thing reads as one line folded rather than three lines stacked.
+
+    Each panel then marks where its role starts with a tick on the rule. The
+    current role's tick is magenta and heavier: the one place on the page
+    where colour carries position rather than identity.
   */
   .work-lead {
     grid-column: 1 / -1;
@@ -177,48 +235,40 @@
   .timeline {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: 1fr var(--gut) 1fr;
+    grid-template-columns: repeat(2, 1fr);
     align-items: start;
   }
 
   .seg {
     position: relative;
-    width: min(100%, 36ch);
-    padding-bottom: clamp(1.75rem, 4vh, 2.75rem);
+    padding: 1.15rem var(--gap) clamp(2rem, 4.5vh, 3rem) 0;
   }
-  .seg--left { grid-column: 1; justify-self: end; }
-  .seg--right { grid-column: 3; justify-self: start; }
 
-  /* each segment draws its own piece of the centre line, so the pieces butt
-     together and the current role's piece can be magenta */
+  /* the rule. Inert until a row-leading panel is given content and a width,
+     which is the only thing that varies between the two column counts */
+  .seg::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    background: var(--rule);
+  }
+  .seg:nth-child(2n + 1)::after { content: ""; width: 200%; }
+
+  /* the tick: where this role starts on the line */
   .seg::before {
     content: "";
     position: absolute;
     top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--rule);
+    left: 0;
+    width: 38px;
+    height: 3px;
+    background: var(--ink);
   }
-  .seg--left::before { right: calc(var(--gut) / -2 - 1px); }
-  .seg--right::before { left: calc(var(--gut) / -2 - 1px); }
-  .seg.is-now::before { background: var(--m); width: 4px; }
-  .seg--left.is-now::before { right: calc(var(--gut) / -2 - 2px); }
-  .seg--right.is-now::before { left: calc(var(--gut) / -2 - 2px); }
+  .seg.is-now::before { background: var(--m); height: 5px; }
 
-  /* the role's mark sits on the line as the node */
-  .seg .role-icon {
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    width: 30px;
-    margin: 0;
-    padding: 4px 0;
-    background: var(--ground);
-  }
-  .seg--left .role-icon { right: calc(var(--gut) / -2 - 15px); }
-  .seg--right .role-icon { left: calc(var(--gut) / -2 - 15px); }
+  .seg .role-icon { display: block; width: 30px; margin: 0 0 .6rem; }
 
-  .seg .axis { display: none; }
   .seg .year { margin: 0 0 .4rem; font-weight: 500; color: var(--ink); }
   .seg h3 { margin: 0; font-size: 1.2rem; font-weight: 700; line-height: 1.15; }
   .seg .role { margin: .1rem 0 0; font-weight: 300; color: var(--ink-2); }
@@ -292,7 +342,11 @@
   .email {
     grid-column: 1 / -1;
     justify-self: start;
-    font-size: clamp(1.75rem, 5.5vw, 4rem);
+    /* the floor has to be small enough for the address to hold one line on a
+       narrow phone; anywhere is the backstop below that, because a wrapped
+       address is survivable and a sideways-scrolling page is not */
+    overflow-wrap: anywhere;
+    font-size: clamp(1.15rem, 5vw, 4rem);
     font-weight: 500;
     line-height: 1;
     letter-spacing: -.02em;
@@ -335,45 +389,71 @@
     .projects { grid-template-columns: repeat(2, 1fr); }
   }
 
+  /*
+    A rail needs room beside it. Narrower than this and it starves the work of
+    width, so the two panes stack and the identity scrolls away above the work
+    like an ordinary page header. This is deliberately a wider breakpoint than
+    the one where the timeline gives up its columns.
+  */
+  @media (max-width: 1100px) {
+    .shell { display: block; max-width: none; }
+    .ident {
+      position: static;
+      height: auto;
+      display: block;
+      padding: clamp(2.5rem, 8vh, 4rem) 0 0;
+    }
+    /* stacked, there is nothing for a panel to be beside */
+    .ident::before { content: none; }
+    .ident .lockup { margin-top: clamp(1.75rem, 4vh, 2.5rem); }
+    .flow > .level:first-child { padding-top: clamp(4rem, 11vh, 8.5rem); }
+    h1 { font-size: clamp(3rem, 8vw, 6rem); line-height: .8; }
+    .super { font-size: clamp(1.45rem, 3.2vw, 2.2rem); }
+    .mark { height: clamp(3.5rem, 8vw, 6rem); }
+  }
+
   @media (max-width: 900px) {
-    .intro, .super, .lockup, .stack { grid-column: 1 / -1; }
+    .stack { grid-column: 1 / -1; }
     .colophon { grid-column: 1 / -1; }
 
     /*
-      Two columns cannot survive this width, so the timeline collapses onto a
-      single line down the left. Same device, one side instead of two.
+      No column count survives this width, so the line turns ninety degrees
+      and runs down the left instead of folding across. Same idea, one line
+      still: each entry draws its own piece of it, so the pieces butt into a
+      continuous rule, and the role's mark is the node sat on it.
     */
     .timeline { display: block; }
-    .seg,
-    .seg--left,
-    .seg--right {
-      grid-column: auto;
-      justify-self: stretch;
-      width: auto;
+    .seg {
       position: relative;
       display: grid;
       grid-template-columns: 28px 1fr;
       gap: 0 1.15rem;
       padding: 0 0 2rem;
     }
-    .seg--left::before,
-    .seg--right::before {
+    /* the folded rule is meaningless in one column, and left on it would run
+       to twice the viewport width. The row-leader selector has to be named to
+       undo it — a bare .seg::after loses to its nth-child specificity */
+    .seg:nth-child(2n + 1)::after { content: none; }
+    .seg::before {
+      top: 0;
+      bottom: 0;
       left: 13px;
-      right: auto;
       width: 2px;
+      height: auto;
+      background: var(--rule);
     }
-    .seg--left.is-now::before,
-    .seg--right.is-now::before { left: 12px; right: auto; width: 4px; }
+    .seg.is-now::before { left: 12px; width: 4px; height: auto; background: var(--m); }
 
-    .seg--left .role-icon,
-    .seg--right .role-icon {
-      position: relative;
-      left: auto;
-      right: auto;
+    .seg .role-icon {
       grid-column: 1;
       grid-row: 1 / -1;
       align-self: start;
+      position: relative;
+      z-index: 1;
       width: 28px;
+      margin: 0;
+      padding: 4px 0;
+      background: var(--ground);
     }
     .seg .year,
     .seg h3,
@@ -401,15 +481,20 @@
     :root { --ground: #FFF; --ink: #000; --ink-2: #333; --rule: #BBB; --field: #EEE; }
     body { font-size: 10.5pt; line-height: 1.35; }
     .stamp { display: none !important; }
-    .page { padding: 0; }
+    .shell { display: block; max-width: none; padding: 0; }
+    .ident { position: static; height: auto; display: block; padding: 0; }
+    .ident::before { content: none; }
+    .ident .lockup { margin-top: 1rem; }
     .level { padding-top: 1.5rem; }
-    #overview { padding-top: 0; }
+    .flow > .level:first-child { padding-top: 1.5rem; }
     h1 { font-size: 34pt; }
     .super, .ask, h2 { font-size: 15pt; }
     .seg h3, .project h3 { font-size: 12pt; }
     .mark { height: 2.4rem; }
     .timeline { display: block; }
-    .seg { padding: 0 0 1rem; }
+    .seg { padding: .5rem 0 1rem; }
+    .seg:nth-child(2n + 1)::after { content: none; }
+    .seg .role-icon { width: 24px; }
     .link { text-decoration: none; }
     .link[href^="http"]::after,
     .link[href^="mailto"]::after {

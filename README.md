@@ -1,9 +1,12 @@
 # homesite
 
 Alex Connolly's homepage. Built to the Barbican Identity Guidelines (North, 2007) —
-one typeface, ranged left, sentence case, leading tighter than default — with a
-four forms of the four-colour process — circle, square, half-circle, diamond — as
+one typeface, ranged left, sentence case, leading tighter than default — with the
+four forms of the four-colour process, circle, square, half-circle and diamond, as
 the mark, one per section.
+
+On a wide screen the identity is a rail held still on the left and the work scrolls
+past it on the right; below 1100px the two stack.
 
 The full design rationale, sourced and quoted, is in [PLAN.md](PLAN.md).
 

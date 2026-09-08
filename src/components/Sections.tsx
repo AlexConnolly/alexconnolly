@@ -2,22 +2,20 @@ import type { ReactNode } from "react";
 import type { Section } from "../sections";
 import { PlateForm } from "./Plate";
 import { RoleIcon } from "./RoleIcon";
-import { site, weight, label, isCurrent, spanYears } from "../content";
+import { site, label, isCurrent, spanYears } from "../content";
 
 /* ── a section, with its own plate beside its heading ────────────── */
 
 export function SectionBlock({
   section,
   children,
-  heading = true,
 }: {
   section: Section;
   children: ReactNode;
-  heading?: boolean;
 }) {
   return (
     <section className="level grid" id={section.id} aria-labelledby={`h-${section.id}`}>
-      {heading && section.plate && (
+      {section.plate && (
         <h2 id={`h-${section.id}`}>
           <PlateForm plate={section.plate} />
           {section.label}
@@ -28,7 +26,7 @@ export function SectionBlock({
   );
 }
 
-/* ── work: a timeline, left to right, chronological ──────────────── */
+/* ── work: a timeline that folds, oldest first ───────────────────── */
 
 export function Timeline() {
   return (
@@ -40,19 +38,9 @@ export function Timeline() {
         {site.roles.map((role, i) => (
           <article
             key={`${role.title}-${role.start}-${i}`}
-            className={[
-              "seg",
-              i % 2 === 0 ? "seg--left" : "seg--right",
-              isCurrent(role) ? "is-now" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-            // one row each, so the sides alternate down the line rather than
-            // pairing up beside each other
-            style={{ ["--yrs" as string]: weight(role), gridRow: i + 1 }}
+            className={["seg", isCurrent(role) ? "is-now" : ""].filter(Boolean).join(" ")}
           >
             <p className="year cap">{isCurrent(role) ? `${label(role)} — now` : label(role)}</p>
-            <div className="axis" aria-hidden="true" />
             <RoleIcon kind={role.icon} />
             <h3>{role.title}</h3>
             <p className="role">{role.team}</p>

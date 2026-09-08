@@ -193,16 +193,6 @@ export function months(role: Role): number {
   return Math.max(1, (ey - sy) * 12 + (em - sm));
 }
 
-/**
- * Timeline width. Proportional to time served, with a floor: a six-month role
- * squeezed to 4% of the width is unreadable, and the current role is the one
- * people most want to read. The dates in the label carry the exact truth.
- */
-export const MIN_WEIGHT = 26;
-export function weight(role: Role): number {
-  return Math.max(MIN_WEIGHT, months(role));
-}
-
 const MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export function label(role: Role): string {

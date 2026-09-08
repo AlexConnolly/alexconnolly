@@ -19,8 +19,11 @@ belongs to a section and its form reappears beside that section's heading, so th
 itself tells you where you are, and tells you without leaning on the colour.
 Nothing explains it, and nothing should.
 
-Five sections: **Overview, Work, Stack, Play, Contact.** Work is a left-to-right timeline
-because a career runs that way. Stack shows where in a system the engineering actually
+Five sections: **Overview, Work, Stack, Play, Contact.** Overview is not a section you
+scroll past — above 1100px it is a rail held still on the left while the other four move
+past it on the right, so the work gets the top of the page rather than waiting below an
+introduction. Work is a timeline that folds: panels flowing left to right and wrapping,
+because a career runs that way but a single row of it does not fit a screen. Stack shows where in a system the engineering actually
 happens, because a list of technologies communicates nothing. Play is the side projects,
 pulled from the public repos.
 
@@ -318,8 +321,18 @@ The supporting line is the page's thesis: *"I love building things that matter."
 
 ### Layout
 
-Six-column grid, everything ranged left. A lock-up under the intro carries role, location
-and email, so a reader who never scrolls can still contact you.
+Two panes above 1100px: the identity rail on the left, the four sections scrolling on the
+right, both inside a six-column grid and everything ranged left. The rail is `sticky`, not
+`fixed` — one document scrolling, no pane with a scrollbar of its own, and nothing to
+hydrate. It is a grid item with `align-self: start` and a height of `100vh`, because a
+stretched grid item is as tall as its row and has nowhere to travel.
+
+The lock-up carrying role, location and email sits at the foot of the rail, so a reader who
+never scrolls can still contact you and a reader who scrolls the whole way never loses it.
+
+Below 1100px the panes stack and the rail becomes an ordinary page header. That is a wider
+breakpoint than the 900px where the timeline gives up its columns: a rail needs room beside
+it, and narrower than that it starves the work of width.
 
 **Navigation is horizontal and read the right way up**, fixed to the top of the viewport:
 four labels, each preceded by its plate's swatch, active in ink and bold. The vertical
@@ -339,11 +352,15 @@ under `prefers-reduced-motion`. Nothing else moves.
 ### Must have
 
 - **F1** Five sections in fixed order: Overview, Work, Stack, Play, Contact.
-- **F2** Overview: the mark, name, supporting line, two short paragraphs, and the lock-up.
-- **F3** Work: a left-to-right timeline, **chronological**, each role a segment flexed to its
-  own duration, carrying company, title, start year, one descriptive line and technologies.
-  The current role is marked on the axis. Collapses to a vertical stack below 900px.
-- **F3a** Segment widths derive from the dates in `content.ts`, never hand-tuned.
+- **F2** Overview: the mark, name, supporting line, two short paragraphs, and the lock-up —
+  a sticky rail above 1100px, an ordinary header below it.
+- **F3** Work: a timeline that folds, **chronological**, each role an equal panel carrying
+  company, title, start year, one descriptive line and technologies. The panel that begins
+  a row draws that row's rule across the whole grid, so the line reaches the right edge on
+  a row that is not full and the thing reads as one line folded rather than rows of cards.
+  The current role's tick is magenta. Turns ninety degrees to a single line below 900px.
+- **F3a** Panels are equal width. Duration was tried as width and left tall empty columns
+  wherever a role was short; the dates in the label carry the exact truth instead.
 - **F4** Stack: prose. A lead line, a short labelled list, and a closing line. **No bars,
   no depths, no ratings** — an earlier version drew a chart and it read as a skills rating,
   which is exactly what it must not be.
@@ -542,7 +559,7 @@ homesite/
    ├─ components/
    │  ├─ Mark.tsx             # the four forms
    │  ├─ Section.tsx          # six-column wrapper; renders its own form in the h2
-   │  ├─ Timeline.tsx         # work, left to right; widths from dates
+   │  ├─ Timeline.tsx         # work, folding left to right; equal panels
    │  ├─ RoleIcon.tsx         # one loose mark per role
    │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
    │  ├─ Stack.tsx            # prose, no chart
@@ -698,7 +715,8 @@ Genuinely not yet thought through, flagged rather than hidden.
 | No navigation at all | Four sections on one short page do not need a menu. A top bar, a bottom bar and a draggable path were all tried first |
 | No client-side JavaScript | With the nav gone there is nothing to hydrate, so React stays at build time and the browser gets 0.4 KB |
 | Motif in the nav, colour withheld | Colour appears twice only, so it stays a cue; a four-colour top bar is a toolbar, not an identity |
-| Work is a timeline, not a list | A career runs left to right; duration is information a list throws away |
+| Work is a timeline, not a list | A career runs left to right, and a rule with ticks on it says so where a stack of cards does not |
+| The identity is a rail, not a first screen | It does not need repeating as you read, and holding it still gives the work the top of the page |
 | A Stack section, not skill bars | Where someone works in a system is the honest visual answer; percentages and star ratings are not |
 | Projects shrank to tiles | They are an invitation to click through, not the argument itself |
 | Contact asks properly | Four sections of precision earn a warm ending |

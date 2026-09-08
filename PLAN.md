@@ -13,10 +13,10 @@ typeface, ranged left, set tighter than is comfortable, with a hierarchy violent
 be read in the right order without effort.** North's 2007 manual is unusually prescriptive,
 and its rules are the design here.
 
-On top of that sits four-colour process. A printer's colour bar — cyan, magenta, yellow,
-key, butted together at fixed and unequal heights. Each plate belongs to a section and
-reappears as a small swatch beside that section's heading, so the form itself tells you
-where you are. Contact, the fifth section, is marked by the whole bar in miniature.
+On top of that sits four-colour process. Four forms, one per plate — a cyan circle, a
+magenta square, a yellow half-circle, a key diamond, sat on a common baseline. Each plate
+belongs to a section and its form reappears beside that section's heading, so the form
+itself tells you where you are, and tells you without leaning on the colour.
 Nothing explains it, and nothing should.
 
 Five sections: **Overview, Work, Stack, Play, Contact.** Work is a left-to-right timeline
@@ -81,40 +81,45 @@ Revs D and E then added four-colour process on top of it, which is the current d
 | Signatures run down | The music signature "is always set in Futura Bold and is positioned vertically and reading downwards". |
 | Emphasis devices | "colour, contrast, composition, weight and underlining" — the five permitted methods. |
 
-### The mark: a four-colour process bar
+### The mark: four forms, one per plate
 
-Four rectangles, butted edge to edge, equal width, **fixed and different heights** — a
-printer's colour control strip.
+Four forms in a row, sat on a common baseline — **one form per plate**, so a plate is
+identified by its shape as much as by its colour.
 
-| Section | Plate | Height ratio |
+| Section | Plate | Form |
 | --- | --- | --- |
-| Overview | *the whole bar* | — |
-| Work | Cyan `#0093D5` | `.62` |
-| Stack | Magenta `#E0006C` | `1` |
-| Play | Yellow `#F5B800` | `.44` |
-| Contact | Key `#14130F` | `.80` |
+| Overview | *all four* | — |
+| Work | Cyan `#0093D5` | Circle |
+| Stack | Magenta `#E0006C` | Square |
+| Play | Yellow `#F5B800` | Half-circle |
+| Contact | Key `#14130F` | Diamond |
+
+Sizes are optical, not arithmetic. Equal areas leave the diamond reading much larger than
+the square and the half-circle much smaller, so each form is tuned by eye. Gaps get the
+same treatment: each form declares how far its silhouette pulls back from its own box, and
+both neighbours' pull comes off one lead value, which is what makes the spacing look even
+when it is not.
 
 **Overview has no `h2`** — its heading is the name, and the mark itself sits directly above
-it — so the four plates belong to the four sections that *do* carry a heading, in bar order
-as you read down the page. Overview is marked by the whole bar, miniature, in the nav..
+it — so the four plates belong to the four sections that *do* carry a heading, in mark
+order as you read down the page.
 
 ### Headings sit on their plate, in white
 
-The colour is a block behind the word, not a swatch beside it — the heading prints on the
-plate, in the page ground colour.
+The plate sits beside the word as its form, not behind it as a block. The heading is ink
+on the page ground like every other word, and the form carries the plate.
 
-That forces a second build of each plate. White on bright yellow measures **1.6:1**, and
-there is no version of yellow that is both bright and legible under white — for white to
-reach 3:1 the plate has to drop to a luminance of 0.265, which is olive, not yellow. So the
-process inks stay bright for the mark, the nav and the path, and the heading blocks use a
-**solid build** that white can sit on:
+That is what retires the contrast problem the coloured block created. White on bright
+yellow measures **1.6:1**, and there is no version of yellow that is both bright and
+legible under white — for white to reach 3:1 the plate has to drop to a luminance of
+0.265, which is olive, not yellow. Setting the heading in ink and giving the colour to a
+shape beside it means the process inks stay bright everywhere and no text ever sits on
+them.
 
-| Plate | Process ink | Solid build | White on solid |
-| --- | --- | --- | --- |
-| Cyan | `#0093D5` | `#0071A8` | 4.8:1 |
-| Magenta | `#E0006C` | `#C4005E` | 5.4:1 |
-| Yellow | `#F5B800` | `#9A7400` | 3.9:1 |
-| Key | `#14130F` | `#14130F` | 16.7:1 |.
+The form is sized against the band, not against itself, so its size relative to the other
+three is the same beside a heading as it is in the mark. A `.92em` band puts the circle at
+about cap height, which makes the form read as a peer of the word rather than a bullet
+before it.
 
 ### There is no navigation
 
@@ -194,11 +199,11 @@ Each role carries a small mark, drawn from the same rectangles as everything els
 
 | Role | Mark | Idea |
 | --- | --- | --- |
-| Platform | Two blocks on a base | Things resting on a base |
-| Order Management | Three equal blocks stacked | A stack of equal units |
-| Analytics | Three bars, ascending | Unequal heights — one thing measured against another |
-| Carrier Solutions | Three blocks feeding one | Many, gathered into one |
-| Software Architect | One block feeding three | One, spread across many |
+| Platform | A dome and a square on a base | Things resting on a base |
+| Order Management | Three equal circles stacked | A stack of equal units |
+| Analytics | Three circles, ascending in size | Unequal sizes — one thing measured against another |
+| Carrier Solutions | Three circles feeding one diamond | Many, gathered into one |
+| Software Architect | One diamond feeding three circles | One, spread across many |
 
 The last two are exact mirrors on purpose: the carrier job pulled twenty integrations into
 a single layer, the architecture job pushes one change out to many products. The shapes say
@@ -254,7 +259,7 @@ over an email address is a form, not an invitation.
 Colour appears in exactly three places, and nowhere else:
 
 1. The mark.
-2. The swatch beside a section heading.
+2. The plate's form beside a section heading.
 3. **One positional highlight inside a section, in that section's own plate** — the current
    role on the timeline, the deepest layer in the stack.
 
@@ -269,8 +274,9 @@ yellow 1.05:1. Therefore:
 
 - **Colour is never applied to type. Ever.** Not to headings, not to links, not to labels.
 - Colour never carries meaning alone. Every section is named in words everywhere it is
-  marked, and the plate's height ratio gives a second, shape-based cue that survives any
-  colour vision. The mark itself is decorative and hidden from assistive technology.
+  marked, and the plate's form gives a second cue that survives any colour vision — the
+  point of one form per plate rather than four of the same. The mark itself is decorative
+  and hidden from assistive technology.
 - Colour identifies a section. It carries no other meaning.
 
 | Token | Value | Role |
@@ -281,7 +287,7 @@ yellow 1.05:1. Therefore:
 | `--ink-3` | `#6E6A5E` | Inactive signatures. 4.9:1 |
 | `--rule` | `#DCD9D0` | Hairlines only — 1.3:1, never type |
 | `--field` | `#EAE8E2` | The ground a project image sits on |
-| `--c` | `#0093D5` | The mark and heading swatches only |
+| `--c` | `#0093D5` | The mark and heading forms only |
 | `--m` | `#E0006C` | " |
 | `--y` | `#F5B800` | " — deepened from `#FFC72C` once outlines were dropped |
 | `--k` | `#14130F` | " |
@@ -308,7 +314,7 @@ real Futura licence is an open decision.
 Sentence case throughout; signatures lowercase. **Weight carries focus** — entry titles at
 700, roles dropped to 300, the active signature bolding as you scroll.
 
-The supporting line is the page's thesis: *"I enjoy building things that matter."*
+The supporting line is the page's thesis: *"I love building things that matter."*
 
 ### Layout
 
@@ -351,9 +357,9 @@ under `prefers-reduced-motion`. Nothing else moves.
 - **F8** Content is present in the served HTML — the page is readable with JavaScript off.
 - **F13** No navigation. The page is short enough to scroll, and every section keeps a
   hash anchor for deep linking.
-- **F14** The mark: a four-colour bar, one plate per section, butted, at fixed height
-  ratios — rendered from a single typed table so the bar and every swatch always agree.
-- **F15** Bar heights are **deterministic constants**. No randomisation at any point.
+- **F14** The mark: four forms, one plate per section, on a common baseline — rendered
+  from a single typed table so the mark and every heading's form always agree.
+- **F15** Form geometry is **deterministic constants**. No randomisation at any point.
 - **F16** A lock-up under the intro carrying role, location and email, so the page works
   as a calling card without scrolling.
 
@@ -534,8 +540,8 @@ homesite/
    ├─ tokens.css              # the six colour tokens + type scale
    ├─ sections.ts            # THE table: id, label, plate, form. Single source
    ├─ components/
-   │  ├─ Mark.tsx             # the four-colour bar
-   │  ├─ Section.tsx          # six-column wrapper; renders its own swatch in the h2
+   │  ├─ Mark.tsx             # the four forms
+   │  ├─ Section.tsx          # six-column wrapper; renders its own form in the h2
    │  ├─ Timeline.tsx         # work, left to right; widths from dates
    │  ├─ RoleIcon.tsx         # one loose mark per role
    │  ├─ RoleIcon.tsx         # one mark per role, saying what that team did
@@ -642,7 +648,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | Was unexplored | Now |
 | --- | --- |
 | The OG image | `assets/og.html` — a 1200×630 card, rendered in the browser so it uses the real webfont. Rasterise with `npx playwright screenshot --viewport-size=1200,630 assets/og.html public/og.png` |
-| The favicon | `assets/favicon.svg` — the mark at 16px, same four plates at the same height ratios, no outlines |
+| The favicon | `assets/favicon.svg` — the same four forms at 16px, stacked two by two rather than in a row, because at that size a row of four is four smudges. No outlines |
 | Print | A full `@media print` block: nav and stamp dropped, ink on white, link destinations printed after the text, `break-inside: avoid` on every entry |
 | The 390px experience | Designed rather than squeezed — the nav wraps and `scroll-margin` grows to match, the bar keeps its proportions at a smaller scale, and the 9:1 type ratio closes up because it is too violent at that width |
 | The Barbican reference | Resolved. The 2007 North manual was found and extracted; §3 is quoted from it and §16 lists the sources |
@@ -686,7 +692,7 @@ Genuinely not yet thought through, flagged rather than hidden.
 | One committed light palette | A statement of taste commits; no dark mode |
 | Near-still motion | Only the marker moves — never tiring, never gimmicky |
 | Four-colour process as the mark | The identity fixes no brand hue and calls for vivid contrast; CMYK is the page's own language, one plate per section |
-| A colour bar, not circles | A butted swatch at varying fixed heights reads as print; four identical dots read as bullets |
+| Four different forms, not four of the same | Four identical dots read as bullets and carry nothing but colour. One form per plate keeps the section identified with the colour taken away. This replaced the butted colour bar, which said "print" but left shape doing no work |
 | No outlines on the plates | Bare colour looks printed; a border looks drawn |
 | Horizontal navigation | The vertical signature was authentic but made you tilt your head to read a menu — the identity should cost the reader nothing |
 | No navigation at all | Four sections on one short page do not need a menu. A top bar, a bottom bar and a draggable path were all tried first |
@@ -708,8 +714,8 @@ Genuinely not yet thought through, flagged rather than hidden.
 | One typeface (Jost\*), not two | "The Barbican typeface is Futura" — a single face is the identity's actual economy |
 | Sentence case, ranged left, tight leading | Direct quotations from the guidelines, not preferences |
 | Hierarchy at 9:1 | The manual's own 108 / 30 / 12 / 8 |
-| The colour bar replaces the arcade and the carrier | Both were invented; the process bar is the page's own language |
-| "I enjoy building things that matter." | The supporting line is the page's thesis, not a job title |
+| Four-colour process replaces the arcade and the carrier | Both were invented; CMYK is the page's own language |
+| "I love building things that matter." | The supporting line is the page's thesis, not a job title |
 | Near-black ink, real contrast | The guidelines demand contrast for clarity — this supersedes the earlier "high contrast is wrong" |
 | No portrait, no CV | Consistent with the restraint; both were offered and declined |
 | Base path configurable | Keeps the hosting decision open at zero cost |

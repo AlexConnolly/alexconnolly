@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { Section } from "../sections";
+import { PlateForm } from "./Plate";
 import { RoleIcon } from "./RoleIcon";
 import { site, weight, label, isCurrent, spanYears } from "../content";
 
@@ -18,7 +19,8 @@ export function SectionBlock({
     <section className="level grid" id={section.id} aria-labelledby={`h-${section.id}`}>
       {heading && section.plate && (
         <h2 id={`h-${section.id}`}>
-          <span className={`tag p-${section.plate}`}>{section.label}</span>
+          <PlateForm plate={section.plate} />
+          {section.label}
         </h2>
       )}
       {children}
@@ -89,28 +91,32 @@ export function Stack() {
 /** Only used where a repo has no screenshot. Never dressed up as one. */
 function PlateComposition({ index }: { index: number }) {
   const art = [
+    // overprint: three plates crossing, so the overlaps make the secondaries
     <>
-      <rect className="mul" x="48" y="30" width="104" height="104" fill="#0093D5" />
-      <rect className="mul" x="108" y="58" width="104" height="104" fill="#E0006C" />
-      <rect className="mul" x="78" y="86" width="104" height="104" fill="#F5B800" />
+      <circle className="mul" cx="112" cy="80" r="60" fill="#0093D5" />
+      <circle className="mul" cx="176" cy="104" r="60" fill="#E0006C" />
+      <circle className="mul" cx="136" cy="146" r="60" fill="#F5B800" />
     </>,
+    // the four forms in a row, the mark itself at tile scale
     <>
-      <rect x="44" y="86" width="40" height="80" fill="#0093D5" />
-      <rect x="92" y="42" width="40" height="124" fill="#E0006C" />
-      <rect x="140" y="112" width="40" height="54" fill="#F5B800" />
-      <rect x="188" y="68" width="40" height="98" fill="#14130F" />
+      <circle cx="40" cy="136" r="32" fill="#0093D5" />
+      <rect x="88" y="118" width="50" height="50" fill="#E0006C" />
+      <path d="M 152 168 A 30 30 0 0 1 212 168 Z" fill="#F5B800" />
+      <polygon points="262,100 296,134 262,168 228,134" fill="#14130F" />
     </>,
+    // one form, four sizes, diminishing
     <>
-      <rect x="44" y="42" width="212" height="24" fill="#0093D5" />
-      <rect x="44" y="74" width="152" height="24" fill="#E0006C" />
-      <rect x="44" y="106" width="104" height="24" fill="#F5B800" />
-      <rect x="44" y="138" width="60" height="24" fill="#14130F" />
+      <circle cx="52" cy="98" r="52" fill="#0093D5" />
+      <circle cx="146" cy="112" r="38" fill="#E0006C" />
+      <circle cx="220" cy="124" r="26" fill="#F5B800" />
+      <circle cx="272" cy="134" r="16" fill="#14130F" />
     </>,
+    // the four forms stepping down the diagonal
     <>
-      <rect x="52" y="34" width="58" height="58" fill="#0093D5" />
-      <rect x="112" y="70" width="58" height="58" fill="#E0006C" />
-      <rect x="172" y="106" width="58" height="58" fill="#F5B800" />
-      <rect x="232" y="142" width="58" height="58" fill="#14130F" />
+      <circle cx="46" cy="46" r="32" fill="#0093D5" />
+      <rect x="92" y="56" width="52" height="52" fill="#E0006C" />
+      <path d="M 156 152 A 34 34 0 0 1 224 152 Z" fill="#F5B800" />
+      <polygon points="268,120 306,158 268,196 230,158" fill="#14130F" />
     </>,
   ];
   return (

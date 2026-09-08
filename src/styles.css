@@ -3,8 +3,8 @@
     One typeface. Ranged left. Sentence case, never all caps.
     Leading tighter than default. Hierarchy 108 / 30 / 12 / 8.
 
-    The mark is a four-colour process bar. Four plates, four sections;
-    Contact gives up its plate and closes the page with the whole bar.
+    The mark is four forms, one per plate: circle, square, half-circle,
+    diamond. Four plates, four sections.
   */
   :root {
     --gut: 46px;
@@ -51,26 +51,16 @@
   :focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
 
   /* ── the plates ─────────────────────────────────────────── */
-  .p-c { --plate: var(--c); --ratio: .62; }
-  .p-m { --plate: var(--m); --ratio: 1; }
-  .p-y { --plate: var(--y); --ratio: .44; }
-  .p-k { --plate: var(--k); --ratio: .80; }
 
   .mark {
     grid-column: 1 / -1;
-    display: flex;
-    align-items: flex-end;
-    margin: 0 0 clamp(2rem, 5vh, 3.25rem);
-    padding: 0;
-    list-style: none;
-    --h: clamp(4.5rem, 10vw, 7.5rem);
-  }
-  .mark li { display: flex; }
-  .mark .bar {
+    /* a grid item narrower than its area only stays narrow if it is told not
+       to stretch; without this the svg is pulled across the whole grid */
+    justify-self: start;
     display: block;
-    width: clamp(2.75rem, 6.5vw, 4.75rem);
-    height: calc(var(--h) * var(--ratio));
-    background: var(--plate);
+    margin: 0 0 clamp(2rem, 5vh, 3.25rem);
+    height: clamp(4.5rem, 10vw, 7.5rem);
+    width: auto;
   }
 
   /* ── navigation ─────────────────────────────────────────── */
@@ -118,17 +108,20 @@
     letter-spacing: -.012em;
   }
   /*
-    The plate sits behind the word rather than beside it. Ink holds on cyan,
-    magenta and yellow; on the key plate it would be ink on ink, so that one
-    inverts to the page ground instead.
+    Each section is marked by its own plate's form, sat on the heading's
+    baseline. The lead that follows the form is inside its viewBox, so the
+    space after a diamond looks like the space after a square without the
+    heading having to know anything about either.
   */
-  .tag {
+  .plate-form {
     display: inline-block;
-    padding: .2em .32em .26em;
-    background: var(--plate);
-    color: var(--ground);
-    box-decoration-break: clone;
-    -webkit-box-decoration-break: clone;
+    vertical-align: baseline;
+    /* the band, not the form: each form fills a different share of it, which
+       is what keeps their relative sizes the same here as in the mark. A .92em
+       band puts the circle at about cap height, so the form reads as a peer of
+       the word rather than a bullet before it. */
+    height: .92em;
+    width: auto;
   }
 
   .cap { font-size: var(--t-cap); line-height: 1.4; color: var(--ink-2); font-variant-numeric: tabular-nums; }
@@ -267,7 +260,7 @@
   .project .shot svg,
   .project .shot img { display: block; width: 100%; height: 100%; object-fit: cover; }
   /* plates multiply against each other, so the overlaps make the secondary colours */
-  .project .shot svg rect.mul { mix-blend-mode: multiply; }
+  .project .shot svg .mul { mix-blend-mode: multiply; }
   .project h3 {
     margin: .85rem 0 0;
     font-size: 1.0625rem;
@@ -391,8 +384,7 @@
   }
 
   @media (max-width: 560px) {
-    .mark { --h: 4rem; }
-    .mark .bar { width: 2.25rem; }
+    .mark { height: 3.25rem; }
     h1 { font-size: clamp(2.9rem, 15vw, 3.75rem); max-width: 100%; }
     .super, .ask { font-size: 1.4rem; max-width: 100%; }
     .projects { grid-template-columns: 1fr; }
@@ -415,8 +407,7 @@
     h1 { font-size: 34pt; }
     .super, .ask, h2 { font-size: 15pt; }
     .seg h3, .project h3 { font-size: 12pt; }
-    .mark { --h: 2.4rem; }
-    .mark .bar { width: 1.6rem; }
+    .mark { height: 2.4rem; }
     .timeline { display: block; }
     .seg { padding: 0 0 1rem; }
     .link { text-decoration: none; }

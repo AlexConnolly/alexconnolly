@@ -35,12 +35,10 @@
     padding: 76px 84px;
     overflow: hidden;
   }
-  .mark { display: flex; align-items: flex-end; }
-  .mark span { display: block; width: 76px; }
-  .mark .c { height: 68px;  background: var(--c); }
-  .mark .m { height: 110px; background: var(--m); }
-  .mark .y { height: 48px;  background: var(--y); }
-  .mark .k { height: 88px;  background: var(--k); }
+  /* the four forms, same geometry as src/components/Plate.tsx */
+  /* align-self, or the column's stretch pulls the svg across the whole card
+     and preserveAspectRatio quietly centres the forms inside it */
+  .mark { display: block; align-self: flex-start; height: 110px; width: auto; }
 
   h1 {
     margin: 0;
@@ -67,13 +65,16 @@
 </style>
 </head>
 <body>
-  <div class="mark">
-    <span class="c"></span><span class="m"></span><span class="y"></span><span class="k"></span>
-  </div>
+  <svg class="mark" viewBox="0 0 382 100">
+    <circle cx="39" cy="61" r="39" fill="#0093D5" />
+    <rect x="98" y="30" width="70" height="70" fill="#E0006C" />
+    <path d="M 185 100 A 52 52 0 0 1 289 100 Z" fill="#F5B800" />
+    <polygon points="339,14 382,57 339,100 296,57" fill="#14130F" />
+  </svg>
 
   <div>
     <h1>Alex Connolly</h1>
-    <p>I enjoy building things that matter.</p>
+    <p>I love building things that matter.</p>
   </div>
 
   <div class="foot">

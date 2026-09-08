@@ -65,7 +65,7 @@ export interface Site {
 
 export const site: Site = {
   name: "Alex Connolly",
-  thesis: "I enjoy building things that matter.",
+  thesis: "I love building things that matter.",
   role: "Senior software engineer",
   location: "London",
 

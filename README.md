@@ -2,7 +2,8 @@
 
 Alex Connolly's homepage. Built to the Barbican Identity Guidelines (North, 2007) —
 one typeface, ranged left, sentence case, leading tighter than default — with a
-four-colour process bar as the mark.
+four forms of the four-colour process — circle, square, half-circle, diamond — as
+the mark, one per section.
 
 The full design rationale, sourced and quoted, is in [PLAN.md](PLAN.md).
 

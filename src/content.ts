@@ -148,10 +148,10 @@ export const site: Site = {
   play: [
     {
       name: "smarty",
-      summary: "A personal assistant that runs entirely on your own machine. No cloud, no API keys, no subscription.",
+      summary: "A personal assistant on your own machine, on whatever model you point it at. It works in the background, and takes plugins and MCP servers.",
       tech: "C#",
       href: "https://github.com/AlexConnolly/smarty",
-      image: { src: "img/smarty.jpg", alt: "Smarty's landing screen" },
+      image: { src: "img/smarty.jpg", alt: "Smarty's home, built from live panels" },
     },
     {
       name: "bugboard",
